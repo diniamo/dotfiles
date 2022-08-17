@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Exec=flatpak run org.qbittorrent.qBittorrent
+Name=qbittorrent

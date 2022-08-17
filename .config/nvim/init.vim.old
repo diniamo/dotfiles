@@ -1,0 +1,41 @@
+call plug#begin('/hdd/vim-plugins')
+
+Plug 'olimorris/onedarkpro.nvim'
+Plug 'marko-cerovac/material.nvim'
+
+Plug 'norcalli/nvim-colorizer.lua'
+
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+
+call plug#end()
+
+
+" Theme
+set termguicolors
+" set background=dark
+colorscheme onedarkpro
+
+" Other customization
+:set number
+hi normal guibg=000000
+highlight clear LineNr
+highlight clear SignColumn
+
+lua << END
+require'colorizer'.setup()
+
+require'nvim-web-devicons'.setup()
+require'lualine'.setup()
+END
+
+
+" Keybinds
+:let mapleader=","
+
+" map <Enter> o<ESC>
+" map <S-Enter> O<ESC>
+
+" Other settings
+set tabstop=4 shiftwidth=4
+

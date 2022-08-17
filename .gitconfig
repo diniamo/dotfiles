@@ -1,0 +1,8 @@
+[init]
+	defaultBranch = master
+[user]
+	email = diniamo69@gmail.com
+	name = diniamo
+[pull]
+	ff = only
+	rebase = false
