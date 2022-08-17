@@ -138,6 +138,8 @@ return require('packer').startup(function(use)
 	use {
 		'lukas-reineke/indent-blankline.nvim',
 		config = function()
+			vim.cmd(':hi IndentBlanklineChar guibg=NONE')
+
 			require('indent_blankline').setup {
 				show_current_context = true,
 				use_treesitter = true,
