@@ -16,7 +16,7 @@ return require('packer').startup(function(use)
 	-- 	use 'marko-cerovac/material.nvim'
 	-- 	use 'Shatur/neovim-ayu'
 	-- 	use 'tanvirtin/monokai.nvim'
-	use 'folke/tokyonight.nvim'
+	-- use 'folke/tokyonight.nvim'
 	use 'Everblush/everblush.nvim'
 
 	use 'neovim/nvim-lspconfig'
