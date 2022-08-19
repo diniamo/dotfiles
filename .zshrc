@@ -70,7 +70,14 @@ ZSH_THEME=""
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=( git zsh-z ripgrep colored-man-pages command-not-found dotenv gitignore sudo )
+plugins=( git zsh-z ripgrep colored-man-pages command-not-found dotenv gitignore sudo
+
+	zsh-autosuggestions
+	zsh-syntax-highlighting
+)
+
+# Plugin settings
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -81,15 +88,6 @@ source $ZSH/oh-my-zsh.sh
 # 	neofetch
 # fi
 
-function windows {
-	sudo grub-reboot 2
-	sudo reboot
-}
-
-function upload {
-	curl -F"file=@$1" http://0x0.st
-}
- 
 # export MANPATH="/usr/local/man:$MANPATH"
 export PATH="$PATH:$HOME/.local/bin"
 
@@ -112,30 +110,7 @@ export PATH="$PATH:$HOME/.local/bin"
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="nvim ~/.zshrc"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
-
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
-alias btw='neofetch'
-
-alias rst='cd ~; clear; btw'
-alias cdev='cd /hdd/dev'
-alias vi='nvim'
-alias vim='nvim'
-eval $(thefuck --alias)
-
-alias ls='ls --color -F'
-alias ll='ls --color -lh'
-alias la='ls --color -A'
-alias spm='sudo pacman'
-alias syu='sudo pacman --needed -Sy archlinux-keyring; aur sync -u; spm -Syu; flatpak update; rustup update'
-
-alias icat='kitty +kitten icat'
-alias diff='kitty +kitten diff'
-
-alias rm='rm --preserve-root=all'
-alias rmdir='rmdir --preserve-root=all'
+source $HOME/.zsh_aliases
 
 # Pure theme
 fpath+=($HOME/.zsh/pure)

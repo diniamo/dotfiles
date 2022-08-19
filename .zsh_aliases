@@ -1,0 +1,51 @@
+alias zshconfig="nvim ~/.zshrc"
+alias ohmyzsh="nvim ~/.oh-my-zsh"
+
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+alias btw='neofetch'
+
+# This fixes sudo usage with aliases
+alias sudo='sudo '
+
+alias rst='cd ~; clear; btw'
+alias cdev='cd /hdd/dev'
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
+eval $(thefuck --alias)
+
+alias ls='ls --color -F'
+alias ll='ls --color -lh'
+alias la='ls --color -A'
+alias grep='grep --color=auto'
+alias spm='sudo pacman'
+alias syu='sudo pacman --needed -Sy archlinux-keyring; aur sync -u; spm -Syu; flatpak update; rustup update'
+
+alias offrecord='history -d $(history 1)'
+
+alias icat='kitty +kitten icat'
+alias diff='kitty +kitten diff'
+
+alias rm='rm --preserve-root=all'
+alias rmdir='rmdir --preserve-root=all'
+
+alias windows='sudo grub-reboot 2 && sudo reboot'
+
+..() {
+    if [ -z "$1" ]; then
+        cd ..
+    else
+        cd `awk "BEGIN {while (c++<$1) printf \"../\"}"`
+    fi
+}
+
+mcd () {
+	[ -d $1 ] || mkdir $1
+	cd $1 && pwd
+}
+
+function upload {
+	curl -F"file=@$1" http://0x0.st
+}
+
