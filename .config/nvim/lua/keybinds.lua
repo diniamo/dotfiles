@@ -1,4 +1,4 @@
-vim.g.mapleader = ","
+vim.g.mapleader = " "
 local vimp = require('vimp')
 
 vimp.nnoremap('<CR>', 'o<ESC>')
@@ -11,6 +11,10 @@ end) -- '$a;<ESC>j')
 
 vimp.inoremap('<C-BS>', '<C-W>')
 
+-- Neotree
+vimp.nnoremap('<leader>n', '<cmd>Neotree<CR>')
+vimp.nnoremap('<leader>s', '<cmd>Neotree source=git_status position=float')
+
 -- Trouble
 vimp.nnoremap('<Leader>tr', '<cmd>TroubleToggle<CR>')
 
@@ -22,6 +26,7 @@ vimp.nnoremap('<leader>th', '<cmd>Telescope help_tags<cr>')
 
 -- ToggleTerm - lazygit
 local maincolor = require('everblush.core').get_colors().color2
+print(maincolor)
 
 local Terminal = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({
@@ -49,8 +54,8 @@ vimp.nnoremap({'silent'}, '<Tab>', '<Plug>(cokeline-focus-next)')
 vimp.nnoremap({'silent'}, '<S-Tab>', '<Plug>(cokeline-focus-prev)')
 for i = 1,9 do
   vimp.nmap({'silent'}, ('<Leader>%s'):format(i), ('<Plug>(cokeline-focus-%s)'):format(i))
-  vimp.nmap({'silent'}, ('<Leader>s%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
-  vimp.nmap({'silent'}, ('<Leader>S%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
+  -- vimp.nmap({'silent'}, ('<Leader>s%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
+  -- vimp.nmap({'silent'}, ('<Leader>S%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
 end
 
 vimp.nnoremap('<leader>w', '<cmd>bd<CR>')

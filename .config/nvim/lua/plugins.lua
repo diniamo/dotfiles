@@ -63,7 +63,7 @@ return require('packer').startup(function(use)
 	use { "akinsho/toggleterm.nvim", tag = 'v2.*', config = function() require("toggleterm").setup() end }
 
 	use { 'nvim-treesitter/nvim-treesitter',
-		run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+		run = ':TSUpdate',
 		config = function()
 			require('nvim-treesitter.configs').setup {
 				auto_install = true,
@@ -89,6 +89,30 @@ return require('packer').startup(function(use)
 				}
 			}
 		end
+	}
+	use {
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v2.x",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+		},
+		config = function()
+			vim.cmd('let g:neo_tree_remove_legacy_commands = 1')
+
+			require('neo-tree').setup()
+		end
+	}
+	use {
+		'iamcco/markdown-preview.nvim',
+		run = function() vim.fn["mkdp#util#install"]() end,
+	}
+	use 'https://github.com/mipmip/vim-scimark'
+
+	use {
+		"kylechui/nvim-surround",
+		tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+		config = function() require("nvim-surround").setup() end
 	}
 	use {
 		'kevinhwang91/nvim-ufo',

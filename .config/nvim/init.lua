@@ -22,3 +22,4 @@ require 'keybinds'
 
 -- Customization
 require 'customization'
+

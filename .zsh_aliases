@@ -20,7 +20,7 @@ alias ll='ls --color -lh'
 alias la='ls --color -A'
 alias grep='grep --color=auto'
 alias spm='sudo pacman'
-alias syu='sudo pacman --needed -Sy archlinux-keyring; aur sync -u; spm -Syu; flatpak update; rustup update'
+alias syu='sudo pacman --needed -Sy archlinux-keyring; aur sync -u; sudo pacman -Syu; flatpak update; rustup update'
 
 alias offrecord='history -d $(history 1)'
 

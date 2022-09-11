@@ -15,6 +15,8 @@ o.cursorline = true
 vim.cmd('hi CursorLine guibg=#0f1416 gui=nocombine')
 vim.cmd('hi CursorLineNr term=bold ctermfg=11 gui=bold guifg=' .. maincolor)
 
+vim.cmd('hi FloatBorder guifg=' .. maincolor) --.. ' guibg=' .. maincolor)
+
 vim.cmd('au FileType * set fo-=c fo-=r fo-=o')	-- Remove auto comment on new line
 
 
