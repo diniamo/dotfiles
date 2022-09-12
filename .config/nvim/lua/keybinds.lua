@@ -13,7 +13,7 @@ vimp.inoremap('<C-BS>', '<C-W>')
 
 -- Neotree
 vimp.nnoremap('<leader>n', '<cmd>Neotree<CR>')
-vimp.nnoremap('<leader>s', '<cmd>Neotree source=git_status position=float')
+vimp.nnoremap('<leader>s', '<cmd>Neotree source=git_status position=float<CR>')
 
 -- Trouble
 vimp.nnoremap('<Leader>tr', '<cmd>TroubleToggle<CR>')
