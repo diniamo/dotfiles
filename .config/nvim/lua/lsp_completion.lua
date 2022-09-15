@@ -60,6 +60,12 @@ cmp.setup {
 	})
 }
 
+vim.diagnostic.config {
+	virtual_text = false,
+	signs = true,
+	underline = true
+}
+
 local navic = require('nvim-navic')
 local on_attach = function(client, bufnr)
 	navic.attach(client, bufnr)
@@ -75,6 +81,21 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set('n', '<F3>', vim.lsp.buf.code_action, bufopts)
 	vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
 	vim.keymap.set('n', '<Leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+
+	vim.api.nvim_create_autocmd("CursorHold", {
+		buffer = bufnr,
+		callback = function()
+			local opts = {
+				focusable = false,
+				close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+				border = 'rounded',
+				source = 'always',
+				prefix = ' ',
+				scope = 'cursor',
+			}
+			vim.diagnostic.open_float(nil, opts)
+		end
+	})
 end
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
