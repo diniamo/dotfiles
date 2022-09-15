@@ -10,7 +10,6 @@ alias cdev='cd /hdd/dev'
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
-eval $(thefuck --alias)
 
 alias ls='exa --icons'
 alias ll='exa --icons -la'
@@ -22,8 +21,8 @@ alias syu='sudo paru --needed -Sy archlinux-keyring; paru; flatpak update; rustu
 
 alias offrecord='history -d $(history 1)'
 
-alias fuck='sudo !!'
-alias fck='sudo !!'
+alias pls='sudo $(fc -ln -1)'
+alias please='sudo bash -c "$(fc -ln -1)"'
 
 alias icat='kitty +kitten icat'
 alias diff='kitty +kitten diff'

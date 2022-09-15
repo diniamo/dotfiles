@@ -33,12 +33,12 @@ local lazygit = Terminal:new({
 	cmd = "lazygit",
 	direction = 'float',
 	float_opts = { border = 'curved' },
-	highlights = {
-		FloatBorder = {
-			guifg = maincolor,
-			guibg = maincolor
-		}
-	},
+	-- highlights = {
+	-- 	FloatBorder = {
+	-- 		guifg = maincolor,
+	-- 		guibg = maincolor
+	-- 	}
+	-- },
 	hidden = true
 })
 

@@ -11,6 +11,9 @@ augroup kitty_mp
 augroup END
 ]]
 
+-- For CursorHold
+vim.o.updatetime = 250
+
 -- Plugins
 require 'plugins'
 
