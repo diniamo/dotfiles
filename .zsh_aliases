@@ -21,7 +21,7 @@ alias syu='sudo paru --needed -Sy archlinux-keyring; paru; flatpak update; rustu
 
 alias offrecord='history -d $(history 1)'
 
-alias pls='sudo $(fc -ln -1)'
+alias pls='sudo  $(fc -ln -1)'
 alias please='sudo bash -c "$(fc -ln -1)"'
 
 alias icat='kitty +kitten icat'
