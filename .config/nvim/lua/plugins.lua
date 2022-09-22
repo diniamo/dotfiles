@@ -11,8 +11,7 @@ return require('packer').startup(function(use)
 	-- Packer can update itself
 	use 'wbthomason/packer.nvim'
 	use 'svermeulen/vimpeccable'
-
-	-- 	use 'olimorris/onedarkpro.nvim'
+-- 	use 'olimorris/onedarkpro.nvim'
 	-- 	use 'marko-cerovac/material.nvim'
 	-- 	use 'Shatur/neovim-ayu'
 	-- 	use 'tanvirtin/monokai.nvim'
@@ -170,4 +169,7 @@ return require('packer').startup(function(use)
 			}
 		end
 	}
+
+	use 'joeytwiddle/sexy_scroller.vim'
+	-- use 'romainl/vim-cool'
 end)
