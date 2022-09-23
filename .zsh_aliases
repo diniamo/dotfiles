@@ -32,7 +32,7 @@ alias dragon-drop='dragon-drop -x'
 alias rm='rm --preserve-root=all'
 alias rmdir='rmdir --preserve-root=all'
 
-alias windows='sudo grub-reboot 2 && sudo reboot'
+alias windows='sudo grub-reboot 1 && sudo reboot'
 
 ..() {
     if [ -z "$1" ]; then
