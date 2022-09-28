@@ -18,6 +18,7 @@ alias la='exa --icons -a'
 alias grep='grep --color=auto'
 alias sp='sudo paru'
 alias syu='sudo paru --needed -Sy archlinux-keyring; paru; flatpak update; rustup update'
+alias fixmscroll='xinput set-prop "SteelSeries SteelSeries Rival 600" "libinput Scroll Method Enabled" 0, 0, 1  # Middle mouse button scroll'
 
 alias offrecord='history -d $(history 1)'
 
