@@ -171,5 +171,5 @@ return require('packer').startup(function(use)
 	}
 
 	use 'joeytwiddle/sexy_scroller.vim'
-	-- use 'romainl/vim-cool'
+	use 'romainl/vim-cool'
 end)

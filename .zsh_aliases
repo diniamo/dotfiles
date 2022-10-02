@@ -5,8 +5,6 @@ alias btw='neofetch'
 # This fixes sudo usage with aliases
 alias sudo='sudo '
 
-alias rst='cd ~; clear; btw'
-alias cdev='cd /hdd/dev'
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
@@ -16,7 +14,6 @@ alias ll='exa --icons -la'
 alias lt='exa --icons -T'
 alias la='exa --icons -a'
 alias grep='grep --color=auto'
-alias sp='sudo paru'
 alias syu='sudo paru --needed -Sy archlinux-keyring; paru; flatpak update; rustup update'
 alias fixmscroll='xinput set-prop "SteelSeries SteelSeries Rival 600" "libinput Scroll Method Enabled" 0, 0, 1  # Middle mouse button scroll'
 
