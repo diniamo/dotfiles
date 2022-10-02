@@ -99,7 +99,18 @@ return require('packer').startup(function(use)
 		config = function()
 			vim.cmd('let g:neo_tree_remove_legacy_commands = 1')
 
-			require('neo-tree').setup()
+			local neo_tree = require('neo-tree')
+			neo_tree.setup {
+				event_handlers = {
+					{
+						event = "file_opened",
+						handler = function(file_path)
+							--auto close
+							neo_tree.close_all()
+						end
+					},
+				}
+			}
 		end
 	}
 	use {
