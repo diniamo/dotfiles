@@ -4,7 +4,10 @@ local maincolor = require('everblush.core').get_colors().color2
 
 local o = vim.opt
 
-o.number = true vim.cmd('autocmd TermOpen * setlocal nonumber norelativenumber')
+o.number = true
+o.relativenumber = true
+vim.cmd('autocmd TermOpen * setlocal nonumber norelativenumber')
+
 o.tabstop = 4
 o.shiftwidth = 4
 o.ignorecase = true
