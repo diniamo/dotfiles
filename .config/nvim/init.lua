@@ -16,6 +16,9 @@ augroup END
 -- For CursorHold
 vim.o.updatetime = 250
 
+-- Setting other plugins to use nvim-notify
+vim.notify = require('notify')
+
 -- Plugins
 require 'plugins'
 
@@ -27,4 +30,3 @@ require 'keybinds'
 
 -- Customization
 require 'customization'
-

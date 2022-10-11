@@ -13,6 +13,10 @@ return require('packer').startup(function(use)
 	use 'svermeulen/vimpeccable'
 	use 'lewis6991/impatient.nvim'
 
+	use 'nvim-lua/plenary.nvim'
+	use 'MunifTanjim/nui.nvim'
+	use 'kevinhwang91/promise-async'
+
 	-- 	use 'olimorris/onedarkpro.nvim'
 	-- 	use 'marko-cerovac/material.nvim'
 	-- 	use 'Shatur/neovim-ayu'
@@ -61,11 +65,23 @@ return require('packer').startup(function(use)
 
 	use {
 		'nvim-telescope/telescope.nvim',
-		requires = 'nvim-lua/plenary.nvim',
 		cmd = 'Telescope',
 		config = function() require('telescope').setup() end
 	}
-	use { "akinsho/toggleterm.nvim", tag = 'v2.*', config = function() require("toggleterm").setup() end }
+	use {
+		"akinsho/toggleterm.nvim",
+		tag = 'v2.*',
+		config = function()
+			require("toggleterm").setup {
+				size = 10,
+				shading_factor = 2,
+				direction = "float",
+				float_opts = {
+					border = "curved",
+				}
+			}
+		end
+	}
 
 	use { 'nvim-treesitter/nvim-treesitter',
 		run = ':TSUpdate',
@@ -96,12 +112,15 @@ return require('packer').startup(function(use)
 		end
 	}
 	use {
+		'lewis6991/gitsigns.nvim',
+		config = function()
+			require('gitsigns').setup()
+		end
+	}
+
+	use {
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v2.x",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-		},
 		config = function()
 			vim.cmd('let g:neo_tree_remove_legacy_commands = 1')
 
@@ -132,7 +151,6 @@ return require('packer').startup(function(use)
 	}
 	use {
 		'kevinhwang91/nvim-ufo',
-		requires = 'kevinhwang91/promise-async',
 		config = function()
 			-- Folding
 			-- vim.o.foldcolumn = '1'
@@ -145,7 +163,7 @@ return require('packer').startup(function(use)
 
 			require('ufo').setup {
 				provider_selector = function(bufnr, filetype, buftype)
-					return {'treesitter', 'indent'}
+					return { 'treesitter', 'indent' }
 				end
 			}
 		end
@@ -192,15 +210,24 @@ return require('packer').startup(function(use)
 			require("numbertoggle").setup()
 		end
 	}
+	use {
+		"max397574/better-escape.nvim",
+		event = 'InsertEnter',
+		config = function()
+			require("better_escape").setup()
+		end,
+	}
 
 	use 'joeytwiddle/sexy_scroller.vim'
 	use {
 		'jinh0/eyeliner.nvim',
 		config = function()
-			require'eyeliner'.setup {
+			require 'eyeliner'.setup {
 				highlight_on_key = true
 			}
 		end
 	}
 	use 'romainl/vim-cool'
+	use 'stevearc/dressing.nvim'
+	use 'rcarriga/nvim-notify'
 end)
