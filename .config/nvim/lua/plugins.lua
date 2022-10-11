@@ -11,7 +11,9 @@ return require('packer').startup(function(use)
 	-- Packer can update itself
 	use 'wbthomason/packer.nvim'
 	use 'svermeulen/vimpeccable'
--- 	use 'olimorris/onedarkpro.nvim'
+	use 'lewis6991/impatient.nvim'
+
+	-- 	use 'olimorris/onedarkpro.nvim'
 	-- 	use 'marko-cerovac/material.nvim'
 	-- 	use 'Shatur/neovim-ayu'
 	-- 	use 'tanvirtin/monokai.nvim'
@@ -43,14 +45,18 @@ return require('packer').startup(function(use)
 	use 'hrsh7th/cmp-path'
 	use 'hrsh7th/cmp-nvim-lsp'
 	use 'hrsh7th/cmp-nvim-lsp-signature-help'
+	-- use {
+	-- 	'folke/trouble.nvim',
+	-- 	cmd = 'Trouble',
+	-- 	config = function() require('trouble').setup() end
+	-- }
 	use {
-		'folke/trouble.nvim',
-		cmd = 'Trouble',
-		config = function() require('trouble').setup() end
+		'L3MON4D3/LuaSnip',
+		requires = {
+			'rafamadriz/friendly-snippets',
+		}
 	}
-	use 'L3MON4D3/LuaSnip'
 	use 'saadparwaiz1/cmp_luasnip'
-	use 'rafamadriz/friendly-snippets'
 	use 'hrsh7th/nvim-cmp'
 
 	use {
@@ -180,7 +186,21 @@ return require('packer').startup(function(use)
 			}
 		end
 	}
+	use {
+		"sitiom/nvim-numbertoggle",
+		config = function()
+			require("numbertoggle").setup()
+		end
+	}
 
 	use 'joeytwiddle/sexy_scroller.vim'
+	use {
+		'jinh0/eyeliner.nvim',
+		config = function()
+			require'eyeliner'.setup {
+				highlight_on_key = true
+			}
+		end
+	}
 	use 'romainl/vim-cool'
 end)

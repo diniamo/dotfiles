@@ -1,5 +1,7 @@
--- Has to be called before colorizer is set up
+-- Impatient has to be initialized at the beginning
+require('impatient')
 
+-- Has to be called before colorizer is set up
 vim.opt.termguicolors = true
 
 -- Remove kitty padding while in editor
