@@ -17,11 +17,6 @@ return require('packer').startup(function(use)
 	use 'MunifTanjim/nui.nvim'
 	use 'kevinhwang91/promise-async'
 
-	-- 	use 'olimorris/onedarkpro.nvim'
-	-- 	use 'marko-cerovac/material.nvim'
-	-- 	use 'Shatur/neovim-ayu'
-	-- 	use 'tanvirtin/monokai.nvim'
-	-- use 'folke/tokyonight.nvim'
 	use 'Everblush/everblush.nvim'
 
 	use 'neovim/nvim-lspconfig'

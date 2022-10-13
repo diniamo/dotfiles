@@ -9,7 +9,7 @@ plugins=( git zsh-z ripgrep colored-man-pages command-not-found dotenv gitignore
 )
 
 # Plugin settings
-ZSH_AUTOSUGGEST_STRATEGY=(completion history)
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 source $ZSH/oh-my-zsh.sh
 
