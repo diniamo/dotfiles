@@ -5,3 +5,5 @@ export MOZ_DISABLE_RDD_SANDBOX=1
 
 xbindkeys # For global shortcuts
 xinput set-prop "SteelSeries SteelSeries Rival 600" "libinput Scroll Method Enabled" 0, 0, 1  # Middle mouse button scroll
+
+export TERMINAL='kitty'
