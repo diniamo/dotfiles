@@ -18,6 +18,7 @@ return require('packer').startup(function(use)
 	use 'kevinhwang91/promise-async'
 
 	use 'Everblush/everblush.nvim'
+	-- use '/hdd/dev/everblush.nvim'
 
 	use 'neovim/nvim-lspconfig'
 	use {
@@ -223,6 +224,12 @@ return require('packer').startup(function(use)
 		end
 	}
 	use 'romainl/vim-cool'
-	use 'stevearc/dressing.nvim'
+	-- use 'stevearc/dressing.nvim'
 	use 'rcarriga/nvim-notify'
+	use {
+		"folke/noice.nvim",
+		config = function()
+			require("noice").setup()
+		end,
+	}
 end)

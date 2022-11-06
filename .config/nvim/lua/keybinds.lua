@@ -1,6 +1,9 @@
 vim.g.mapleader = " "
 local vimp = require('vimp')
 
+-- Yes im hungarian
+-- vim.cmd(':set langmap=jh,kj,lk,él,JH,KJ,LK,ÉL')
+
 vimp.nnoremap('<CR>', 'o<ESC>')
 vimp.nnoremap('<S-CR>', 'O<ESC>')
 vimp.nnoremap('<leader>;', function()
@@ -10,6 +13,7 @@ vimp.nnoremap('<leader>;', function()
 end) -- '$a;<ESC>j')
 
 vimp.inoremap('<C-BS>', '<C-W>')
+vimp.nnoremap('<C-A>', 'ggVG')
 
 -- Neotree
 vimp.nnoremap('<leader>n', '<cmd>Neotree<CR>')
