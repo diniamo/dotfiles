@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
-Exec=redshift
+Exec=redshift -l 47.4385:18.9108
 Name=Redshift
