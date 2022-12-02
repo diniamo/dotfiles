@@ -17,8 +17,8 @@ return require('packer').startup(function(use)
 	use 'MunifTanjim/nui.nvim'
 	use 'kevinhwang91/promise-async'
 
-	use 'Everblush/everblush.nvim'
-	-- use '/hdd/dev/everblush.nvim'
+	-- use 'Everblush/everblush.nvim'
+	use '/hdd/dev/everblush.nvim'
 
 	use 'neovim/nvim-lspconfig'
 	use {
@@ -65,17 +65,15 @@ return require('packer').startup(function(use)
 		config = function() require('telescope').setup() end
 	}
 	use {
-		"akinsho/toggleterm.nvim",
-		tag = 'v2.*',
+		"numToStr/FTerm.nvim",
 		config = function()
-			require("toggleterm").setup {
-				size = 10,
-				shading_factor = 2,
-				direction = "float",
-				float_opts = {
-					border = "curved",
-				}
+			require("FTerm").setup {
+				border = 'rounded',
+				-- hl = 'FloatBorder'
 			}
+
+			vimp.nmap('<C-t>', '<CMD>lua require("FTerm").toggle()<CR>')
+			vimp.tmap('<C-t>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 		end
 	}
 
