@@ -28,30 +28,8 @@ vimp.nnoremap('<leader>tg', '<cmd>Telescope live_grep<cr>')
 vimp.nnoremap('<leader>tb', '<cmd>Telescope buffers<cr>')
 vimp.nnoremap('<leader>th', '<cmd>Telescope help_tags<cr>')
 
--- ToggleTerm - lazygit
-local maincolor = require('everblush.core').get_colors().color2
-print(maincolor)
-
-local Terminal = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({
-	cmd = "lazygit",
-	direction = 'float',
-	float_opts = { border = 'curved' },
-	-- highlights = {
-	-- 	FloatBorder = {
-	-- 		guifg = maincolor,
-	-- 		guibg = maincolor
-	-- 	}
-	-- },
-	hidden = true
-})
-
-vimp.nnoremap({ 'silent' }, '<Leader>g', function()
-	lazygit:open()
-end)
-
-vimp.nnoremap('<C-t>', '<cmd>ToggleTerm<CR>')
-vimp.tnoremap('<C-t>', '<cmd>ToggleTerm<CR>')
+-- vimp.nnoremap('<C-t>', '<cmd>ToggleTerm<CR>')
+-- vimp.tnoremap('<C-t>', '<cmd>ToggleTerm<CR>')
 
 -- cokeline
 vimp.nnoremap({'silent'}, '<Tab>', '<Plug>(cokeline-focus-next)')
