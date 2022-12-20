@@ -17,8 +17,8 @@ return require('packer').startup(function(use)
 	use 'MunifTanjim/nui.nvim'
 	use 'kevinhwang91/promise-async'
 
-	-- use 'Everblush/everblush.nvim'
-	use '/hdd/dev/everblush.nvim'
+	use 'Everblush/everblush.nvim'
+	-- use '/hdd/dev/everblush.nvim'
 
 	use 'neovim/nvim-lspconfig'
 	use {
