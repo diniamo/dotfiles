@@ -14,6 +14,8 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 source $ZSH/oh-my-zsh.sh
 
 export PATH="$PATH:$HOME/.local/bin"
+export JAVA_HOME="/usr/lib/jvm/default"
+export ANDROID_HOME="/opt/android-sdk"
 
 source $HOME/.zsh_aliases
 
