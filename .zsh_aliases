@@ -14,7 +14,7 @@ alias ll='exa --icons -la'
 alias lt='exa --icons -T'
 alias la='exa --icons -a'
 alias grep='grep --color=auto'
-alias syu='sudo paru --needed -Syy archlinux-keyring; paru -Su; rustup update; flatpak update'
+alias syu='sudo paru --needed -Syy archlinux-keyring; paru -Su; sudo flatpak update'
 alias fixmscroll='xinput set-prop "SteelSeries SteelSeries Rival 600" "libinput Scroll Method Enabled" 0, 0, 1  # Middle mouse button scroll'
 
 alias offrecord='history -d $(history 1)'
