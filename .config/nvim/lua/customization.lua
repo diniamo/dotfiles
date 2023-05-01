@@ -1,5 +1,6 @@
-require('everblush').setup()
-local maincolor = require('everblush.core').get_colors().color2
+-- require('everblush').setup()
+vim.cmd.colorscheme "catppuccin"
+local maincolor = '#A6E3A1' -- require('everblush.core').get_colors().color2
 
 
 local o = vim.opt
@@ -31,7 +32,8 @@ vim.cmd('au FileType * set fo-=c fo-=r fo-=o')	-- Remove auto comment on new lin
 -- lualine
 local navic = require('nvim-navic')
 require('lualine').setup {
-	options = { theme = 'everblush' },
+	-- options = { theme = 'everblush' },
+	options = { theme = 'catppuccin' },
 	sections = {
 		lualine_c = {
 			{ navic.get_location, cond = navic.is_available },

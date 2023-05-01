@@ -9,15 +9,15 @@ vim.cmd([[
 
 return require('packer').startup(function(use)
 	-- Packer can update itself
-	use 'wbthomason/packer.nvim'
-	use 'svermeulen/vimpeccable'
+	use 'wbthomason/packer.nvim' use 'svermeulen/vimpeccable'
 	use 'lewis6991/impatient.nvim'
 
 	use 'nvim-lua/plenary.nvim'
 	use 'MunifTanjim/nui.nvim'
 	use 'kevinhwang91/promise-async'
 
-	use 'Everblush/everblush.nvim'
+	-- use 'Everblush/everblush.nvim'
+	use { "catppuccin/nvim", as = "catppuccin" }
 	-- use '/hdd/dev/everblush.nvim'
 
 	use 'neovim/nvim-lspconfig'
@@ -198,12 +198,12 @@ return require('packer').startup(function(use)
 			}
 		end
 	}
-	use {
-		"sitiom/nvim-numbertoggle",
-		config = function()
-			require("numbertoggle").setup()
-		end
-	}
+	-- use {
+	-- 	"sitiom/nvim-numbertoggle",
+	-- 	config = function()
+	-- 		require("numbertoggle").setup()
+	-- 	end
+	-- }
 	use {
 		"max397574/better-escape.nvim",
 		event = 'InsertEnter',
@@ -227,7 +227,31 @@ return require('packer').startup(function(use)
 	use {
 		"folke/noice.nvim",
 		config = function()
-			require("noice").setup()
+			require("noice").setup({
+				lsp = {
+					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+					override = {
+						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+						["vim.lsp.util.stylize_markdown"] = true,
+						["cmp.entry.get_documentation"] = true,
+					},
+				}
+			})
 		end,
+	}
+
+	use {
+		'tzachar/local-highlight.nvim',
+		config = function()
+			local local_highlight = require('local-highlight')
+			local_highlight.setup()
+
+			vim.api.nvim_create_autocmd('BufRead', {
+				pattern = {'*.*'},
+				callback = function(data)
+					local_highlight.attach(data.buf)
+				end
+			})
+		end
 	}
 end)

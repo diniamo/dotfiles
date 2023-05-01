@@ -15,6 +15,14 @@ end) -- '$a;<ESC>j')
 vimp.inoremap('<C-BS>', '<C-W>')
 vimp.nnoremap('<C-A>', 'ggVG')
 
+-- Line moving
+vimp.nnoremap('<A-j>', ':m .+1<CR>==')
+vimp.nnoremap('<A-k>', ':m .-2<CR>==')
+vimp.inoremap('<A-j>', '<Esc>:m .+1<CR>==gi')
+vimp.inoremap('<A-k>', '<Esc>:m .-2<CR>==gi')
+vimp.vnoremap('<A-j>', ":m '>+1<CR>gv=gv")
+vimp.vnoremap('<A-k>', ":m '<-2<CR>gv=gv")
+
 -- Neotree
 vimp.nnoremap('<leader>n', '<cmd>Neotree<CR>')
 vimp.nnoremap('<leader>s', '<cmd>Neotree source=git_status position=float<CR>')
