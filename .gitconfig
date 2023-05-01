@@ -4,5 +4,4 @@
 	email = diniamo69@gmail.com
 	name = diniamo
 [pull]
-	ff = only
 	rebase = true
