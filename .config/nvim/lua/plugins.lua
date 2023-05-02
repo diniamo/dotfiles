@@ -177,7 +177,8 @@ return require('packer').startup(function(use)
 		event = 'InsertEnter',
 		config = function() require('pairs'):setup() end
 	}
-	use 'ggandor/lightspeed.nvim'
+	use 'ggandor/leap.nvim'
+	use 'tpope/vim-repeat'
 
 	use 'kyazdani42/nvim-web-devicons'
 	use {
