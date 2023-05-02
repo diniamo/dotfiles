@@ -40,12 +40,12 @@ vimp.nnoremap('<leader>th', '<cmd>Telescope help_tags<cr>')
 -- vimp.tnoremap('<C-t>', '<cmd>ToggleTerm<CR>')
 
 -- cokeline
-vimp.nnoremap({'silent'}, '<Tab>', '<Plug>(cokeline-focus-next)')
-vimp.nnoremap({'silent'}, '<S-Tab>', '<Plug>(cokeline-focus-prev)')
-for i = 1,9 do
-  vimp.nmap({'silent'}, ('<Leader>%s'):format(i), ('<Plug>(cokeline-focus-%s)'):format(i))
-  -- vimp.nmap({'silent'}, ('<Leader>s%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
-  -- vimp.nmap({'silent'}, ('<Leader>S%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
+vimp.nnoremap({ 'silent' }, '<Tab>', '<Plug>(cokeline-focus-next)')
+vimp.nnoremap({ 'silent' }, '<S-Tab>', '<Plug>(cokeline-focus-prev)')
+for i = 1, 9 do
+	vimp.nmap({ 'silent' }, ('<Leader>%s'):format(i), ('<Plug>(cokeline-focus-%s)'):format(i))
+	-- vimp.nmap({'silent'}, ('<Leader>s%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
+	-- vimp.nmap({'silent'}, ('<Leader>S%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
 end
 
 vimp.nnoremap('<leader>w', '<cmd>bd<CR>')

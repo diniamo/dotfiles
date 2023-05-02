@@ -9,7 +9,8 @@ vim.cmd([[
 
 return require('packer').startup(function(use)
 	-- Packer can update itself
-	use 'wbthomason/packer.nvim' use 'svermeulen/vimpeccable'
+	use 'wbthomason/packer.nvim'
+	use 'svermeulen/vimpeccable'
 	use 'lewis6991/impatient.nvim'
 
 	use 'nvim-lua/plenary.nvim'
@@ -23,7 +24,8 @@ return require('packer').startup(function(use)
 	use 'neovim/nvim-lspconfig'
 	use {
 		'williamboman/mason.nvim',
-		config = function() require('mason').setup {
+		config = function()
+			require('mason').setup {
 				ui = {
 					icons = {
 						package_installed = "✓",
@@ -87,7 +89,8 @@ return require('packer').startup(function(use)
 				indent = {
 					enable = true
 				},
-				rainbow = { enable = true,
+				rainbow = {
+					enable = true,
 					extended_mode = true
 				},
 				highlight_definitions = {
@@ -105,12 +108,7 @@ return require('packer').startup(function(use)
 			}
 		end
 	}
-	use {
-		'lewis6991/gitsigns.nvim',
-		config = function()
-			require('gitsigns').setup()
-		end
-	}
+	use { 'lewis6991/gitsigns.nvim', config = function() require('gitsigns').setup() end }
 
 	use {
 		"nvim-neo-tree/neo-tree.nvim",
@@ -162,29 +160,20 @@ return require('packer').startup(function(use)
 			}
 		end
 	}
-	use {
-		'SmiteshP/nvim-navic',
-		config = function() require('nvim-navic').setup() end
-	}
+	use { 'SmiteshP/nvim-navic', config = function() require('nvim-navic').setup() end }
 	use 'p00f/nvim-ts-rainbow'
 	use 'nvim-treesitter/nvim-treesitter-refactor'
-	use {
-		'numToStr/Comment.nvim',
-		config = function() require('Comment').setup() end
-	}
+	use { 'numToStr/Comment.nvim', config = function() require('Comment').setup() end }
 	use {
 		'ZhiyuanLck/smart-pairs',
 		event = 'InsertEnter',
 		config = function() require('pairs'):setup() end
 	}
-	use 'ggandor/leap.nvim'
+	use { 'ggandor/leap.nvim', config = function() require('leap').add_default_mappings() end }
 	use 'tpope/vim-repeat'
 
 	use 'kyazdani42/nvim-web-devicons'
-	use {
-		'norcalli/nvim-colorizer.lua',
-		config = function() require('colorizer').setup() end
-	}
+	use { 'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
 	use 'noib3/nvim-cokeline'
 	use 'nvim-lualine/lualine.nvim'
 
@@ -223,7 +212,6 @@ return require('packer').startup(function(use)
 		end
 	}
 	use 'romainl/vim-cool'
-	-- use 'stevearc/dressing.nvim'
 	use 'rcarriga/nvim-notify'
 	use {
 		"folke/noice.nvim",
@@ -248,7 +236,7 @@ return require('packer').startup(function(use)
 			local_highlight.setup()
 
 			vim.api.nvim_create_autocmd('BufRead', {
-				pattern = {'*.*'},
+				pattern = { '*.*' },
 				callback = function(data)
 					local_highlight.attach(data.buf)
 				end

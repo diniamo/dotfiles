@@ -4,8 +4,8 @@ require("luasnip.loaders.from_vscode").lazy_load()
 assert(cmp, 'nvim-cmp not found')
 
 local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
 cmp.setup {
@@ -16,7 +16,7 @@ cmp.setup {
 	},
 	mapping = cmp.mapping.preset.insert({
 		['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
+		['<C-n>'] = cmp.mapping.select_next_item(),
 		['<C-b>'] = cmp.mapping.scroll_docs(-4),
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.confirm({ select = true }),
@@ -99,7 +99,9 @@ local on_attach = function(client, bufnr)
 end
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-require('lspconfig')['lua_ls'].setup {
+local lspconfig = require('lspconfig')
+
+lspconfig['lua_ls'].setup {
 	on_attach = on_attach,
 	capabilities = capabilities,
 
@@ -121,12 +123,12 @@ require('lspconfig')['lua_ls'].setup {
 	}
 }
 
-require('lspconfig')['pyright'].setup {
+lspconfig['pyright'].setup {
 	on_attach = on_attach,
 	capabilities = capabilities
 }
 
-require('lspconfig')['rust_analyzer'].setup {
+lspconfig['rust_analyzer'].setup {
 	on_attach = on_attach,
 	capabilities = capabilities
 }
