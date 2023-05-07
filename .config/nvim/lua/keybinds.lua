@@ -6,6 +6,7 @@ local vimp = require('vimp')
 
 vimp.nnoremap('<CR>', 'o<ESC>')
 vimp.nnoremap('<S-CR>', 'O<ESC>')
+-- vimp.nnoremap('<CR>', 'i<CR><ESC>')
 vimp.nnoremap('<leader>;', function()
 	local cursor = vim.api.nvim_win_get_cursor(0)
 	vim.cmd(':normal A;')

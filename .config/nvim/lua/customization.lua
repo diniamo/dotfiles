@@ -1,5 +1,5 @@
 -- require('everblush').setup()
-vim.cmd.colorscheme "catppuccin"
+-- vim.cmd.colorscheme "catppuccin"
 local maincolor = '#A6E3A1' -- require('everblush.core').get_colors().color2
 
 

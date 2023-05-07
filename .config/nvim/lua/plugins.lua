@@ -18,7 +18,16 @@ return require('packer').startup(function(use)
 	use 'kevinhwang91/promise-async'
 
 	-- use 'Everblush/everblush.nvim'
-	use { "catppuccin/nvim", as = "catppuccin" }
+	use {
+		"catppuccin/nvim", as = "catppuccin",
+		config = function()
+			require('catppuccin').setup {
+				flavour = 'macchiato'
+			}
+
+			vim.cmd.colorscheme "catppuccin"
+		end
+	}
 	-- use '/hdd/dev/everblush.nvim'
 
 	use 'neovim/nvim-lspconfig'
