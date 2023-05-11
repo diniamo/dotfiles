@@ -65,57 +65,29 @@ show_msg() {
 }
 
 # Variable passed to rofi
-options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
+options="$lock\n$suspend\n$shutdown\n$reboot\n$logout"
 
 chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0)"
 case $chosen in
     $shutdown)
-		ans=$(rdialog &)
-		if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
-			systemctl poweroff
-		elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
-			exit
-        else
-			show_msg
-        fi
+		systemctl poweroff
         ;;
     $reboot)
-		ans=$(rdialog &)
-		if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
-			systemctl reboot
-		elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
-			exit
-        else
-			show_msg
-        fi
+		systemctl reboot
         ;;
     $lock)
         # sh $HOME/.local/bin/lock
 		betterlockscreen --time-format %H:%M -l
         ;;
     $suspend)
-		ans=$(rdialog &)
-		if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
-			# mpc -q pause
-			# amixer set Master mute
-			# sh $HOME/.local/bin/lock
-			# systemctl suspend
-			betterlockscreen --time-format %H:%M --suspend
-		elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
-			exit
-        else
-			show_msg
-        fi
+		# mpc -q pause
+		# amixer set Master mute
+		# sh $HOME/.local/bin/lock
+		# systemctl suspend
+		betterlockscreen --time-format %H:%M --suspend
         ;;
     $logout)
-		ans=$(rdialog &)
-		if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
-			bspc quit
-		elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
-			exit
-        else
-			show_msg
-        fi
+		bspc quit
         ;;
 esac
 -suspend

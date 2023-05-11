@@ -183,7 +183,7 @@ return require('packer').startup(function(use)
 
 	use 'kyazdani42/nvim-web-devicons'
 	use { 'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
-	use 'noib3/nvim-cokeline'
+	use {'akinsho/bufferline.nvim', tag = "*", config = function() require("bufferline").setup() end }
 	use 'nvim-lualine/lualine.nvim'
 
 	use {
