@@ -25,28 +25,30 @@ vimp.vnoremap('<A-j>', ":m '>+1<CR>gv=gv")
 vimp.vnoremap('<A-k>', ":m '<-2<CR>gv=gv")
 
 -- Neotree
-vimp.nnoremap('<leader>n', '<cmd>Neotree<CR>')
-vimp.nnoremap('<leader>s', '<cmd>Neotree source=git_status position=float<CR>')
+vimp.nnoremap('<leader>n', '<Cmd>Neotree<CR>')
+vimp.nnoremap('<leader>s', '<Cmd>Neotree source=git_status position=float<CR>')
 
 -- Trouble
-vimp.nnoremap('<Leader>tr', '<cmd>TroubleToggle<CR>')
+vimp.nnoremap('<Leader>tr', '<Cmd>TroubleToggle<CR>')
 
 -- Telescope
-vimp.nnoremap('<leader>tf', '<cmd>Telescope find_files<cr>')
-vimp.nnoremap('<leader>tg', '<cmd>Telescope live_grep<cr>')
-vimp.nnoremap('<leader>tb', '<cmd>Telescope buffers<cr>')
-vimp.nnoremap('<leader>th', '<cmd>Telescope help_tags<cr>')
-
--- vimp.nnoremap('<C-t>', '<cmd>ToggleTerm<CR>')
--- vimp.tnoremap('<C-t>', '<cmd>ToggleTerm<CR>')
+vimp.nnoremap('<leader>tf', '<Cmd>Telescope find_files<cr>')
+vimp.nnoremap('<leader>tg', '<Cmd>Telescope live_grep<cr>')
+vimp.nnoremap('<leader>tb', '<Cmd>Telescope buffers<cr>')
+vimp.nnoremap('<leader>th', '<Cmd>Telescope help_tags<cr>')
 
 -- Buffers
-vimp.nnoremap({ 'silent' }, '<Tab>', '<cmd>bnext<CR>')
-vimp.nnoremap({ 'silent' }, '<S-Tab>', '<cmd>bprevious<CR>')
-for i = 1, 9 do
-	vimp.nmap({ 'silent' }, ('<Leader>%s'):format(i), ('<cmd>b %s<CR>'):format(i))
-	-- vimp.nmap({'silent'}, ('<Leader>s%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
-	-- vimp.nmap({'silent'}, ('<Leader>S%s'):format(i), ('<Plug>(cokeline-switch-%s)'):format(i))
-end
+vimp.nnoremap({ 'silent' }, '<Tab>', '<Cmd>BufferNext<CR>')
+vimp.nnoremap({ 'silent' }, '<S-Tab>', '<Cmd>BufferPrevious<CR>')
 
-vimp.nnoremap('<leader>w', '<cmd>bd<CR>')
+vimp.nnoremap({ 'silent' }, '<A-<Right>>', '<Cmd>BufferMoveNext<CR>')
+vimp.nnoremap({ 'silent' }, '<A-<Left>>', '<Cmd>BufferMovePrevious<CR>')
+
+vimp.nnoremap({ 'silent' }, '<Leader>p', '<Cmd>BufferPick<CR>')
+
+for i = 1, 9 do
+	vimp.nmap({ 'silent' }, ('A-%s'):format(i), ('<Cmd>BufferGoto %s<CR>'):format(i))
+end
+vimp.nmap({ 'silent' }, 'A-0', '<Cmd>BufferLast<CR>')
+
+vimp.nnoremap('<leader>w', '<Cmd>BufferClose<CR>')

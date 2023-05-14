@@ -183,7 +183,17 @@ return require('packer').startup(function(use)
 
 	use 'kyazdani42/nvim-web-devicons'
 	use { 'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
-	use {'akinsho/bufferline.nvim', tag = "*", config = function() require("bufferline").setup() end }
+	use {
+		'romgrk/barbar.nvim',
+		config = function()
+			vim.g.barbar_auto_setup = false
+			require('barbar').setup {
+				icons = {
+					button = ''
+				}
+			}
+		end
+	}
 	use 'nvim-lualine/lualine.nvim'
 
 	use {
