@@ -70,10 +70,10 @@ options="$lock\n$suspend\n$shutdown\n$reboot\n$logout"
 chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0)"
 case $chosen in
     $shutdown)
-		systemctl poweroff
+		systemctl poweroff --no-wall
         ;;
     $reboot)
-		systemctl reboot
+		systemctl reboot --no-wall
         ;;
     $lock)
         # sh $HOME/.local/bin/lock
