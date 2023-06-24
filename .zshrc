@@ -5,6 +5,7 @@ ZSH_THEME=""
 plugins=( git zsh-z ripgrep colored-man-pages command-not-found dotenv gitignore sudo
 	zsh-autosuggestions
 	zsh-syntax-highlighting
+	zsh-you-should-use
 )
 
 # Plugin settings

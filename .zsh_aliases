@@ -10,7 +10,7 @@ alias vi='nvim'
 alias vim='nvim'
 
 alias ls='exa --icons'
-alias ll='exa --icons -lha'
+alias ll='exa --icons --git -lha'
 alias lt='exa --icons -T'
 alias la='exa --icons -a'
 alias grep='grep --color=auto'
@@ -29,6 +29,10 @@ alias dragon-drop='dragon-drop -x'
 alias rm='rm --preserve-root=all'
 
 alias windows='sudo grub-reboot 1 && sudo reboot'
+
+# Suffix aliases
+alias -s git="git clone"
+alias -s py="python"
 
 ..() {
     if [ -z "$1" ]; then
