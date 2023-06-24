@@ -14,5 +14,4 @@ for pl in $plugins; do
 	else
 		git clone "https://github.com/$pl.git" "$ZSH/custom/plugins/$split[2]"
 	fi
-	
 done
