@@ -1,0 +1,18 @@
+plugins=(
+	marlonrichert/zsh-autocomplete
+	MichaelAquilina/zsh-you-should-use
+	zsh-users/zsh-autosuggestions
+	zsh-users/zsh-syntax-highlighting
+	agkozak/zsh-z
+)
+
+for pl in $plugins; do
+	split=("${(@s|/|)pl}")
+
+	if [ -d "$ZSH/custom/plugins/$split[2]" ]; then
+		git -C "$ZSH/custom/plugins/$split[2]" pull
+	else
+		git clone "https://github.com/$pl.git" "$ZSH/custom/plugins/$split[2]"
+	fi
+	
+done
