@@ -27,7 +27,6 @@ alias diff='kitty +kitten diff'
 alias dragon-drop='dragon-drop -x'
 
 alias rm='rm --preserve-root=all'
-alias rmdir='rmdir --preserve-root=all'
 
 alias windows='sudo grub-reboot 1 && sudo reboot'
 
@@ -45,6 +44,10 @@ mcd () {
 }
 
 function upload {
-	curl -F"file=@$1" http://0x0.st
+	if [ $# -eq 0 ]; then
+		curl -F"file=@-" http://0x0.st
+	else
+		curl -F"file=@$1" http://0x0.st
+	fi
 }
 
