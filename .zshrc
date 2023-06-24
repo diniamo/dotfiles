@@ -3,7 +3,8 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=""
 
 # Custom
-( source $HOME/.zsh_plugins & ) > /dev/null 2>&1
+# ( source $HOME/.zsh_plugins & ) > /dev/null 2>&1
+source $HOME/.zsh_plugins
 source $HOME/.zsh_aliases
 
 plugins=( git ripgrep colored-man-pages command-not-found dotenv gitignore sudo

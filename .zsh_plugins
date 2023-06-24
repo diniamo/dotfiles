@@ -1,4 +1,4 @@
-plugins=(
+CUSTOM_PLUGINS=(
 	marlonrichert/zsh-autocomplete
 	MichaelAquilina/zsh-you-should-use
 	zsh-users/zsh-autosuggestions
@@ -6,12 +6,28 @@ plugins=(
 	agkozak/zsh-z
 )
 
-for pl in $plugins; do
-	split=("${(@s|/|)pl}")
+update-hook() {
+	if [[ $1 = "omz update"* ]]; then
+		echo Updating plugins
+		for plugin in $CUSTOM_PLUGINS; do
+			split=("${(@s|/|)plugin}")
+			git -C "$ZSH/custom/plugins/$split[2]" pull
+		done
+	fi
+}
+autoload -U add-zsh-hook
+add-zsh-hook preexec update-hook
 
-	if [ -d "$ZSH/custom/plugins/$split[2]" ]; then
-		git -C "$ZSH/custom/plugins/$split[2]" pull
-	else
-		git clone "https://github.com/$pl.git" "$ZSH/custom/plugins/$split[2]"
+for plugin in $CUSTOM_PLUGINS; do
+	split=("${(@s|/|)plugin}")
+
+	# if [ -d "$ZSH/custom/plugins/$split[2]" ]; then
+	# 	git -C "$ZSH/custom/plugins/$split[2]" pull
+	# else
+	# 	git clone "https://github.com/$plugin.git" "$ZSH/custom/plugins/$split[2]"
+	# fi
+
+	if [ ! -d "$ZSH/custom/plugins/$split[2]" ]; then
+		git clone "https://github.com/$plugin.git" "$ZSH/custom/plugins/$split[2]"
 	fi
 done
