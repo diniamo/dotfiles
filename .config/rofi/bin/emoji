@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+rofi \
+	-show emoji \
+	-modi emoji \
+	-kb-accept-alt Alt+Return \
+	-kb-custom-1 Ctrl+c \
+	-scroll-method 1 \
+	-theme "$HOME"/.config/rofi/config/emoji.rasi
+

@@ -7,26 +7,48 @@ fi
 
 export ZSH="$HOME/.oh-my-zsh"
 
-# Custom
-source $HOME/.zsh_plugins > /dev/null 2>&1
-
 ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=( git ripgrep colored-man-pages command-not-found dotenv gitignore sudo
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	zsh-you-should-use
-	zsh-z 
-	zsh-autopair
+plugins=(
+	git
+	git-escape-magic
+	colored-man-pages
+	command-not-found
+	gitignore
+	sudo
+	copypath
+	copyfile
+	fancy-ctrl-z
 	dircycle
+	alias-finder
+	safe-paste
 )
 
+custom_plugins=(
+	MichaelAquilina/zsh-you-should-use
+	MichaelAquilina/zsh-auto-notify:auto-notify
+	zsh-users/zsh-autosuggestions
+	zsh-users/zsh-syntax-highlighting
+	agkozak/zsh-z
+	hlissner/zsh-autopair
+	joshskidmore/zsh-fzf-history-search
+	zpm-zsh/colorize
+)
+source $HOME/.zsh_plugins > /dev/null 2>&1
 
 # OMZ
 source $ZSH/oh-my-zsh.sh
 source $HOME/.zsh/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 
-# Plugin settings
-ZSH_AUTOSUGGEST_STRATEGY=(history)
+# Options/settings
+setopt EXTENDEDGLOB
+setopt HIST_FIND_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+ZSH_FZF_HISTORY_SEARCH_EVENT_NUMBERS=0
+ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=0
+ZSH_FZF_HISTORY_SEARCH_REMOVE_DUPLICATES=true
 
 autopair-init
 

@@ -4,3 +4,5 @@ export ANDROID_HOME="/opt/android-sdk"
 
 export TERMINAL='kitty'
 export EDITOR='nvim'
+
+export QT_QPA_PLATFORMTHEME='qt5ct'
