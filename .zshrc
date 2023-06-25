@@ -7,19 +7,19 @@ fi
 
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
 # Custom
-# ( source $HOME/.zsh_plugins & ) > /dev/null 2>&1
-source $HOME/.zsh_plugins
-source $HOME/.zsh_aliases
+source $HOME/.zsh_plugins > /dev/null 2>&1
 
+ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=( git ripgrep colored-man-pages command-not-found dotenv gitignore sudo
 	zsh-autosuggestions
 	zsh-syntax-highlighting
 	zsh-you-should-use
 	zsh-z 
+	zsh-autopair
+	dircycle
 )
+
 
 # OMZ
 source $ZSH/oh-my-zsh.sh
@@ -27,6 +27,14 @@ source $HOME/.zsh/catppuccin_macchiato-zsh-syntax-highlighting.zsh
 
 # Plugin settings
 ZSH_AUTOSUGGEST_STRATEGY=(history)
+
+autopair-init
+
+bindkey "^[[104;6u" insert-cycledleft
+bindkey "^[[108;6u" insert-cycledright
+
+# Aliases
+source $HOME/.zsh_aliases
 
 # Pure theme
 # fpath+=($HOME/.zsh/pure)

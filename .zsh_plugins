@@ -4,6 +4,8 @@ CUSTOM_PLUGINS=(
 	zsh-users/zsh-autosuggestions
 	zsh-users/zsh-syntax-highlighting
 	agkozak/zsh-z
+	hlissner/zsh-autopair
+	michaelxmcbride/zsh-dircycle
 )
 
 update-hook() {
@@ -20,12 +22,6 @@ add-zsh-hook preexec update-hook
 
 for plugin in $CUSTOM_PLUGINS; do
 	split=("${(@s|/|)plugin}")
-
-	# if [ -d "$ZSH/custom/plugins/$split[2]" ]; then
-	# 	git -C "$ZSH/custom/plugins/$split[2]" pull
-	# else
-	# 	git clone "https://github.com/$plugin.git" "$ZSH/custom/plugins/$split[2]"
-	# fi
 
 	if [ ! -d "$ZSH/custom/plugins/$split[2]" ]; then
 		git clone "https://github.com/$plugin.git" "$ZSH/custom/plugins/$split[2]"
