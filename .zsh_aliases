@@ -1,4 +1,7 @@
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+dfcp() {
+	dotfiles commit -am $1 && dotfiles push
+}
 
 alias btw='neofetch'
 
