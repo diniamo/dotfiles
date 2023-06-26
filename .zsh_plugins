@@ -1,42 +1,50 @@
+split-str() {
+	old_ifs=$IFS
+	IFS=$1
+
+	split=($=2)
+	IFS=$old_ifs
+}
+
+collect-garbage() {
+	# The -gt check doesn't work if the array is empty	
+	if [[ ${#custom_plugins_names} -eq 0 ]]; then
+		echo Deleting every plugin
+		/usr/bin/rm -rf $ZSH/custom/plugins/*
+	else
+		for folder in $ZSH/custom/plugins/*(/); do
+			name=${folder##*/}
+			if [[ ${custom_plugins_names[(ie)$name]} -gt ${#custom_plugins_names} ]]; then
+				echo Deleting $name
+				/usr/bin/rm -rf $folder
+			fi
+		done
+	fi
+}
+
 update-custom-plugins() {
 	if [[ $1 = "omz update"* ]]; then
-		echo Updating plugins
+		echo Updating custom plugins
+
 		for plugin in $custom_plugins; do
-			split=("${(@s|/|)plugin}")
-			git -C "$ZSH/custom/plugins/$split[2]" pull
+			split-str /: $plugin
+
+			echo -n "Updating $split[2]: "
+			git -C "$ZSH/custom/plugins/$split[-1]" pull
 		done
 	fi
 }
 autoload -U add-zsh-hook
 add-zsh-hook preexec update-custom-plugins
 
-collect-garbage() {
-	# The -gt check doens't work if the array is empty
-	# I'll give the person who can figure out what the obfuscation means a cookie
-	enabled_custom_plugins=(dummy-lpafpndmtusw)
-	for plugin in $custom_plugins; do
-		pre_split=("${(s|/|)plugin}")
-		split=("${(s|:|)pre_split[2]}")
-
-		enabled_custom_plugins=($enabled_custom_plugins $split[1])
-	done
-
-	for folder in $ZSH/custom/plugins/*(/); do
-		name=${folder##*/}
-		if [[ ${enabled_custom_plugins[(ie)$name]} -gt ${#enabled_custom_plugins} ]]; then
-			/usr/bin/rm -rf $folder
-		fi
-	done
-}
-
+custom_plugins_names=()
 for plugin in $custom_plugins; do
-	pre_split=("${(s|/|)plugin}")
-	split=("${(s|:|)pre_split[2]}")
-	split=($pre_split[1] $split)
+	split-str /: $plugin
 
 	if [ ! -d "$ZSH/custom/plugins/$split[-1]" ]; then
 		git clone "https://github.com/$split[1]/$split[2].git" "$ZSH/custom/plugins/$split[-1]"
 	fi
 
 	plugins=($plugins $split[-1])
+	custom_plugins_names=($custom_plugins_names $split[-1])
 done
