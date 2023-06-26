@@ -1,5 +1,5 @@
 split-str() {
-	old_ifs=$IFS
+	local old_ifs=$IFS
 	IFS=$1
 
 	split=($=2)
