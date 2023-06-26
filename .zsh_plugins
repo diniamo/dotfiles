@@ -1,9 +1,6 @@
 split-str() {
-	local old_ifs=$IFS
-	IFS=$1
-
+	local IFS=$1
 	split=($=2)
-	IFS=$old_ifs
 }
 
 collect-garbage() {
