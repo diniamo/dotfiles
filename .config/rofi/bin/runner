@@ -3,4 +3,6 @@ rofi \
 	-show run \
 	-scroll-method 1 \
 	-terminal kitty \
+	-kb-row-up Alt+k \
+	-kb-row-down Alt+j \
 	-theme "$HOME"/.config/rofi/config/runner.rasi

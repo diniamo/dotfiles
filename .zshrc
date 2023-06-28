@@ -35,9 +35,12 @@ custom_plugins=(
 )
 source $HOME/.zsh_plugins > /dev/null 2>&1
 
+
 # OMZ
 source $ZSH/oh-my-zsh.sh
 source $HOME/.zsh/catppuccin_macchiato-zsh-syntax-highlighting.zsh
+
+autopair-init
 
 # Options/settings
 setopt EXTENDEDGLOB
@@ -50,7 +53,7 @@ ZSH_FZF_HISTORY_SEARCH_EVENT_NUMBERS=0
 ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=0
 ZSH_FZF_HISTORY_SEARCH_REMOVE_DUPLICATES=true
 
-autopair-init
+AUTO_NOTIFY_IGNORE+=("jerry" "nmtui")
 
 bindkey "^[[104;6u" insert-cycledleft
 bindkey "^[[108;6u" insert-cycledright

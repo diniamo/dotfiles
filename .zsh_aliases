@@ -7,6 +7,7 @@ alias btw='neofetch'
 
 # This fixes sudo usage with aliases
 alias sudo='sudo '
+
 eval $(thefuck --alias)
 
 alias v='nvim'
@@ -18,8 +19,6 @@ alias ll='exa --icons --git -lha'
 alias lt='exa --icons -T'
 alias la='exa --icons -a'
 alias fixmscroll='xinput set-prop "SteelSeries SteelSeries Rival 600" "libinput Scroll Method Enabled" 0, 0, 1  # Middle mouse button scroll'
-
-alias offrecord='history -d $(history 1)'
 
 alias pls='sudo  $(fc -ln -1)'
 alias please='sudo bash -c "$(fc -ln -1)"'
@@ -33,6 +32,8 @@ alias rm='rmtrash'
 alias rmdir='rmdirtrash'
 
 alias hash='sha256sum'
+alias copy='xclip -in -selection clipboard'
+alias paste='xclip -out -selection clipboard'
 
 alias windows='sudo grub-reboot 1 && sudo reboot'
 
