@@ -46,6 +46,7 @@ autopair-init
 setopt EXTENDEDGLOB
 setopt HIST_FIND_NO_DUPS
 setopt HIST_REDUCE_BLANKS
+setopt autocd
 
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
