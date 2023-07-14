@@ -42,6 +42,8 @@ alias windows='sudo grub-reboot 1 && sudo reboot'
 alias -s git="git clone"
 alias -s py="python"
 
+alias def="trans en:"
+
 ..() {
     if [ -z "$1" ]; then
         cd ..
