@@ -14,41 +14,42 @@ vimp.nnoremap('<leader>;', function()
 end) -- '$a;<ESC>j')
 
 vimp.inoremap('<C-BS>', '<C-W>')
+vimp.inoremap('<C-Del>', '<C-O>de')
 vimp.nnoremap('<C-A>', 'ggVG')
 
 -- Line moving
-vimp.nnoremap('<A-j>', ':m .+1<CR>==')
-vimp.nnoremap('<A-k>', ':m .-2<CR>==')
-vimp.inoremap('<A-j>', '<Esc>:m .+1<CR>==gi')
-vimp.inoremap('<A-k>', '<Esc>:m .-2<CR>==gi')
-vimp.vnoremap('<A-j>', ":m '>+1<CR>gv=gv")
-vimp.vnoremap('<A-k>', ":m '<-2<CR>gv=gv")
+vimp.nnoremap({ 'silent' }, '<leader>j', ':m .+1<CR>==')
+vimp.nnoremap({ 'silent' }, '<leader>k',  '<leader>j', ':m .-2<CR>==')
+vimp.inoremap({ 'silent' }, '<leader>j',  '<leader>j', '<Esc>:m .+1<CR>==gi')
+vimp.inoremap({ 'silent' }, '<leader>k',  '<leader>j', '<Esc>:m .-2<CR>==gi')
+vimp.vnoremap({ 'silent' }, '<leader>j',  '<leader>j', ":m '>+1<CR>gv=gv")
+vimp.vnoremap({ 'silent' }, '<leader>k',  '<leader>j', ":m '<-2<CR>gv=gv")
 
 -- Neotree
 vimp.nnoremap('<leader>n', '<Cmd>Neotree<CR>')
 vimp.nnoremap('<leader>s', '<Cmd>Neotree source=git_status position=float<CR>')
 
 -- Trouble
-vimp.nnoremap('<Leader>tr', '<Cmd>TroubleToggle<CR>')
+vimp.nnoremap('<Leader>x', '<Cmd>TroubleToggle<CR>')
 
 -- Telescope
-vimp.nnoremap('<leader>tf', '<Cmd>Telescope find_files<cr>')
-vimp.nnoremap('<leader>tg', '<Cmd>Telescope live_grep<cr>')
-vimp.nnoremap('<leader>tb', '<Cmd>Telescope buffers<cr>')
-vimp.nnoremap('<leader>th', '<Cmd>Telescope help_tags<cr>')
+vimp.nnoremap('<leader>f', '<Cmd>Telescope find_files<cr>')
+vimp.nnoremap('<leader>g', '<Cmd>Telescope live_grep<cr>')
+vimp.nnoremap('<leader>b', '<Cmd>Telescope buffers<cr>')
+vimp.nnoremap('<leader>h', '<Cmd>Telescope help_tags<cr>')
 
 -- Buffers
 vimp.nnoremap({ 'silent' }, '<Tab>', '<Cmd>BufferNext<CR>')
 vimp.nnoremap({ 'silent' }, '<S-Tab>', '<Cmd>BufferPrevious<CR>')
 
-vimp.nnoremap({ 'silent' }, '<A-<Right>>', '<Cmd>BufferMoveNext<CR>')
-vimp.nnoremap({ 'silent' }, '<A-<Left>>', '<Cmd>BufferMovePrevious<CR>')
+vimp.nnoremap({ 'silent' }, '<A-Right>', '<Cmd>BufferMoveNext<CR>')
+vimp.nnoremap({ 'silent' }, '<A-Left>', '<Cmd>BufferMovePrevious<CR>')
 
 vimp.nnoremap({ 'silent' }, '<Leader>p', '<Cmd>BufferPick<CR>')
 
 for i = 1, 9 do
-	vimp.nmap({ 'silent' }, ('A-%s'):format(i), ('<Cmd>BufferGoto %s<CR>'):format(i))
+	vimp.nmap({ 'silent' }, ('<A-%s>'):format(i), ('<Cmd>BufferGoto %s<CR>'):format(i))
 end
-vimp.nmap({ 'silent' }, 'A-0', '<Cmd>BufferLast<CR>')
+vimp.nmap({ 'silent' }, '<A-0>', '<Cmd>BufferLast<CR>')
 
 vimp.nnoremap('<leader>w', '<Cmd>BufferClose<CR>')

@@ -139,11 +139,11 @@ return require('packer').startup(function(use)
 			}
 		end
 	}
-	use {
-		'iamcco/markdown-preview.nvim',
-		run = function() vim.fn["mkdp#util#install"]() end,
-	}
-	use 'https://github.com/mipmip/vim-scimark'
+	-- use {
+	-- 	'iamcco/markdown-preview.nvim',
+	-- 	run = function() vim.fn["mkdp#util#install"]() end,
+	-- }
+	-- use 'https://github.com/mipmip/vim-scimark'
 
 	use {
 		"kylechui/nvim-surround",

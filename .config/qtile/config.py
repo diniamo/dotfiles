@@ -22,7 +22,8 @@ def autostart():
 keys = [ # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Layouts
-    Key([mod], "f", lazy.next_layout()),
+    Key([mod], "f", lazy.window.toggle_fullscreen()),
+    Key([mod], "s", lazy.window.toggle_floating()),
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -118,9 +119,9 @@ layouts = [
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
+    layout.Matrix(),
+    layout.MonadTall(),
+    layout.MonadWide(),
     # layout.RatioTile(),
     # layout.Tile(),
     # layout.TreeTab(),
@@ -205,25 +206,3 @@ auto_minimize = True
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
-
-# Show/Hide bar based on layout
-def _bar(qtile):
-    # Get the bar 
-    bar = screens[0].top
-    # Check the layout and hide bar accordingly
-    if(qtile.current_layout.info()['name'] == 'max'):
-        bar.show(False)
-    else:
-        bar.show(True)
-
-@hook.subscribe.layout_change
-def layout_change(layout, group):
-    _bar(qtile)
-
-@hook.subscribe.changegroup
-def group_change():
-    _bar(qtile)
-
-@hook.subscribe.client_focus
-def focus_change(window):
-    _bar(qtile)

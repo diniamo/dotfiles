@@ -54,10 +54,13 @@ ZSH_FZF_HISTORY_SEARCH_EVENT_NUMBERS=0
 ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=0
 ZSH_FZF_HISTORY_SEARCH_REMOVE_DUPLICATES=true
 
-AUTO_NOTIFY_IGNORE+=("feh" "jerry" "nmtui" "scrcpy" "bg" "fg")
+AUTO_NOTIFY_IGNORE+=("feh" "jerry" "nmtui" "scrcpy" "bg" "fg" "mpv")
 
 bindkey "^[[104;6u" insert-cycledleft
 bindkey "^[[108;6u" insert-cycledright
+
+bindkey '^H' backward-kill-word
+bindkey '^[[3;5~' kill-word
 
 # Aliases
 source $HOME/.zsh_aliases
