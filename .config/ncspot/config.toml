@@ -1,0 +1,14 @@
+use_nerdfont = true
+notify = true
+shuffle = true
+
+[keybindings]
+"í" = "seek -5s"
+"y" = "seek +5s"
+
+"Space" = "playpause"
+"n" = "next"
+"p" = "previous"
+
+[theme]
+highlight_bg = "#313244"

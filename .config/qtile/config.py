@@ -75,6 +75,10 @@ keys = [ # A list of available commands that can be bound to keys can be found
     Key([], "XF86MonBrightnessUp",   lazy.spawn("brightnessctl set +2%"),    desc="Ups the screen's brightness by 2%"),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 2%- -n"), desc="Lowers the screen's brightness by 2%"),
 
+    Key([mod], "í", lazy.spawn("playerctl previous"), desc="Goes back to the previous piece of media in the playlist of the currently playing media player"),
+    Key([mod], "y", lazy.spawn("playerctl next"), desc="Skips to the next piece of media in the playlist of the currently playing media player"),
+    Key([mod], "p", lazy.spawn("playerctl play-pause"), desc="Pauses/resumes the currently playing media"),
+
     # Screenshot
     Key([],      "Print", lazy.spawn(["sh", "-c", "scrot - | xclip -in -selection clipboard -target image/png"]), desc="Captures everything onto the clipboard"),
     Key([ctrl],  "Print", lazy.spawn(["sh", "-c", "scrot --select --freeze - | xclip -in -selection clipboard -target image/png"]), desc="Starts a scrot selection capture"),
