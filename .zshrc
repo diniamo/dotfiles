@@ -33,6 +33,7 @@ custom_plugins=(
 	joshskidmore/zsh-fzf-history-search
 	zpm-zsh/colorize
 )
+autoload -U add-zsh-hook
 source $HOME/.zsh_plugins > /dev/null 2>&1
 
 
@@ -54,7 +55,30 @@ ZSH_FZF_HISTORY_SEARCH_EVENT_NUMBERS=0
 ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=0
 ZSH_FZF_HISTORY_SEARCH_REMOVE_DUPLICATES=true
 
-AUTO_NOTIFY_IGNORE+=("feh" "jerry" "nmtui" "scrcpy" "bg" "fg" "mpv")
+TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer")
+
+# remove-padding() {
+# 	local IFS=' '
+# 	local cmd=($=1)
+# 	cmd=$cmd[1]
+# 	if (($TUI[(Ie)$cmd])); then
+# 		kitty @ --to=$KITTY_LISTEN_ON set-spacing padding=0
+# 	fi
+# }
+# readd-padding() {
+# 	local lastcmd=$(fc -ln -1)
+# 	local IFS=' '
+# 	lastcmd=($=lastcmd)
+# 	lastcmd=$lastcmd[1]
+# 	if (($TUI[(Ie)$lastcmd])); then
+# 		kitty @ --to=$KITTY_LISTEN_ON set-spacing padding=5
+# 	fi
+# }
+# add-zsh-hook preexec remove-padding
+# add-zsh-hook precmd readd-padding
+
+AUTO_NOTIFY_IGNORE+=("feh" "scrcpy" "bg" "fg" "mpv")
+AUTO_NOTIFY_IGNORE+=($TUI)
 
 bindkey "^[[104;6u" insert-cycledleft
 bindkey "^[[108;6u" insert-cycledright

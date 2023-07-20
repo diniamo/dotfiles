@@ -18,12 +18,12 @@ vimp.inoremap('<C-Del>', '<C-O>de')
 vimp.nnoremap('<C-A>', 'ggVG')
 
 -- Line moving
-vimp.nnoremap({ 'silent' }, '<leader>j', ':m .+1<CR>==')
-vimp.nnoremap({ 'silent' }, '<leader>k',  '<leader>j', ':m .-2<CR>==')
-vimp.inoremap({ 'silent' }, '<leader>j',  '<leader>j', '<Esc>:m .+1<CR>==gi')
-vimp.inoremap({ 'silent' }, '<leader>k',  '<leader>j', '<Esc>:m .-2<CR>==gi')
-vimp.vnoremap({ 'silent' }, '<leader>j',  '<leader>j', ":m '>+1<CR>gv=gv")
-vimp.vnoremap({ 'silent' }, '<leader>k',  '<leader>j', ":m '<-2<CR>gv=gv")
+vimp.nnoremap({ 'silent' }, '<C-j>', ':m .+1<CR>==')
+vimp.nnoremap({ 'silent' }, '<C-k>', ':m .-2<CR>==')
+vimp.inoremap({ 'silent' }, '<C-j>', '<Esc>:m .+1<CR>==gi')
+vimp.inoremap({ 'silent' }, '<C-k>', '<Esc>:m .-2<CR>==gi')
+vimp.vnoremap({ 'silent' }, '<C-j>', ":m '>+1<CR>gv=gv")
+vimp.vnoremap({ 'silent' }, '<C-k>', ":m '<-2<CR>gv=gv")
 
 -- Neotree
 vimp.nnoremap('<leader>n', '<Cmd>Neotree<CR>')

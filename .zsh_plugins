@@ -31,7 +31,7 @@ update-custom-plugins() {
 		done
 	fi
 }
-autoload -U add-zsh-hook
+
 add-zsh-hook preexec update-custom-plugins
 
 custom_plugins_names=()
