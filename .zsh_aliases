@@ -57,7 +57,7 @@ mcd () {
 	cd $1 && pwd
 }
 
-function upload {
+upload() {
 	if [ $# -eq 0 ]; then
 		curl -F"file=@-" http://0x0.st
 	else
@@ -65,3 +65,6 @@ function upload {
 	fi
 }
 
+locedit() {
+	locate $@ | fzf | xargs nvim
+}

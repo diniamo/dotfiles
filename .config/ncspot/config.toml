@@ -1,6 +1,7 @@
 use_nerdfont = true
 notify = true
 shuffle = true
+volnorm = true
 
 [keybindings]
 "í" = "seek -5s"

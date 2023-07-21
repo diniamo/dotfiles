@@ -12,7 +12,7 @@ shift = "shift"
 ctrl = "control"
 alt = "mod1"
 
-terminal = "kitty"
+terminal = os.getenv("TERMINAL")
 
 @hook.subscribe.startup_once
 def autostart():
@@ -56,10 +56,12 @@ keys = [ # A list of available commands that can be bound to keys can be found
     Key([mod], "0", lazy.group["scratchpad"].dropdown_toggle("terminal"), desc="Opens the terminal scratchpad"),
     Key([],    "XF86Calculator", lazy.group["scratchpad"].dropdown_toggle("calculator"), desc="Opens the calculator scratchpad"),
     # Key([mod], "XF86Calculator", lazy.group["scratchpad"].dropdown_toggle("time"), desc="Opens a small window in the bottom left corner"),
+    Key([mod], "m", lazy.group["scratchpad"].dropdown_toggle("mixer"), desc="Toggles the pulsemixer scratchpad"),
+    Key([mod], "e", lazy.group["scratchpad"].dropdown_toggle("fm"), desc="Toggles the file manager scratchpad"),
 
     # Misc
     Key([mod], "x", lazy.spawn(os.path.expanduser("~/.config/rofi/bin/powermenu")), desc="Launches the rofi powermenu"),
-    Key([mod], "e", lazy.spawn(os.path.expanduser("~/.config/rofi/bin/emoji")), desc="Launches the emoji picker"),
+    Key([mod, ctrl], "e", lazy.spawn(os.path.expanduser("~/.config/rofi/bin/emoji")), desc="Launches the emoji picker"),
     # Key([mod], "l", lazy.spawn("betterlockscreen --time-format %H:%M -l"), desc="Locks the computer"),
 
     Key([mod], "Tab", lazy.screen.toggle_group(), desc="Move to the last group"),
@@ -75,7 +77,7 @@ keys = [ # A list of available commands that can be bound to keys can be found
     Key([], "XF86MonBrightnessUp",   lazy.spawn("brightnessctl set +2%"),    desc="Ups the screen's brightness by 2%"),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 2%- -n"), desc="Lowers the screen's brightness by 2%"),
 
-    Key([mod], "í", lazy.spawn("playerctl previous"), desc="Goes back to the previous piece of media in the playlist of the currently playing media player"),
+    Key([mod], "iacute", lazy.spawn("playerctl previous"), desc="Goes back to the previous piece of media in the playlist of the currently playing media player"),
     Key([mod], "y", lazy.spawn("playerctl next"), desc="Skips to the next piece of media in the playlist of the currently playing media player"),
     Key([mod], "p", lazy.spawn("playerctl play-pause"), desc="Pauses/resumes the currently playing media"),
 
@@ -84,7 +86,7 @@ keys = [ # A list of available commands that can be bound to keys can be found
     Key([ctrl],  "Print", lazy.spawn(["sh", "-c", "scrot --select --freeze - | xclip -in -selection clipboard -target image/png"]), desc="Starts a scrot selection capture"),
     Key([alt],   "Print", lazy.spawn(["sh", "-c", "scrot --focused - | xclip -in -selection clipboard -target image/png"]), desc="Captures the focused window onto the clipboard"),
     # Key([shift], "Print", lazy.spawn(""), desc="Sceenshots the current screen"),
-    Key([mod],   "Print", lazy.spawn(["sh", "-c", "scrot --select --freeze - | tesseract stdin stdout -l eng 2> /dev/null | xclip -in -selection clipboard"]))
+    Key([mod],   "Print", lazy.spawn(["sh", "-c", "scrot --select --freeze - | tesseract stdin stdout -l eng 2> /dev/null | xclip -in -selection clipboard"])),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -112,7 +114,9 @@ for i in groups:
 groups.extend([
     ScratchPad("scratchpad", [
         DropDown("terminal", terminal + " --title ScratchPad", x=0.5-(0.8/2), y=0.5-(0.75/2), width=0.8, height=0.75, on_focus_lost_hide=True),
-        DropDown("calculator", terminal + " -T Calculator python -i -c \"from math import *\"", x=0.78, y=0.5-(0.5/2), width=0.2, height=0.5, on_focus_lost_hide=False),
+        DropDown("mixer", terminal + " --title Mixer pulsemixer", x=0.5-(0.8/2), y=0.5-(0.75/2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        DropDown("fm", terminal + " --title \"File Manager\" ranger", x=0.5-(0.8/2), y=0.5-(0.75/2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        DropDown("calculator", terminal + " --title Calculator python -i -c \"from math import *\"", x=0.78, y=0.5-(0.5/2), width=0.2, height=0.5, on_focus_lost_hide=False),
         # DropDown("time", terminal + " --title Time --override font_size=100", x=0.05, y=9.95-(0.1), width=0.1, height=0.1, on_focus_lost_hide=False)
     ])
 ])

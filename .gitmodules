@@ -1,0 +1,3 @@
+[submodule ".config/ranger/plugins/ranger-zshz"]
+	path = .config/ranger/plugins/ranger-zshz
+	url = /home/diniamo/.config/ranger/plugins/ranger-zshz

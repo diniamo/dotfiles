@@ -1,8 +1,7 @@
 vim.g.mapleader = " "
 local vimp = require('vimp')
 
--- Yes im hungarian
--- vim.cmd(':set langmap=jh,kj,lk,él,JH,KJ,LK,ÉL')
+-- vim.cmd(":set langmap=é\\;,É\\:")
 
 vimp.nnoremap('<CR>', 'o<ESC>')
 vimp.nnoremap('<S-CR>', 'O<ESC>')

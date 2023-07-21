@@ -36,7 +36,6 @@ custom_plugins=(
 autoload -U add-zsh-hook
 source $HOME/.zsh_plugins > /dev/null 2>&1
 
-
 # OMZ
 source $ZSH/oh-my-zsh.sh
 source $HOME/.zsh/catppuccin_macchiato-zsh-syntax-highlighting.zsh
@@ -55,7 +54,7 @@ ZSH_FZF_HISTORY_SEARCH_EVENT_NUMBERS=0
 ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=0
 ZSH_FZF_HISTORY_SEARCH_REMOVE_DUPLICATES=true
 
-TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer")
+TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer" "ranger")
 
 # remove-padding() {
 # 	local IFS=' '
@@ -77,7 +76,7 @@ TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer")
 # add-zsh-hook preexec remove-padding
 # add-zsh-hook precmd readd-padding
 
-AUTO_NOTIFY_IGNORE+=("feh" "scrcpy" "bg" "fg" "mpv")
+AUTO_NOTIFY_IGNORE+=("feh" "scrcpy" "bg" "fg" "mpv" "locedit")
 AUTO_NOTIFY_IGNORE+=($TUI)
 
 bindkey "^[[104;6u" insert-cycledleft
@@ -86,16 +85,10 @@ bindkey "^[[108;6u" insert-cycledright
 bindkey '^H' backward-kill-word
 bindkey '^[[3;5~' kill-word
 
+# Environment variables
+source $HOME/.zshenv
 # Aliases
 source $HOME/.zsh_aliases
-
-# Pure theme
-# fpath+=($HOME/.zsh/pure)
-# autoload -U promptinit && promptinit
-# prompt pure
-
-# Starship
-# eval "$(starship init zsh)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
