@@ -1,29 +1,19 @@
-# Missing: layouts, manual tiling, bar hide, bar, window moving/resizing, font
+# Missing: layouts, bar hide, bar, window moving/resizing, font
 
-from libqtile import qtile, bar, layout, widget
+from libqtile import qtile, bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 
 import os, subprocess
-from libqtile import hook
 
-mod = "mod4"
-shift = "shift"
-ctrl = "control"
-alt = "mod1"
+from settings import *
+from custom import *
 
-terminal = os.getenv("TERMINAL")
-
-@hook.subscribe.startup_once
-def autostart():
-    home = os.path.expanduser("~/.config/qtile/autostart.sh")
-    subprocess.run([home])
-
-keys = [ # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
+keys = [
     # Layouts
-    Key([mod], "f", lazy.window.toggle_fullscreen()),
-    Key([mod], "s", lazy.window.toggle_floating()),
+    Key([mod], "f", toggle_layout("max"), desc="Toggles the max layout"),
+    Key([mod], "s", toggle_sticky_window(), desc="Toggles whether the window is sticky"),
+    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggles whether the window is floating"),
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -31,19 +21,22 @@ keys = [ # A list of available commands that can be bound to keys can be found
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
 
+    Key([alt], "Tab", lazy.group.next_window(), desc="Focuses the next window"),
+    Key([alt, shift], "Tab", lazy.group.next_window(), desc="Focuses the next window"),
+
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, shift], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, shift], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, shift], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, shift], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([mod, shift], "h", move_left(), desc="Move window to the left"),
+    Key([mod, shift], "l", move_right(), desc="Move window to the right"),
+    Key([mod, shift], "j", move_down(), desc="Move window down"),
+    Key([mod, shift], "k", move_up(), desc="Move window up"),
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, ctrl], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, ctrl], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, ctrl], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, ctrl], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([mod, ctrl], "h", grow_left(), desc="Grow window to the left"),
+    Key([mod, ctrl], "l", grow_right(), desc="Grow window to the right"),
+    Key([mod, ctrl], "j", grow_down(), desc="Grow window down"),
+    Key([mod, ctrl], "k", grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
 
     # Launch
@@ -106,7 +99,7 @@ for i in groups:
                 [mod, shift],
                 i.name,
                 lazy.window.togroup(i.name, switch_group=False),
-                desc="Switch to & move focused window to group {}".format(i.name),
+                desc="Move focused window to group {}".format(i.name),
             ),
         ]
     )
@@ -120,22 +113,6 @@ groups.extend([
         # DropDown("time", terminal + " --title Time --override font_size=100", x=0.05, y=9.95-(0.1), width=0.1, height=0.1, on_focus_lost_hide=False)
     ])
 ])
-
-layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=1),
-    layout.Max(),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    layout.Matrix(),
-    layout.MonadTall(),
-    layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
-]
 
 widget_defaults = dict(
     font="MesloLGS Nerd Font",
@@ -177,40 +154,3 @@ mouse = [
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()), Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
-dgroups_key_binder = None
-dgroups_app_rules = []  # type: list
-follow_mouse_focus = True
-bring_front_click = True
-cursor_warp = True
-floating_layout = layout.Floating(
-    float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
-        *layout.Floating.default_float_rules,
-        Match(wm_class="confirmreset"),  # gitk
-        Match(wm_class="makebranch"),  # gitk
-        Match(wm_class="maketag"),  # gitk
-        Match(wm_class="ssh-askpass"),  # ssh-askpass
-        Match(title="branchdialog"),  # gitk
-        Match(title="pinentry"),  # GPG key password entry
-    ]
-)
-auto_fullscreen = True
-focus_on_window_activation = "smart"
-reconfigure_screens = True
-
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
-auto_minimize = True
-
-# When using the Wayland backend, this can be used to configure input devices.
-# wl_input_rules = None
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
-wmname = "LG3D"
