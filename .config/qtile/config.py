@@ -1,4 +1,4 @@
-# Missing: layouts, bar hide, bar, window moving/resizing, font
+# Missing: layouts, bar, font
 
 from libqtile import qtile, bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
@@ -37,6 +37,12 @@ keys = [
     Key([mod, ctrl], "l", grow_right(), desc="Grow window to the right"),
     Key([mod, ctrl], "j", grow_down(), desc="Grow window down"),
     Key([mod, ctrl], "k", grow_up(), desc="Grow window up"),
+
+    Key([mod, ctrl, alt], "h", grow_left(True), desc="Shrink window to the left"),
+    Key([mod, ctrl, alt], "l", grow_right(True), desc="Shrink window to the right"),
+    Key([mod, ctrl, alt], "j", grow_down(True), desc="Shrink window down"),
+    Key([mod, ctrl, alt], "k", grow_up(True), desc="Shrink window up"),
+
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
 
     # Launch

@@ -1,6 +1,5 @@
 from libqtile import qtile, hook
 from libqtile.lazy import lazy
-from libqtile.log_utils import logger
 
 import os, subprocess
 
@@ -83,46 +82,62 @@ def move_up(qtile, window=None):
         qtile.current_layout.shuffle_up()
 
 @lazy.function
-def grow_left(qtile, window=None):
+def grow_left(qtile, shrink=False, window=None):
     if window is None:
         window = qtile.current_window
     if window.floating:
-        (x, y) = window.get_position()
         (w, h) = window.get_size()
-        window.set_size_floating(w + floating_grow_amount, h)
-        window.set_position_floating(x - floating_grow_amount, y)
+        if shrink:
+            window.set_size_floating(w - floating_grow_amount, h)
+        else:
+            (x, y) = window.get_position()
+            window.set_size_floating(w + floating_grow_amount, h)
+            window.set_position_floating(x - floating_grow_amount, y)
     else:
         qtile.current_layout.grow_left()
 
 @lazy.function
-def grow_right(qtile, window=None):
+def grow_right(qtile, shrink=False, window=None):
     if window is None:
         window = qtile.current_window
     if window.floating:
         (w, h) = window.get_size()
-        window.set_size_floating(w + floating_grow_amount, h)
+        if shrink:
+            (x, y) = window.get_position()
+            window.set_size_floating(w - floating_grow_amount, h)
+            window.set_position_floating(x + floating_grow_amount, y)
+        else:
+            window.set_size_floating(w + floating_grow_amount, h)
     else:
         qtile.current_layout.grow_right()
 
 @lazy.function
-def grow_down(qtile, window=None):
+def grow_down(qtile, shrink=False, window=None):
     if window is None:
         window = qtile.current_window
     if window.floating:
         (w, h) = window.get_size()
-        window.set_size_floating(w, h + floating_grow_amount)
+        if shrink:
+            (x, y) = window.get_position()
+            window.set_size_floating(w, h - floating_grow_amount)
+            window.set_position_floating(x, y + floating_grow_amount)
+        else:
+            window.set_size_floating(w, h + floating_grow_amount)
     else:
         qtile.current_layout.grow_down()
 
 @lazy.function
-def grow_up(qtile, window=None):
+def grow_up(qtile, shrink=False, window=None):
     if window is None:
         window = qtile.current_window
     if window.floating:
-        (x, y) = window.get_position()
         (w, h) = window.get_size()
-        window.set_size_floating(w, h + floating_grow_amount)
-        window.set_position_floating(x, y - floating_grow_amount)
+        if shrink:
+            window.set_size_floating(w, h - floating_grow_amount)
+        else:
+            (x, y) = window.get_position()
+            window.set_size_floating(w, h + floating_grow_amount)
+            window.set_position_floating(x, y - floating_grow_amount)
     else:
         qtile.current_layout.grow_up()
 
