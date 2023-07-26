@@ -25,7 +25,7 @@ vimp.vnoremap({ 'silent' }, '<C-k>', ":m '<-2<CR>gv=gv")
 
 -- Neotree
 vimp.nnoremap('<leader>n', '<Cmd>Neotree<CR>')
-vimp.nnoremap('<leader>s', '<Cmd>Neotree source=git_status position=float<CR>')
+vimp.nnoremap('<leader>g', '<Cmd>Neotree source=git_status position=float<CR>')
 
 -- Trouble
 vimp.nnoremap('<leader>xx', '<cmd>TroubleToggle document_diagnostics<cr>')
@@ -33,7 +33,11 @@ vimp.nnoremap('<leader>xd', '<cmd>TroubleToggle document_diagnostics<cr>')
 vimp.nnoremap('<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>')
 vimp.nnoremap('<leader>xq', '<cmd>TroubleToggle quickfix<cr>')
 vimp.nnoremap('<leader>xl', '<cmd>TroubleToggle loclist<cr>')
+
 vimp.nnoremap('<leader>xt', '<cmd>TodoTrouble<cr>')
+
+-- Navbuddy
+vimp.nnoremap('<leader>s', '<cmd>Navbuddy<cr>')
 
 -- Telescope
 vimp.nnoremap('<leader>tf', '<Cmd>Telescope find_files<cr>')

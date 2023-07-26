@@ -166,8 +166,10 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 -- })
 
 local navic = require('nvim-navic')
+local navbuddy = require('nvim-navbuddy')
 local on_attach = function(client, bufnr)
     navic.attach(client, bufnr)
+    navbuddy.attach(client, bufnr)
 
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)

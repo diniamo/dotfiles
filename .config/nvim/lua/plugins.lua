@@ -228,6 +228,16 @@ return require('packer').startup(function(use)
         end
     }
     use { 'SmiteshP/nvim-navic', config = function() require('nvim-navic').setup() end }
+    use {
+        "SmiteshP/nvim-navbuddy",
+        config = function()
+            require('nvim-navbuddy').setup {
+                window = {
+                    border = 'rounded'
+                }
+            }
+        end
+    }
     use 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim'
     use 'nvim-treesitter/nvim-treesitter-refactor'
     use { 'numToStr/Comment.nvim', config = function() require('Comment').setup() end }
