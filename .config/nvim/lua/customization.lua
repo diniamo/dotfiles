@@ -31,12 +31,35 @@ vim.cmd('au FileType * set fo-=c fo-=r fo-=o') -- Remove auto comment on new lin
 
 
 -- lualine
-local navic = require('nvim-navic')
 require('lualine').setup {
-	options = { theme = 'catppuccin' },
-	sections = {
-		lualine_c = {
-			{ navic.get_location, cond = navic.is_available },
-		}
-	},
+    options = { theme = 'catppuccin' },
+    sections = {
+        lualine_c = {
+            {
+                "filename",
+                path = 1,
+                file_status = true,
+            }
+        },
+        lualine_x = {
+            'filesize',
+            'encoding',
+        },
+        lualine_y = {
+            'filetype'
+        },
+        lualine_z = {
+            'progress',
+            'location'
+        }
+    },
+    winbar = {
+        lualine_c = {
+            {
+                "navic",
+                color_correction = nil,
+                navic_opts = nil
+            }
+        }
+    }
 }

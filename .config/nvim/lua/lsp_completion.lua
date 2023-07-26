@@ -167,10 +167,7 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 
 local navic = require('nvim-navic')
 local on_attach = function(client, bufnr)
-    -- if client.server_capabilities.documentSymbolProvider then
-    -- vim.fn.jobstart('notify-send "attaching navic"')
     navic.attach(client, bufnr)
-    -- end
 
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -231,14 +228,12 @@ lspconfig['lua_ls'].setup {
 --     capabilities = capabilities
 -- }
 
-lspconfig['rust_analyzer'].setup {
-    on_attach = on_attach,
-    capabilities = capabilities
-}
 local rt = require('rust-tools')
 rt.setup {
     server = {
-        on_attach = function(_, bufnr)
+        on_attach = function(client, bufnr)
+            on_attach(client, bufnr)
+
             vim.keymap.set("n", "<Leader>k", rt.hover_actions.hover_actions, { buffer = bufnr })
             vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
         end
