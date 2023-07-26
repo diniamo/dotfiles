@@ -141,6 +141,7 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
+                widget.Volume(),
                 widget.Battery(),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),

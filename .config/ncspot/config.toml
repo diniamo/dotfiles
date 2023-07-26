@@ -7,6 +7,9 @@ volnorm = true
 "í" = "seek -5s"
 "y" = "seek +5s"
 
+"gg" = "move up 500"
+"G"  = "move down 500"
+
 "Space" = "playpause"
 "n" = "next"
 "p" = "previous"

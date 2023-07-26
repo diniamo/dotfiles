@@ -6,11 +6,10 @@ local vimp = require('vimp')
 vimp.nnoremap('<CR>', 'o<ESC>')
 vimp.nnoremap('<S-CR>', 'O<ESC>')
 -- vimp.nnoremap('<CR>', 'i<CR><ESC>')
-vimp.nnoremap('<leader>;', function()
-	local cursor = vim.api.nvim_win_get_cursor(0)
+vimp.nnoremap('<leader>;', function() local cursor = vim.api.nvim_win_get_cursor(0)
 	vim.cmd(':normal A;')
 	vim.api.nvim_win_set_cursor(0, cursor)
-end) -- '$a;<ESC>j')
+end)
 
 vimp.inoremap('<C-BS>', '<C-W>')
 vimp.inoremap('<C-Del>', '<C-O>de')
@@ -29,13 +28,18 @@ vimp.nnoremap('<leader>n', '<Cmd>Neotree<CR>')
 vimp.nnoremap('<leader>s', '<Cmd>Neotree source=git_status position=float<CR>')
 
 -- Trouble
-vimp.nnoremap('<Leader>x', '<Cmd>TroubleToggle<CR>')
+vimp.nnoremap('<leader>xx', '<cmd>TroubleToggle document_diagnostics<cr>')
+vimp.nnoremap('<leader>xd', '<cmd>TroubleToggle document_diagnostics<cr>')
+vimp.nnoremap('<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>')
+vimp.nnoremap('<leader>xq', '<cmd>TroubleToggle quickfix<cr>')
+vimp.nnoremap('<leader>xl', '<cmd>TroubleToggle loclist<cr>')
+vimp.nnoremap('<leader>xt', '<cmd>TodoTrouble<cr>')
 
 -- Telescope
-vimp.nnoremap('<leader>f', '<Cmd>Telescope find_files<cr>')
-vimp.nnoremap('<leader>g', '<Cmd>Telescope live_grep<cr>')
-vimp.nnoremap('<leader>b', '<Cmd>Telescope buffers<cr>')
-vimp.nnoremap('<leader>h', '<Cmd>Telescope help_tags<cr>')
+vimp.nnoremap('<leader>tf', '<Cmd>Telescope find_files<cr>')
+vimp.nnoremap('<leader>tg', '<Cmd>Telescope live_grep<cr>')
+-- vimp.nnoremap('<leader>b', '<Cmd>Telescope buffers<cr>')
+vimp.nnoremap('<leader>th', '<Cmd>Telescope help_tags<cr>')
 
 -- Buffers
 vimp.nnoremap({ 'silent' }, '<Tab>', '<Cmd>BufferNext<CR>')
@@ -51,4 +55,5 @@ for i = 1, 9 do
 end
 vimp.nmap({ 'silent' }, '<A-0>', '<Cmd>BufferLast<CR>')
 
-vimp.nnoremap('<leader>w', '<Cmd>BufferClose<CR>')
+vimp.nnoremap('<Leader>w', '<Cmd>BufferClose<CR>')
+vimp.nnoremap('<Leader>q', '<Cmd>q<CR>')
