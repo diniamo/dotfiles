@@ -38,19 +38,19 @@ local kind_icons = {
 
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'noinsert' }
 cmp.setup {
+    preselect = cmp.PreselectMode.None,
     snippet = {
         expand = function(args)
             luasnip.lsp_expand(args.body)
         end
     },
     mapping = cmp.mapping.preset.insert({
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
+        ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
         ["<CR>"] = cmp.mapping(
-            function(fallback)
+            function(_)
                 if not cmp.confirm({ select = false }) then
                     require("pairs.enter").type()
                 end
@@ -59,7 +59,7 @@ cmp.setup {
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
+            elseif luasnip.expand_or_locally_jumpable() then
                 luasnip.expand_or_jump()
             elseif has_words_before() then
                 cmp.complete()
@@ -67,11 +67,10 @@ cmp.setup {
                 fallback()
             end
         end, { "i", "s" }),
-
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
+            elseif luasnip.locally_jumpable(-1) then
                 luasnip.jump(-1)
             else
                 fallback()
@@ -83,9 +82,20 @@ cmp.setup {
         { name = 'nvim_lsp' },
         { name = 'nvim_lua' },
         { name = 'luasnip' },
-        { name = 'async_path' },
         { name = 'buffer' },
+        { name = 'async_path' },
     }),
+    sorting = {
+        priority_weight = 69,
+        comparators = {
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            -- require("cmp-under-comparator").under,
+            cmp.config.compare.kind,
+        }
+    },
     cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources(
@@ -97,25 +107,16 @@ cmp.setup {
     window = {
         completion = cmp.config.window.bordered({
             winhighlight =
-            "Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:Search,CmpItemAbbrMatch:Title,CmpItemAbbrMatchFuzzy:CmpItemAbbrMatch",
+            "FloatBorder:FloatBorder,CmpItemAbbrMatchFuzzy:CmpItemAbbrMatch",
         }),
         documentation = cmp.config.window.bordered({
-            winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:Search",
+            winhighlight = "FloatBorder:FloatBorder",
         }),
     },
     formatting = {
         fields = { 'menu', 'abbr', 'kind' },
-        format = function(entry, item)
-            -- local menu_icon = {
-            --     nvim_lsp = 'λ',
-            --     luasnip = '',
-            --     buffer = '󰧮',
-            --     async_path = '',
-            -- }
-            -- item.menu = menu_icon[entry.source.name]
-
+        format = function(_, item)
             item.menu = kind_icons[item.kind]
-            -- item.kind = string.format("%s %s", kind_icons[item.kind], item.kind)
 
             return item
         end,
@@ -148,12 +149,27 @@ vim.diagnostic.config {
     },
 }
 
+local lsp_lines_toggle = true
+vim.keymap.set('n', '<leader>l',
+    function()
+        lsp_lines_toggle = not lsp_lines_toggle
+
+        if lsp_lines_toggle then
+            vim.diagnostic.config({ virtual_lines = true })
+        else
+            vim.diagnostic.config({ virtual_lines = false })
+        end
+    end
+)
 vim.api.nvim_create_autocmd("ModeChanged", {
     callback = function()
         local current_mode = vim.fn.mode()
 
-        if current_mode == "n" then
-            vim.diagnostic.config({ virtual_lines = true })
+        if (current_mode == 'n' or current_mode == 't' or current_mode == 'c') and lsp_lines_toggle then
+            -- This fixes the issue where it doesn't appear for some reason
+            vim.defer_fn(function()
+                vim.diagnostic.config({ virtual_lines = true })
+            end, 0)
         else
             vim.diagnostic.config({ virtual_lines = false })
         end
@@ -178,8 +194,8 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', '<C-h>', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<Leader>td', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<F3>', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', '<Leader>r', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<Leader>a', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
     vim.keymap.set('n', '<Leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 
@@ -234,10 +250,22 @@ local rt = require('rust-tools')
 rt.setup {
     server = {
         on_attach = function(client, bufnr)
-            on_attach(client, bufnr)
+            navic.attach(client, bufnr)
+            navbuddy.attach(client, bufnr)
 
-            vim.keymap.set("n", "<Leader>k", rt.hover_actions.hover_actions, { buffer = bufnr })
-            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+            local bufopts = { noremap = true, silent = true, buffer = bufnr }
+
+            vim.keymap.set("n", "K", rt.hover_actions.hover_actions, bufopts)
+            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, bufopts)
+
+            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+            vim.keymap.set('n', '<C-h>', vim.lsp.buf.signature_help, bufopts)
+            vim.keymap.set('n', '<Leader>td', vim.lsp.buf.type_definition, bufopts)
+            vim.keymap.set('n', '<Leader>r', vim.lsp.buf.rename, bufopts)
+            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+            vim.keymap.set('n', '<Leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
         end
     }
 }

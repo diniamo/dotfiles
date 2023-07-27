@@ -35,11 +35,11 @@ vim.notify = require('notify')
 -- Plugins
 require 'plugins'
 
--- Lsp config and nvim-cmp completion
-require 'lsp_completion'
-
 -- Keybinds
 require 'keybinds'
+
+-- Lsp config and nvim-cmp completion
+require 'lsp_completion'
 
 -- Customization
 require 'customization'

@@ -22,7 +22,10 @@ keys = [
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
 
     Key([alt], "Tab", lazy.group.next_window(), desc="Focuses the next window"),
-    Key([alt, shift], "Tab", lazy.group.next_window(), desc="Focuses the next window"),
+    Key([alt, shift], "Tab", lazy.group.previous_window(), desc="Focuses the next window"),
+
+    Key([mod], "period", float_cycle(True)),
+    Key([mod], "comma", float_cycle(False)),
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
@@ -78,7 +81,7 @@ keys = [
 
     Key([mod], "iacute", lazy.spawn("playerctl previous"), desc="Goes back to the previous piece of media in the playlist of the currently playing media player"),
     Key([mod], "y", lazy.spawn("playerctl next"), desc="Skips to the next piece of media in the playlist of the currently playing media player"),
-    Key([mod], "p", lazy.spawn("playerctl play-pause"), desc="Pauses/resumes the currently playing media"),
+    Key([mod, ctrl], "Space", lazy.spawn("playerctl play-pause"), desc="Pauses/resumes the currently playing media"),
 
     # Screenshot
     Key([],      "Print", lazy.spawn(["sh", "-c", "scrot - | xclip -in -selection clipboard -target image/png"]), desc="Captures everything onto the clipboard"),

@@ -25,7 +25,7 @@ vimp.vnoremap({ 'silent' }, '<C-k>', ":m '<-2<CR>gv=gv")
 
 -- Neotree
 vimp.nnoremap('<leader>n', '<Cmd>Neotree<CR>')
-vimp.nnoremap('<leader>g', '<Cmd>Neotree source=git_status position=float<CR>')
+-- vimp.nnoremap('<leader>g', '<Cmd>Neotree source=git_status position=float<CR>')
 
 -- Trouble
 vimp.nnoremap('<leader>xx', '<cmd>TroubleToggle document_diagnostics<cr>')
@@ -40,10 +40,10 @@ vimp.nnoremap('<leader>xt', '<cmd>TodoTrouble<cr>')
 vimp.nnoremap('<leader>s', '<cmd>Navbuddy<cr>')
 
 -- Telescope
-vimp.nnoremap('<leader>tf', '<Cmd>Telescope find_files<cr>')
-vimp.nnoremap('<leader>rg', '<Cmd>Telescope live_grep<cr>')
+vimp.nnoremap('<leader>o', '<Cmd>Telescope find_files<cr>')
+vimp.nnoremap('<leader>g', '<Cmd>Telescope live_grep<cr>')
 -- vimp.nnoremap('<leader>b', '<Cmd>Telescope buffers<cr>')
-vimp.nnoremap('<leader>th', '<Cmd>Telescope help_tags<cr>')
+vimp.nnoremap('<leader>h', '<Cmd>Telescope help_tags<cr>')
 
 -- Buffers
 vimp.nnoremap({ 'silent' }, '<Tab>', '<Cmd>BufferNext<CR>')

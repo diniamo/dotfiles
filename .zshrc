@@ -76,7 +76,7 @@ TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer" "ranger")
 # add-zsh-hook preexec remove-padding
 # add-zsh-hook precmd readd-padding
 
-AUTO_NOTIFY_IGNORE+=("feh" "scrcpy" "bg" "fg" "mpv" "locedit" "bluetoothctl")
+AUTO_NOTIFY_IGNORE+=("feh" "scrcpy" "bg" "fg" "mpv" "locedit" "bluetoothctl" "btop")
 AUTO_NOTIFY_IGNORE+=($TUI)
 
 bindkey "^[[104;6u" insert-cycledleft

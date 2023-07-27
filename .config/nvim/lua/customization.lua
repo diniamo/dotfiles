@@ -60,7 +60,7 @@ require('lualine').setup {
                 color_correction = nil,
                 navic_opts = nil,
                 draw_empty = true,
-                fmt = function(str, ctx)
+                fmt = function(str, _)
                     if (str == nil or str == '') then
                         return '󰍉 Outer scope'
                     else
