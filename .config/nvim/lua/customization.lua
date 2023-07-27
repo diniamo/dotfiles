@@ -58,7 +58,15 @@ require('lualine').setup {
             {
                 "navic",
                 color_correction = nil,
-                navic_opts = nil
+                navic_opts = nil,
+                draw_empty = true,
+                fmt = function(str, ctx)
+                    if (str == nil or str == '') then
+                        return '󰍉 Outer scope'
+                    else
+                        return str
+                    end
+                end
             }
         }
     }

@@ -41,7 +41,7 @@ vimp.nnoremap('<leader>s', '<cmd>Navbuddy<cr>')
 
 -- Telescope
 vimp.nnoremap('<leader>tf', '<Cmd>Telescope find_files<cr>')
-vimp.nnoremap('<leader>tg', '<Cmd>Telescope live_grep<cr>')
+vimp.nnoremap('<leader>rg', '<Cmd>Telescope live_grep<cr>')
 -- vimp.nnoremap('<leader>b', '<Cmd>Telescope buffers<cr>')
 vimp.nnoremap('<leader>th', '<Cmd>Telescope help_tags<cr>')
 

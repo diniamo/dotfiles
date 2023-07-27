@@ -51,7 +51,7 @@ cmp.setup {
         ['<C-Space>'] = cmp.mapping.complete(),
         ["<CR>"] = cmp.mapping(
             function(fallback)
-                if not cmp.confirm({ select = true }) then
+                if not cmp.confirm({ select = false }) then
                     require("pairs.enter").type()
                 end
             end
