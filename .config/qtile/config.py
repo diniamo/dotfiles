@@ -1,10 +1,9 @@
 # Missing: layouts, bar, font
-
-from libqtile import qtile, bar, layout, widget, hook
-from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
+from libqtile import bar, widget
+from libqtile.config import Click, Drag, Group, Key, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 
-import os, subprocess
+import os
 
 from settings import *
 from custom import *
@@ -144,14 +143,13 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                widget.Volume(),
-                widget.Battery(),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
                 widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+                widget.Battery(format="{char} {percent:2.0%}"),
+                widget.PulseVolume(),
+                widget.Clock(format="%m.%d. %H:%M"),
             ],
             24,
+            background=palette.crust.hex,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),

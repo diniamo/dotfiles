@@ -10,6 +10,9 @@ alt = "mod1"
 
 terminal = os.getenv("TERMINAL")
 
+floating_move_amount = 50
+floating_grow_amount = 50
+
 layouts = [
     layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=1),
     layout.Max(),
@@ -24,12 +27,12 @@ layouts = [
     # layout.TreeTab(),
 ]
 
-floating_move_amount = 50
-floating_grow_amount = 50
+from catppuccin import Flavour
+palette = Flavour.mocha()
 
 # Get these with xprop:
 no_max_bar = [
-    ['gl', 'mpv'] 
+    ['gl', 'mpv']
 ]
 
 dgroups_key_binder = None
@@ -39,7 +42,7 @@ bring_front_click = True
 cursor_warp = True
 floating_layout = layout.Floating(
     float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
+        # Run `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="makebranch"),  # gitk
