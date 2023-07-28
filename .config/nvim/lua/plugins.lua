@@ -180,12 +180,17 @@ return require('packer').startup(function(use)
 
     use {
         "nvim-neo-tree/neo-tree.nvim",
-        branch = "v2.x",
         config = function()
-            vim.cmd('let g:neo_tree_remove_legacy_commands = 1')
-
             local neo_tree = require('neo-tree')
             neo_tree.setup {
+                popup_border_style = "rounded",
+                filesystem = {
+                    filtered_items = {
+                        always_show = {
+                            '.gitignore'
+                        }
+                    }
+                },
                 event_handlers = {
                     {
                         event = "file_opened",

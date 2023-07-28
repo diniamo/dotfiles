@@ -60,4 +60,5 @@ end
 vimp.nmap({ 'silent' }, '<A-0>', '<Cmd>BufferLast<CR>')
 
 vimp.nnoremap('<Leader>w', '<Cmd>BufferClose<CR>')
+vimp.nnoremap('<Leader>e', '<Cmd>bufdo <Cmd>BufferClose<CR>')
 vimp.nnoremap('<Leader>q', '<Cmd>q<CR>')
