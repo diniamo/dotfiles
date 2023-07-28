@@ -1,8 +1,4 @@
--- Impatient has to be initialized at the beginning
-require('impatient')
-
--- Has to be called before colorizer is set up
-vim.opt.termguicolors = true
+vim.loader.enable()
 
 -- Workaround for #21856
 vim.api.nvim_create_autocmd({ "VimLeave" }, {
@@ -16,7 +12,6 @@ vim.api.nvim_create_autocmd({ 'VimLeave' }, {
         vim.fn.jobstart('notify-send ""', { detach = true })
     end,
 })
-
 -- Remove kitty padding while in editor
 vim.cmd [[
 augroup kitty_mp
@@ -26,20 +21,33 @@ augroup kitty_mp
 augroup END
 ]]
 
--- For CursorHold
-vim.o.updatetime = 500
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")
 
--- Setting other plugins to use nvim-notify
-vim.notify = require('notify')
+-- Bootstrap lazy
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath,
+    })
+end
+vim.opt.rtp:prepend(lazypath)
 
--- Plugins
-require 'plugins'
+require("lazy").setup("plugins", {
+    debug = false,
+    defaults = {
+        lazy = true,
+    },
+    performance = {
+        cache = {
+            enabled = true,
+        },
+    },
+})
 
--- Keybinds
-require 'keybinds'
-
--- Lsp config and nvim-cmp completion
-require 'lsp_completion'
-
--- Customization
-require 'customization'
