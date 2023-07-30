@@ -47,7 +47,7 @@ vim.diagnostic.config {
         border = 'rounded',
         source = 'always',
         header = '',
-        prefix = ' ',
+        prefix = '',
     },
 }
 
