@@ -7,3 +7,5 @@
 	rebase = true
 [credential]
 	helper = libsecret
+[push]
+	default = current
