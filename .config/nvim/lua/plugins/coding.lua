@@ -1,7 +1,10 @@
 return {
     {
         "kylechui/nvim-surround",
-        event = "VeryLazy"
+        event = "VeryLazy",
+        config = function()
+            require("nvim-surround").setup()
+        end
     },
     {
         "numToStr/Comment.nvim",

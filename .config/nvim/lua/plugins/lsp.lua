@@ -46,10 +46,25 @@ return {
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
             local lspconfig = require('lspconfig')
 
-            -- lspconfig['pylsp'].setup {
-            --     on_attach = on_attach,
-            --     capabilities = capabilities
-            -- }
+            lspconfig['pylsp'].setup {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            pycodestyle = {
+                                ignore = { 'F405', 'W503', 'W504' },
+                                maxLineLength = 150
+                            },
+                            flake8 = {
+                                ignore = { 'F405', 'W503', 'W504' },
+                            },
+                            rope_completion = { enabled = true },
+                            rope_autoimport = { enabled = true },
+                        }
+                    }
+                }
+            }
 
             lspconfig['lua_ls'].setup {
                 on_attach = on_attach,
@@ -65,6 +80,7 @@ return {
                         },
                         workspace = {
                             library = vim.api.nvim_get_runtime_file("", true),
+                            checkThirdParty = false
                         },
                         telemetry = {
                             enable = false,
@@ -117,10 +133,16 @@ return {
                     require('nvim-navic').attach(client, bufnr)
                     require('nvim-navbuddy').attach(client, bufnr)
 
+                    local rust_tools = require("rust-tools")
+
                     local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
-                    vim.keymap.set("n", "K", require("rust-tools").hover_actions.hover_actions, bufopts)
-                    vim.keymap.set("n", "<Leader>a", require("rust-tools").code_action_group.code_action_group, bufopts)
+                    vim.keymap.set('n', "<Leader>k", function() rust_tools.move_item.move_item(true) end, bufopts)
+                    vim.keymap.set('n', "<Leader>j", function() rust_tools.move_item.move_item(false) end, bufopts)
+                    vim.keymap.set('n', "<Leader>J", rust_tools.join_lines.join_lines, bufopts)
+
+                    vim.keymap.set("n", "K", rust_tools.hover_actions.hover_actions, bufopts)
+                    vim.keymap.set("n", "<Leader>a", rust_tools.code_action_group.code_action_group, bufopts)
 
                     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
                     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)

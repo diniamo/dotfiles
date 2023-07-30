@@ -127,10 +127,10 @@ return {
                 }),
                 window = {
                     completion = cmp.config.window.bordered({
-                        winhighlight = "FloatBorder:FloatBorder,CmpItemAbbrMatchFuzzy:CmpItemAbbrMatch",
+                        winhighlight = "Normal:Normal,CursorLine:CursorLine,FloatBorder:FloatBorder,CmpItemAbbrMatchFuzzy:CmpItemAbbrMatch",
                     }),
                     documentation = cmp.config.window.bordered({
-                        winhighlight = "FloatBorder:FloatBorder",
+                        winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
                     }),
                 },
                 formatting = {

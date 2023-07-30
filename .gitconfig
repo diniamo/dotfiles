@@ -5,3 +5,5 @@
 	name = diniamo
 [pull]
 	rebase = true
+[credential]
+	helper = libsecret

@@ -1,4 +1,3 @@
-# Missing: layouts, bar, font
 from libqtile import bar, widget
 from libqtile.config import Click, Drag, Group, Key, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
@@ -6,7 +5,12 @@ from libqtile.lazy import lazy
 import os
 
 from settings import *
-from custom import *
+from custom import toggle_layout, toggle_sticky_window, float_cycle, move_left, move_right, move_down, move_up, grow_left, grow_right, grow_up, grow_down
+
+mod = "mod4"
+shift = "shift"
+ctrl = "control"
+alt = "mod1"
 
 keys = [
     # Layouts
@@ -55,7 +59,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
     Key([mod], "0", lazy.group["scratchpad"].dropdown_toggle("terminal"), desc="Opens the terminal scratchpad"),
-    Key([],    "XF86Calculator", lazy.group["scratchpad"].dropdown_toggle("calculator"), desc="Opens the calculator scratchpad"),
+    Key([], "XF86Calculator", lazy.group["scratchpad"].dropdown_toggle("calculator"), desc="Opens the calculator scratchpad"),
     # Key([mod], "XF86Calculator", lazy.group["scratchpad"].dropdown_toggle("time"), desc="Opens a small window in the bottom left corner"),
     Key([mod], "m", lazy.group["scratchpad"].dropdown_toggle("mixer"), desc="Toggles the pulsemixer scratchpad"),
     Key([mod], "e", lazy.group["scratchpad"].dropdown_toggle("fm"), desc="Toggles the file manager scratchpad"),
@@ -71,11 +75,11 @@ keys = [
     # Key([mod, alt], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
     # Media keys
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"),  desc="Raises the default sink's Volume"),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"),  desc="Lowers the default sink's Volume"),
-    Key([], "XF86AudioMute",        lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"), desc="Toggles the default sink's mute"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"), desc="Raises the default sink's Volume"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"), desc="Lowers the default sink's Volume"),
+    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"), desc="Toggles the default sink's mute"),
 
-    Key([], "XF86MonBrightnessUp",   lazy.spawn("brightnessctl set +2%"),    desc="Ups the screen's brightness by 2%"),
+    Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +2%"), desc="Ups the screen's brightness by 2%"),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 2%- -n"), desc="Lowers the screen's brightness by 2%"),
 
     Key([mod], "iacute", lazy.spawn("playerctl previous"), desc="Goes back to the previous piece of media in the playlist of the currently playing media player"),
@@ -83,11 +87,11 @@ keys = [
     Key([mod, ctrl], "Space", lazy.spawn("playerctl play-pause"), desc="Pauses/resumes the currently playing media"),
 
     # Screenshot
-    Key([],      "Print", lazy.spawn(["sh", "-c", "scrot - | xclip -in -selection clipboard -target image/png"]), desc="Captures everything onto the clipboard"),
-    Key([ctrl],  "Print", lazy.spawn(["sh", "-c", "scrot --select --freeze - | xclip -in -selection clipboard -target image/png"]), desc="Starts a scrot selection capture"),
-    Key([alt],   "Print", lazy.spawn(["sh", "-c", "scrot --focused - | xclip -in -selection clipboard -target image/png"]), desc="Captures the focused window onto the clipboard"),
+    Key([], "Print", lazy.spawn(["sh", "-c", "scrot - | xclip -in -selection clipboard -target image/png"]), desc="Captures everything onto the clipboard"),
+    Key([ctrl], "Print", lazy.spawn(["sh", "-c", "scrot --select --freeze - | xclip -in -selection clipboard -target image/png"]), desc="Starts a scrot selection capture"),
+    Key([alt], "Print", lazy.spawn(["sh", "-c", "scrot --focused - | xclip -in -selection clipboard -target image/png"]), desc="Captures the focused window onto the clipboard"),
     # Key([shift], "Print", lazy.spawn(""), desc="Sceenshots the current screen"),
-    Key([mod],   "Print", lazy.spawn(["sh", "-c", "scrot --select --freeze - | tesseract stdin stdout -l eng 2> /dev/null | xclip -in -selection clipboard"])),
+    Key([mod], "Print", lazy.spawn(["sh", "-c", "scrot --select --freeze - | tesseract stdin stdout -l eng 2> /dev/null | xclip -in -selection clipboard"])),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -114,24 +118,25 @@ for i in groups:
 
 groups.extend([
     ScratchPad("scratchpad", [
-        DropDown("terminal", terminal + " --title ScratchPad", x=0.5-(0.8/2), y=0.5-(0.75/2), width=0.8, height=0.75, on_focus_lost_hide=True),
-        DropDown("mixer", terminal + " --title Mixer pulsemixer", x=0.5-(0.8/2), y=0.5-(0.75/2), width=0.8, height=0.75, on_focus_lost_hide=True),
-        DropDown("fm", terminal + " --title \"File Manager\" ranger", x=0.5-(0.8/2), y=0.5-(0.75/2), width=0.8, height=0.75, on_focus_lost_hide=True),
-        DropDown("calculator", terminal + " --title Calculator python -i -c \"from math import *\"", x=0.78, y=0.5-(0.5/2), width=0.2, height=0.5, on_focus_lost_hide=False),
+        DropDown("terminal", terminal + " --title ScratchPad", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        DropDown("mixer", terminal + " --title Mixer pulsemixer", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        DropDown("fm", terminal + " --title \"File Manager\" ranger", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        DropDown("calculator", terminal + " --title Calculator python -i -c \"from math import *\"", x=0.78, y=0.5 - (0.5 / 2), width=0.2, height=0.5, on_focus_lost_hide=False),
         # DropDown("time", terminal + " --title Time --override font_size=100", x=0.05, y=9.95-(0.1), width=0.1, height=0.1, on_focus_lost_hide=False)
     ])
 ])
 
 widget_defaults = dict(
-    font="MesloLGS Nerd Font",
+    font="Hack Nerd Font",
     fontsize=12,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
 
+# TODO: proper bar setup
 screens = [
     Screen(
-            top=bar.Bar(
+        top=bar.Bar(
             [
                 widget.CurrentLayout(),
                 widget.GroupBox(),
@@ -162,3 +167,4 @@ mouse = [
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()), Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
+# noqa: E501

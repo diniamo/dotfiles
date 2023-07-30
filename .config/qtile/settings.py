@@ -1,18 +1,16 @@
 from libqtile import layout
 from libqtile.config import Match
 
-import os
+from catppuccin import Flavour
 
-mod = "mod4"
-shift = "shift"
-ctrl = "control"
-alt = "mod1"
+import os
 
 terminal = os.getenv("TERMINAL")
 
 floating_move_amount = 50
 floating_grow_amount = 50
 
+# TODO: Proper layout setup + binds
 layouts = [
     layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=1),
     layout.Max(),
@@ -27,7 +25,6 @@ layouts = [
     # layout.TreeTab(),
 ]
 
-from catppuccin import Flavour
 palette = Flavour.mocha()
 
 # Get these with xprop:

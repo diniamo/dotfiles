@@ -39,8 +39,11 @@ return {
         event = "VeryLazy",
         dependencies = { "SmiteshP/nvim-navic" },
         opts = {
-            options = { theme = 'catppuccin' },
+            options = { theme = "catppuccin" },
             sections = {
+                lualine_b = {
+                    "filetype"
+                },
                 lualine_c = {
                     {
                         "filename",
@@ -49,15 +52,17 @@ return {
                     }
                 },
                 lualine_x = {
-                    'filesize',
-                    'encoding',
+                    "filesize",
+                    "encoding",
                 },
                 lualine_y = {
-                    'filetype'
+                    "diff",
+                    "diagnostics",
+                    "branch"
                 },
                 lualine_z = {
-                    'progress',
-                    'location'
+                    "progress",
+                    "location"
                 }
             },
             winbar = {
@@ -68,8 +73,8 @@ return {
                         navic_opts = nil,
                         draw_empty = true,
                         fmt = function(str, _)
-                            if (str == nil or str == '') then
-                                return '󰍉 Outer scope'
+                            if (str == nil or str == "") then
+                                return "󰍉 Outer scope"
                             else
                                 return str
                             end
