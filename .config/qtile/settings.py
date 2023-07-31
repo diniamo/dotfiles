@@ -25,7 +25,7 @@ layouts = [
     # layout.TreeTab(),
 ]
 
-palette = Flavour.mocha()
+palette = Flavour.macchiato()
 
 # Get these with xprop:
 no_max_bar = [

@@ -2,6 +2,7 @@ export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 export JAVA_HOME="/usr/lib/jvm/default"
 export ANDROID_HOME="/opt/android-sdk"
 
+export WALLPAPER='~/Pictures/wallpapers/arch_macchiato_base.png'
 export TERMINAL='kitty'
 export EDITOR='nvim'
 

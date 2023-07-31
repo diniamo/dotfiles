@@ -127,7 +127,7 @@ groups.extend([
 ])
 
 widget_defaults = dict(
-    font="Hack Nerd Font",
+    font="Inter Nerd Font",
     fontsize=12,
     padding=3,
 )
@@ -158,6 +158,9 @@ screens = [
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
+        wallpaper=os.getenv("WALLPAPER"),
+        # wallpaper="~/Pictures/wallpapers/arch_macchiato_base.png",
+        wallpaper_mode="center",
     ),
 ]
 
@@ -166,5 +169,3 @@ mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()), Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
-
-# noqa: E501
