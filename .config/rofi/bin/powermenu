@@ -59,7 +59,7 @@ case $chosen in
 		betterlockscreen -l dimblur
         ;;
     $suspend)
-        playerctl pause
+        # playerctl pause
 		systemctl suspend
         ;;
     $logout)
