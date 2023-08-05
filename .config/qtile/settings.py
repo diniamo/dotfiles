@@ -36,7 +36,7 @@ dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
 follow_mouse_focus = False
 bring_front_click = True
-cursor_warp = True
+cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
         # Run `xprop` to see the wm class and name of an X client.
@@ -52,5 +52,5 @@ floating_layout = layout.Floating(
 focus_on_window_activation = "smart"
 reconfigure_screens = True
 auto_fullscreen = True
-auto_minimize = True
+auto_minimize = False
 wmname = "qtile"

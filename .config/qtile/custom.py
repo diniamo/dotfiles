@@ -13,6 +13,14 @@ def autostart():
     subprocess.run([home])
 
 
+@hook.subscribe.client_focus
+def always_on_top(window):
+    if qtile.current_layout != 'floating' and not window.floating:
+        for win in qtile.current_group.windows:
+            if win.floating:
+                win.bring_to_front()
+
+
 sticky_windows = []
 
 

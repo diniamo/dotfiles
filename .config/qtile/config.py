@@ -27,8 +27,8 @@ keys = [
     Key([alt], "Tab", lazy.group.next_window(), desc="Focuses the next window"),
     Key([alt, shift], "Tab", lazy.group.previous_window(), desc="Focuses the next window"),
 
-    Key([mod], "period", float_cycle(True)),
-    Key([mod], "comma", float_cycle(False)),
+    Key([mod], "period", float_cycle(True), desc="Focuses the next floating window"),
+    Key([mod], "comma", float_cycle(False), desc="Focuses the previous floating window"),
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
@@ -127,7 +127,7 @@ groups.extend([
 ])
 
 widget_defaults = dict(
-    font="Inter Nerd Font",
+    font="Inter Nerd Font Mono",
     fontsize=12,
     padding=3,
 )
@@ -137,6 +137,7 @@ extension_defaults = widget_defaults.copy()
 screens = [
     Screen(
         top=bar.Bar(
+
             [
                 widget.CurrentLayout(),
                 widget.GroupBox(),
@@ -150,7 +151,12 @@ screens = [
                 ),
                 widget.Systray(),
                 widget.Battery(format="{char} {percent:2.0%}"),
-                widget.PulseVolume(),
+                widget.PulseVolume(
+                    # volume_up_command="XF86AudioRaiseVolume",
+                    # volume_down_command="XF86AudioLowerVolume",
+                    # mute_command="XF86AudioMute",
+                    # update_interval=0
+                ),
                 widget.Clock(format="%m.%d. %H:%M"),
             ],
             24,

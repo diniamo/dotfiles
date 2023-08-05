@@ -4,8 +4,10 @@ shuffle = true
 volnorm = true
 
 [keybindings]
-"í" = "seek -5s"
-"y" = "seek +5s"
+"Left"  = "seek -5s"
+"Up"    = "seek +30s"
+"Right" = "seek +5s"
+"Down"  = "seek -30s"
 
 "gg" = "move up 500"
 "G"  = "move down 500"
