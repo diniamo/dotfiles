@@ -2,7 +2,7 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 dfcp() {
 	dotfiles commit -am $1 && dotfiles push
 }
-ds() { dotfiles status }
+dst() { dotfiles status }
 
 alias btw='neofetch'
 
@@ -24,9 +24,8 @@ alias fixmscroll='xinput set-prop "SteelSeries SteelSeries Rival 600" "libinput 
 alias pls='sudo  $(fc -ln -1)'
 alias please='sudo bash -c "$(fc -ln -1)"'
 
-alias icat='kitty +kitten icat'
-alias diff='kitty +kitten diff'
-# alias ssh='kitty +kitten ssh'
+alias icat='wezterm imgcat'
+alias ssh='wezterm ssh'
 
 alias dragon-drop='dragon-drop -x'
 

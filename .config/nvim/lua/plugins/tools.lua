@@ -46,4 +46,18 @@ return {
             { "<leader>s", "<cmd>Navbuddy<cr>" }
         }
     },
+    {
+        "akinsho/git-conflict.nvim",
+        keys = {
+            { "<Leader>co", "<Cmd>GitConflictChooseOurs<CR>" },
+            { "<Leader>ct", "<Cmd>GitConflictChooseTheirs<CR>" },
+            { "<Leader>cb", "<Cmd>GitConflictChooseBoth<CR>" },
+            { "<Leader>c0", "<Cmd>GitConflictChooseNone<CR>" },
+            { "<Leader>]", "<Cmd>GitConflictNextConflict<CR>" },
+            { "<Leader>[", "<Cmd>GitConflictPrevConflict<CR>" },
+        },
+        opts = {
+            default_mappings = false
+        }
+    }
 }

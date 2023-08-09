@@ -47,7 +47,7 @@ show_msg() {
 # Variable passed to rofi
 options="$lock\n$suspend\n$shutdown\n$reboot\n$logout"
 
-chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0 -kb-row-up Alt+k -kb-row-down Alt+j)"
+chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0 -kb-row-up k -kb-row-down j)"
 case $chosen in
     $shutdown)
 		systemctl poweroff

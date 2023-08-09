@@ -118,10 +118,14 @@ for i in groups:
 
 groups.extend([
     ScratchPad("scratchpad", [
-        DropDown("terminal", terminal + " --title ScratchPad", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
-        DropDown("mixer", terminal + " --title Mixer pulsemixer", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
-        DropDown("fm", terminal + " --title \"File Manager\" ranger", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
-        DropDown("calculator", terminal + " --title Calculator python -i -c \"from math import *\"", x=0.78, y=0.5 - (0.5 / 2), width=0.2, height=0.5, on_focus_lost_hide=False),
+        # DropDown("terminal",   terminal + "start --title Scratchpad", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        # DropDown("mixer",      terminal + "start --title Mixer pulsemixer", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        # DropDown("fm",         terminal + "start --title \"File Manager\" ranger", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        # DropDown("calculator", terminal + "start --title Calculator python -i -c \"from math import *\"", x=0.78, y=0.5 - (0.5 / 2), width=0.2, height=0.5, on_focus_lost_hide=False),
+        DropDown("terminal",   terminal + " start --always-new-process", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        DropDown("mixer",      terminal + " start --always-new-process -- pulsemixer", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        DropDown("fm",         terminal + " start --always-new-process -- ranger", x=0.5 - (0.8 / 2), y=0.5 - (0.75 / 2), width=0.8, height=0.75, on_focus_lost_hide=True),
+        DropDown("calculator", terminal + " start --always-new-process -- python -i -c \"from math import *\"", x=0.78, y=0.5 - (0.5 / 2), width=0.2, height=0.5, on_focus_lost_hide=False),
         # DropDown("time", terminal + " --title Time --override font_size=100", x=0.05, y=9.95-(0.1), width=0.1, height=0.1, on_focus_lost_hide=False)
     ])
 ])

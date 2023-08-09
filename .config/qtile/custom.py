@@ -178,26 +178,26 @@ def toggle_layout(qtile, layout_name):
         qtile.current_group.setlayout(previous_layout)
 
 
-def _check_mpv():
+def check_mpv():
     if qtile.current_layout.name == 'max' and qtile.current_window.info()['wm_class'] in no_max_bar:
         qtile.current_screen.top.show(False)
     else:
         qtile.current_screen.top.show(True)
 
 
-@hook.subscribe.layout_change
-def layout_change(*_):
-    _check_mpv()
+# @hook.subscribe.layout_change
+# def layout_change(*_):
+#     check_mpv()
 
 
 @hook.subscribe.changegroup
 def group_change():
-    _check_mpv()
+    check_mpv()
 
 
 @hook.subscribe.client_focus
 def focus_change(_):
-    _check_mpv()
+    check_mpv()
 
 
 floating_window_index = 0

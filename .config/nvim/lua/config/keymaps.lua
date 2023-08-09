@@ -21,8 +21,8 @@ set('n', '<leader>;', function()
     vim.api.nvim_win_set_cursor(0, cursor)
 end)
 
-set('i', '<C-BS>', '<C-W>')
-set('i', '<C-Del>', '<C-O>de')
+set('i', '<C-h>', '<C-w>')
+set('i', '<C-Del>', '<C-o>de')
 set('n', '<C-A>', 'ggVG')
 
 -- Line moving
