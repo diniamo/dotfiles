@@ -48,6 +48,7 @@ return {
     },
     {
         "akinsho/git-conflict.nvim",
+        event = "VeryLazy",
         keys = {
             { "<Leader>co", "<Cmd>GitConflictChooseOurs<CR>" },
             { "<Leader>ct", "<Cmd>GitConflictChooseTheirs<CR>" },

@@ -13,6 +13,28 @@ def autostart():
     subprocess.run([home])
 
 
+hide_bar_groups = []
+
+
+@lazy.function
+def toggle_bar(qtile):
+    current_group = qtile.current_group.name
+    if current_group in hide_bar_groups:
+        hide_bar_groups.remove(current_group)
+        qtile.current_screen.top.show(True)
+    else:
+        hide_bar_groups.append(current_group)
+        qtile.current_screen.top.show(False)
+
+
+@hook.subscribe.setgroup
+def check_bar():
+    if qtile.current_group.name in hide_bar_groups:
+        qtile.current_screen.top.show(False)
+    else:
+        qtile.current_screen.top.show(True)
+
+
 @hook.subscribe.client_focus
 def always_on_top(window):
     if qtile.current_layout != 'floating' and not window.floating:
@@ -179,6 +201,9 @@ def toggle_layout(qtile, layout_name):
 
 
 def check_mpv():
+    if qtile.current_group.name in hide_bar_groups:
+        return
+
     if qtile.current_layout.name == 'max' and qtile.current_window.info()['wm_class'] in no_max_bar:
         qtile.current_screen.top.show(False)
     else:

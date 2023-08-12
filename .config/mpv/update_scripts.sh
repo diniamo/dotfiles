@@ -9,8 +9,8 @@ scripts=(
 mpv_dir="${XDG_CONFIG_HOME:-$HOME/.config}/mpv"
 tmp_dir="/tmp"
 
-rm  -rfv "$mpv_dir/scripts" "$mpv_dir/script-opts" "$mpv_dir/fonts"
-mkdir -v "$mpv_dir/scripts" "$mpv_dir/script-opts"
+rm  -rfv "$mpv_dir/scripts" "$mpv_dir/fonts"
+mkdir -v "$mpv_dir/scripts"
 
 for script in "${scripts[@]}"; do
     wget --directory-prefix "$mpv_dir/scripts/" "$script"

@@ -5,7 +5,7 @@ from libqtile.lazy import lazy
 import os
 
 from settings import *
-from custom import toggle_layout, toggle_sticky_window, float_cycle, move_left, move_right, move_down, move_up, grow_left, grow_right, grow_up, grow_down
+from custom import toggle_layout, toggle_sticky_window, float_cycle, move_left, move_right, move_down, move_up, grow_left, grow_right, grow_up, grow_down, toggle_bar
 
 mod = "mod4"
 shift = "shift"
@@ -17,6 +17,7 @@ keys = [
     Key([mod], "f", toggle_layout("max"), desc="Toggles the max layout"),
     Key([mod], "s", toggle_sticky_window(), desc="Toggles whether the window is sticky"),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggles whether the window is floating"),
+    Key([mod], "b", toggle_bar(), desc="Toggles the bar for the current group"),
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
