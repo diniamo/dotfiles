@@ -9,3 +9,5 @@ export EDITOR='nvim'
 export ZSHZ_SRC="$HOME/.oh-my-zsh/custom/plugins/zsh-z/zsh-z.plugin.zsh"
 
 export QT_QPA_PLATFORMTHEME='qt5ct'
+
+export FZF_DEFAULT_OPTS="--color=bg+:#1e1e2e"

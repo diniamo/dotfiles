@@ -7,18 +7,18 @@ return {
         },
         cmd = "Trouble",
         keys = {
-            { '<leader>xx', '<cmd>TroubleToggle document_diagnostics<cr>' },
-            { '<leader>xd', '<cmd>TroubleToggle document_diagnostics<cr>' },
-            { '<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>' },
-            { '<leader>xq', '<cmd>TroubleToggle quickfix<cr>' },
-            { '<leader>xl', '<cmd>TroubleToggle loclist<cr>' },
+            -- { '<leader>tt', '<cmd>TroubleToggle document_diagnostics<cr>' },
+            { '<leader>td', '<cmd>TroubleToggle document_diagnostics<cr>' },
+            { '<leader>tw', '<cmd>TroubleToggle workspace_diagnostics<cr>' },
+            { '<leader>tq', '<cmd>TroubleToggle quickfix<cr>' },
+            { '<leader>tl', '<cmd>TroubleToggle loclist<cr>' },
         }
     },
     {
         "folke/todo-comments.nvim",
         event = "VeryLazy",
         keys = {
-            { "<Leader>xt", "<Cmd>TodoTrouble<CR>" },
+            -- { "<Leader>xt", "<Cmd>TodoTrouble<CR>" },
             { "<Leader>tt", "<Cmd>TodoTelescope<CR>" },
         },
         config = function()
