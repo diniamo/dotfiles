@@ -18,8 +18,8 @@ return {
         "folke/todo-comments.nvim",
         event = "VeryLazy",
         keys = {
-            -- { "<Leader>xt", "<Cmd>TodoTrouble<CR>" },
-            { "<Leader>tt", "<Cmd>TodoTelescope<CR>" },
+            { "<Leader>tt", "<Cmd>TodoTrouble<CR>" },
+            -- { "<Leader>tt", "<Cmd>TodoTelescope<CR>" },
         },
         config = function()
             require("todo-comments").setup()

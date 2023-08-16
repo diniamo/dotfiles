@@ -70,7 +70,7 @@ return {
     },
     {
         "romainl/vim-cool",
-        keys = { '/', '?' },
+        keys = { '/', '?', ':' },
     },
     {
         'tzachar/local-highlight.nvim',
