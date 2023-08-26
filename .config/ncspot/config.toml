@@ -17,8 +17,8 @@ volnorm = true
 "gs" = "similar selected"
 
 "Space" = "playpause"
-"n" = "next"
-"p" = "previous"
+"y" = "next"
+"í" = "previous"
 
 "+" = "volup 5"
 "-" = "voldown 5"

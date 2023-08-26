@@ -87,4 +87,18 @@ return {
             })
         end
     },
+    -- FIX: silicon.nvim
+    -- {
+    --     "krivahtoo/silicon.nvim",
+    --     build = "./install.sh",
+    --     cmd = "Silicon",
+    --     keys = {
+    --         { "<Leader>s", "<Cmd>Silicon<CR>", mode = 'v' }
+    --     },
+    --     config = function()
+    --         require("silicon").setup {
+    --             theme = "Catppuccin",
+    --         }
+    --     end
+    -- }
 }

@@ -43,6 +43,7 @@
   "rainbow-delimiters.nvim": { "branch": "master", "commit": "ec7ade261f961a5299a13451aa18a4dce630d0b3" },
   "rust-tools.nvim": { "branch": "master", "commit": "0cc8adab23117783a0292a0c8a2fbed1005dc645" },
   "sexy_scroller.vim": { "branch": "master", "commit": "4f6780102ac74e3473e9f6f3d48b6041975e4300" },
+  "silicon.nvim": { "branch": "main", "commit": "e0b7d78545470ef72ca6c0cef3980b8a779f4385" },
   "smart-pairs": { "branch": "master", "commit": "6e7a5a8e3906f7a8a8c5b8603d5264ff1b5d87c3" },
   "telescope.nvim": { "branch": "master", "commit": "22735947d84d78f29436c203f0a4b8dc15dda204" },
   "todo-comments.nvim": { "branch": "main", "commit": "3094ead8edfa9040de2421deddec55d3762f64d1" },

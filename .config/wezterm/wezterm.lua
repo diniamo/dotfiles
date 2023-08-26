@@ -8,7 +8,7 @@ local padding = {
     bottom = '0.5cell',
 }
 
-function is_editor(pane)
+local function is_editor(pane)
     local process_name = pane:get_foreground_process_name()
     if process_name then
         return process_name:find('vim')
