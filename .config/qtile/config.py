@@ -5,7 +5,7 @@ from libqtile.lazy import lazy
 import os
 
 from settings import *
-from custom import toggle_layout, toggle_sticky_window, float_cycle, move_left, move_right, move_down, move_up, grow_left, grow_right, grow_up, grow_down, toggle_bar
+from custom import toggle_layout, toggle_sticky_window, float_cycle, move_left, move_right, move_down, move_up, grow_left, grow_right, grow_up, grow_down, toggle_bar, toggle_clock_format
 
 mod = "mod4"
 shift = "shift"
@@ -18,6 +18,7 @@ keys = [
     Key([mod], "s", toggle_sticky_window(), desc="Toggles whether the window is sticky"),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggles whether the window is floating"),
     Key([mod], "b", toggle_bar(), desc="Toggles the bar for the current group"),
+    Key([mod], "d", toggle_clock_format(), desc="Toggles the clock's format between time and date"),
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -140,7 +141,6 @@ extension_defaults = widget_defaults.copy()
 screens = [
     Screen(
         top=bar.Bar(
-
             [
                 widget.CurrentLayout(),
                 widget.GroupBox(),
@@ -160,7 +160,7 @@ screens = [
                     # mute_command="XF86AudioMute",
                     # update_interval=0
                 ),
-                widget.Clock(format="%m.%d. %H:%M"),
+                widget.Clock(format=clock_formats[0], mouse_callbacks={"Button1": toggle_clock_format()}),
             ],
             24,
             background=palette.crust.hex,

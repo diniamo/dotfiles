@@ -25,12 +25,13 @@ alias pls='sudo  $(fc -ln -1)'
 alias please='sudo bash -c "$(fc -ln -1)"'
 
 alias icat='wezterm imgcat'
-alias ssh='wezterm ssh'
+# alias ssh='wezterm ssh'
 
 alias dragon-drop='dragon-drop -x'
 
 alias rm='rmtrash'
 alias rmdir='rmdirtrash'
+alias rmd='/usr/sbin/rm'
 
 alias hash='sha256sum'
 alias copy='xclip -in -selection clipboard'
@@ -42,7 +43,9 @@ alias windows='sudo grub-reboot 1 && sudo reboot'
 alias -s git="git clone"
 alias -s py="python"
 
-alias def="trans en:"
+alias def="trans -d"
+alias pro="trans -sp"
+alias hun="trans :hu"
 
 ..() {
     if [ -z "$1" ]; then

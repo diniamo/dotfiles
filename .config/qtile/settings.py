@@ -1,4 +1,5 @@
 from libqtile import layout
+from libqtile import layout
 from libqtile.config import Match
 
 from catppuccin import Flavour
@@ -26,6 +27,8 @@ layouts = [
 ]
 
 palette = Flavour.macchiato()
+
+clock_formats = ("%H:%M", "%m-%d")
 
 # Get these with xprop:
 no_max_bar = [

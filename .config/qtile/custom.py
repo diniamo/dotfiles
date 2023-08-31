@@ -4,7 +4,16 @@ from libqtile.lazy import lazy
 import os
 import subprocess
 
-from settings import layouts, no_max_bar, floating_grow_amount, floating_move_amount
+from settings import layouts, no_max_bar, floating_grow_amount, floating_move_amount, clock_formats
+
+
+@lazy.function
+def toggle_clock_format():
+    current_format = qtile.current_screen.top.widgets[-1].format
+    if clock.format == clock_formats[0]:
+        qtile.current_screen.top.widgets[-1].format = clock_formats[1]
+    else:
+        qtile.current_screen.top.widgets[-1].format = clock_formats[0]
 
 
 @hook.subscribe.startup_once
