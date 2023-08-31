@@ -5,7 +5,8 @@
 	name = diniamo
 [pull]
 	rebase = true
+[push]
+    default = current
+    autoSetupRemote = true
 [credential]
 	helper = libsecret
-[push]
-	default = current
