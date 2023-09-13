@@ -8,6 +8,7 @@ volnorm = true
 "Up"    = "seek +30s"
 "Right" = "seek +5s"
 "Down"  = "seek -30s"
+"R"     = "seek -24h"
 
 "gg" = "move up 500"
 "G"  = "move down 500"

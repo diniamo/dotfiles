@@ -88,6 +88,9 @@ keys = [
     Key([mod], "iacute", lazy.spawn("playerctl previous"), desc="Goes back to the previous piece of media in the playlist of the currently playing media player"),
     Key([mod], "y", lazy.spawn("playerctl next"), desc="Skips to the next piece of media in the playlist of the currently playing media player"),
     Key([mod, ctrl], "Space", lazy.spawn("playerctl play-pause"), desc="Pauses/resumes the currently playing media"),
+    Key([mod, shift], "r", lazy.spawn("playerctl position 0"), desc="Restarts the currently playing media"),
+
+    Key([mod, alt], "m", lazy.spawn(["sh", "-c", "mpv $(xclip -out -selection clipboard)"]), desc="Plays the video url on the clipboard with ffmpeg"),
 
     # Screenshot
     Key([], "Print", lazy.spawn(["sh", "-c", "scrot - | xclip -in -selection clipboard -target image/png"]), desc="Captures everything onto the clipboard"),

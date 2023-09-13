@@ -44,7 +44,7 @@ alias -s git="git clone"
 alias -s py="python"
 
 alias def="trans -d"
-alias pro="trans -sp"
+alias say="trans -sp"
 alias hun="trans :hu"
 
 ..() {

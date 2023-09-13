@@ -94,7 +94,7 @@ return {
 
         {
             mods = 'CTRL|ALT',
-            key = 't',
+            key = 'Enter',
             action = action.SpawnWindow
         },
 
