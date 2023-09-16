@@ -12,7 +12,7 @@ plugins=(
 	git
 	git-escape-magic
 	colored-man-pages
-	command-not-found
+	# command-not-found
 	gitignore
 	sudo
 	copypath
@@ -47,6 +47,7 @@ setopt EXTENDEDGLOB
 setopt HIST_FIND_NO_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt autocd
+setopt correct
 
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
@@ -79,8 +80,8 @@ TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer" "ranger")
 AUTO_NOTIFY_IGNORE+=("feh" "scrcpy" "bg" "fg" "mpv" "locedit" "bluetoothctl" "btop" "bacon")
 AUTO_NOTIFY_IGNORE+=($TUI)
 
-bindkey "^[[104;6u" insert-cycledleft
-bindkey "^[[108;6u" insert-cycledright
+bindkey "^[[1;5D" insert-cycledleft
+bindkey "^[[1;5C" insert-cycledright
 
 bindkey '^H' backward-kill-word
 bindkey '^[[3;5~' kill-word
