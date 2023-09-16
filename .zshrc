@@ -80,8 +80,8 @@ TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer" "ranger")
 AUTO_NOTIFY_IGNORE+=("feh" "scrcpy" "bg" "fg" "mpv" "locedit" "bluetoothctl" "btop" "bacon")
 AUTO_NOTIFY_IGNORE+=($TUI)
 
-bindkey "^[[1;5D" insert-cycledleft
-bindkey "^[[1;5C" insert-cycledright
+bindkey "^[[1;3D" insert-cycledleft
+bindkey "^[[1;3C" insert-cycledright
 
 bindkey '^H' backward-kill-word
 bindkey '^[[3;5~' kill-word
