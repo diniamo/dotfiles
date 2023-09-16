@@ -141,30 +141,34 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 # TODO: proper bar setup
+widgets = [
+    widget.CurrentLayout(),
+    widget.GroupBox(),
+    widget.Prompt(),
+    widget.WindowName(),
+    widget.Chord(
+        chords_colors={
+            "launch": ("#ff0000", "#ffffff"),
+        },
+        name_transform=lambda name: name.upper(),
+    ),
+    widget.Systray(),
+    widget.PulseVolume(
+        # volume_up_command="XF86AudioRaiseVolume",
+        # volume_down_command="XF86AudioLowerVolume",
+        # mute_command="XF86AudioMute",
+        # update_interval=0
+    ),
+    widget.Clock(format=clock_formats[0], mouse_callbacks={"Button1": toggle_clock_format()}),
+]
+
+if os.path.exists("/sys/class/power_supply/BAT0"):
+    widgets.insert(-2, widget.Battery(format="{char} {percent:2.0%}"))
+
 screens = [
     Screen(
         top=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.Systray(),
-                widget.Battery(format="{char} {percent:2.0%}"),
-                widget.PulseVolume(
-                    # volume_up_command="XF86AudioRaiseVolume",
-                    # volume_down_command="XF86AudioLowerVolume",
-                    # mute_command="XF86AudioMute",
-                    # update_interval=0
-                ),
-                widget.Clock(format=clock_formats[0], mouse_callbacks={"Button1": toggle_clock_format()}),
-            ],
+            widgets,
             24,
             background=palette.crust.hex,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
