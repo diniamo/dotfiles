@@ -9,7 +9,7 @@ alias btw='neofetch'
 # This fixes sudo usage with aliases
 alias sudo='sudo '
 
-# eval $(thefuck --alias)
+eval $(thefuck --alias)
 
 alias v='nvim'
 alias vi='nvim'
