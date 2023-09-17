@@ -36,7 +36,7 @@ alias hash='sha256sum'
 alias copy='xclip -in -selection clipboard'
 alias paste='xclip -out -selection clipboard'
 
-alias windows='sudo grub-reboot 1 && sudo reboot'
+alias windows='sudo grub-reboot 2 && sudo reboot'
 
 # Suffix aliases
 alias -s git="git clone"

@@ -9,6 +9,3 @@ if [[ -d "/sys/class/power_supply" ]]; then x-on-resize --config ~/.scripts/hdmi
 redshift -l 47.1625:19.5033 &
 betterlockscreen -u $WALLPAPER &
 xss-lock -- sh -c "playerctl -a pause; betterlockscreen -l dimblur" &
-
-# Applications
-qbittorrent &

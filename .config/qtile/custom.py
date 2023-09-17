@@ -17,9 +17,12 @@ def toggle_clock_format():
 
 
 @hook.subscribe.startup_once
-def autostart():
-    home = os.path.expanduser("~/.scripts/autostart.sh")
-    subprocess.run([home])
+def startup_once():
+    autostart = os.path.expanduser("~/.scripts/autostart.sh")
+    subprocess.run([autostart])
+
+    # applications = os.path.expanduser("~/.scripts/applications.sh")
+    # subprocess.run([applications])
 
 
 hide_bar_groups = []
@@ -209,14 +212,14 @@ def toggle_layout(qtile, layout_name):
         qtile.current_group.setlayout(previous_layout)
 
 
-def check_mpv():
-    if qtile.current_group.name in hide_bar_groups:
-        return
-
-    if qtile.current_layout.name == 'max' and qtile.current_window.info()['wm_class'] in no_max_bar:
-        qtile.current_screen.top.show(False)
-    else:
-        qtile.current_screen.top.show(True)
+# def check_mpv():
+#     if qtile.current_group.name in hide_bar_groups:
+#         return
+#
+#     if qtile.current_layout.name == 'max' and qtile.current_window.info()['wm_class'] in no_max_bar:
+#         qtile.current_screen.top.show(False)
+#     else:
+#         qtile.current_screen.top.show(True)
 
 
 # @hook.subscribe.layout_change
@@ -224,14 +227,14 @@ def check_mpv():
 #     check_mpv()
 
 
-@hook.subscribe.changegroup
-def group_change():
-    check_mpv()
-
-
-@hook.subscribe.client_focus
-def focus_change(_):
-    check_mpv()
+# @hook.subscribe.changegroup
+# def group_change():
+#     check_mpv()
+#
+#
+# @hook.subscribe.client_focus
+# def focus_change(_):
+#     check_mpv()
 
 
 floating_window_index = 0

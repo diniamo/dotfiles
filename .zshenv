@@ -1,6 +1,8 @@
-export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
+export PATH="$HOME/.local/bin:$PATH"
+
 export JAVA_HOME="/usr/lib/jvm/default"
 export ANDROID_HOME="/opt/android-sdk"
+export PYENV_ROOT="$HOME/.pyenv"
 
 export WALLPAPER='~/Pictures/wallpapers/arch_macchiato_base.png'
 export TERMINAL='wezterm'
