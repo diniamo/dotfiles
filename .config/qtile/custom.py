@@ -18,7 +18,7 @@ def toggle_clock_format():
 
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser("~/.config/qtile/autostart.sh")
+    home = os.path.expanduser("~/.scripts/autostart.sh")
     subprocess.run([home])
 
 
