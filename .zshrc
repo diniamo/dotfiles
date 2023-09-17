@@ -12,7 +12,7 @@ plugins=(
 	git
 	git-escape-magic
 	colored-man-pages
-	# command-not-found
+	command-not-found
 	gitignore
 	sudo
 	copypath
