@@ -1,0 +1,50 @@
+" Plugins
+set sneak
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-commentary'
+Plug 'vim-scripts/argtextobj.vim'
+Plug 'tommcdo/vim-exchange'
+Plug 'kana/vim-textobj-entire'
+Plug 'machakann/vim-highlightedyank'
+Plug 'dbakker/vim-paragraph-motion'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'chrisbra/matchit'
+set quickscope
+
+" Plug 'romainl/vim-cool'
+
+" Plugin settings
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:highlightedyank_highlight_duration = "-1"
+
+" Basic settings
+let mapleader=" "
+
+set clipboard+=unnamed
+set ignorecase
+set smartcase
+set history=200
+
+set gdefault
+set incsearch
+" set hlsearch
+
+set number
+set relativenumber
+
+set ideajoin
+set ideamarks
+set ideastatusicon="grey"
+
+" Mappings
+nmap <CR> o<ESC>
+nmap <S-CR> O<ESC>
+
+nmap <A-j> :m .+1<CR>==
+nmap <A-k> :m .-2<CR>==
+imap <A-j> <Esc>:m .+1<CR>==gi
+imap <A-k> <Esc>:m .-2<CR>==gi
+vmap <A-j> :m >+1<CR>gv=gv
+vmap <A-k> :m <-2<CR>gv=gv
