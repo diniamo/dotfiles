@@ -2,7 +2,7 @@ from libqtile import bar, widget
 from libqtile.config import Click, Drag, Group, Key, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 
-import os
+import os, re
 
 from settings import *
 from custom import toggle_layout, toggle_sticky_window, float_cycle, move_left, move_right, move_down, move_up, grow_left, grow_right, grow_up, grow_down, toggle_bar, toggle_clock_format
@@ -18,7 +18,7 @@ keys = [
     Key([mod], "s", toggle_sticky_window(), desc="Toggles whether the window is sticky"),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggles whether the window is floating"),
     Key([mod], "b", toggle_bar(), desc="Toggles the bar for the current group"),
-    Key([mod], "d", toggle_clock_format(), desc="Toggles the clock's format between time and date"),
+    # Key([mod], "", toggle_clock_format(), desc="Toggles the clock's format between time and date"),
 
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -60,8 +60,9 @@ keys = [
     Key([mod], "w", lazy.spawn("firefox"), desc="Launches firefox"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
-    Key([mod], "0", lazy.group["scratchpad"].dropdown_toggle("terminal"), desc="Opens the terminal scratchpad"),
+    Key([mod], "d", lazy.group["scratchpad"].dropdown_toggle("terminal"), desc="Opens the terminal scratchpad"),
     Key([], "XF86Calculator", lazy.group["scratchpad"].dropdown_toggle("calculator"), desc="Opens the calculator scratchpad"),
+    Key([mod], "c", lazy.group["scratchpad"].dropdown_toggle("calculator"), desc="Opens the calculator scratchpad"),
     # Key([mod], "XF86Calculator", lazy.group["scratchpad"].dropdown_toggle("time"), desc="Opens a small window in the bottom left corner"),
     Key([mod], "m", lazy.group["scratchpad"].dropdown_toggle("mixer"), desc="Toggles the pulsemixer scratchpad"),
     Key([mod], "e", lazy.group["scratchpad"].dropdown_toggle("fm"), desc="Toggles the file manager scratchpad"),
@@ -104,6 +105,10 @@ keys = [
 
 groups = [Group(i) for i in "123456789"]
 
+groups[4 - 1].matches = [
+    Match(wm_class=["firefox"], title=re.compile("^Media.*"))
+]
+
 for i in groups:
     keys.extend(
         [
@@ -123,6 +128,18 @@ for i in groups:
             ),
         ]
     )
+
+# if not is_laptop:
+#     groups.extend([
+#         Group('0', layouts=["max"], layout="max", exclusive=True, matches=[
+#                 Match(wm_class=["firefox"], title=re.compile("^Discord.*"))
+#             ]
+#         ),
+#     ])
+#     keys.extend([
+#         Key([mod], '0', lazy.to_screen(1)),
+#         Key([mod, shift], '0', lazy.window.togroup('0', switch_group=False))
+#     ])
 
 groups.extend([
     ScratchPad("scratchpad", [
@@ -144,8 +161,14 @@ extension_defaults = widget_defaults.copy()
 
 # TODO: proper bar setup
 widgets = [
-    widget.CurrentLayout(),
-    widget.GroupBox(),
+    widget.CurrentLayoutIcon(),
+    widget.GroupBox(
+        disable_drag=True,
+        # hide_unused=True,
+        use_mouse_wheel=False,
+        other_current_screen_border="215578",
+        this_screen_border="404040",
+    ),
     widget.Prompt(),
     widget.WindowName(),
     widget.Chord(
@@ -164,7 +187,7 @@ widgets = [
     widget.Clock(format=clock_formats[0], mouse_callbacks={"Button1": toggle_clock_format()}),
 ]
 
-if os.path.exists("/sys/class/power_supply/BAT0"):
+if is_laptop:
     widgets.insert(-2, widget.Battery(format="{char} {percent:2.0%}"))
 
 screens = [
@@ -177,9 +200,21 @@ screens = [
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
         wallpaper=os.getenv("WALLPAPER"),
-        # wallpaper="~/Pictures/wallpapers/arch_macchiato_base.png",
         wallpaper_mode="center",
     ),
+    Screen(
+        # top=bar.Bar(
+        #     [
+        #         widget.Spacer(),
+        #         widgets[6],
+        #         widgets[7]
+        #     ],
+        #     24,
+        #     background=palette.crust.hex
+        # ),
+        wallpaper=os.getenv("WALLPAPER"),
+        wallpaper_mode="center",
+    )
 ]
 
 # Drag floating layouts.

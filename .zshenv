@@ -1,4 +1,4 @@
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 export JAVA_HOME="/usr/lib/jvm/default"
 export ANDROID_HOME="/opt/android-sdk"

@@ -6,6 +6,8 @@ from catppuccin import Flavour
 
 import os
 
+is_laptop = os.path.exists("/sys/class/power_supply/BAT0")
+
 terminal = os.getenv("TERMINAL")
 
 floating_move_amount = 50
