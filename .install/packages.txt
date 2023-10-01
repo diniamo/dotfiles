@@ -55,8 +55,9 @@ unzip
 python
 python-pipx
 ttf-hack-nerd
-lxappearance
+nwg-look
 qt5ct
+qt6ct
 python-catppuccin
 pulsemixer
 wget
@@ -65,6 +66,5 @@ jre-jetbrains
 ttf-icomoon-feather
 polkit
 translate-shell
-picom-simpleanims-next-git
 ueberzugpp
 tty-clock
