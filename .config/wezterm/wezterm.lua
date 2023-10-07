@@ -36,7 +36,8 @@ return {
     font = wezterm.font('Hack Nerd Font Mono'),
     font_size = 11.0,
 
-    enable_wayland = true,
+    enable_wayland = false,
+    front_end = "OpenGL",
 
     window_padding = padding,
     window_decorations = 'NONE',

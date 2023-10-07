@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env dash
 
 # Config
 setxkbmap hu
