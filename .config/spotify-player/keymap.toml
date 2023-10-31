@@ -1,0 +1,12 @@
+[[keymaps]]
+command = "SeekBackward"
+key_sequence = "left"
+[[keymaps]]
+command = "SeekForward"
+key_sequence = "right"
+[[keymaps]]
+command = "MovePlaylistItemUp"
+key_sequence = "m k"
+[[keymaps]]
+command = "MovePlaylistItemDown"
+key_sequence = "m j"

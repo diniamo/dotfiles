@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+Icon=folder
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=inode/directory;
+Actions=downloadFiles;
+Encoding=UTF-8
+
+[Desktop Action downloadFiles]
+Name=Download files here
+Icon=download
+Exec=$HOME/.scripts/download_file.sh "%U"
+

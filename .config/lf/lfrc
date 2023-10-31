@@ -1,0 +1,131 @@
+set icons
+set autoquit
+set tabstop 4
+# set drawbox
+set hidden
+set info size
+set cursorpreviewfmt "\033[7m"
+
+# set filesep " "
+
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/cleaner
+
+map <enter> open
+
+map gp cd /tmp
+map gr cd /
+# map g/ cd /
+# map g~ cd ~
+map gR cd ~/.config/lf
+
+map gz push :z<space>
+map gi :zi
+
+map f fzf-jump
+
+map a push :add<space>
+# map d
+# map dd cut
+map DD trash
+map <delete> delete
+map DE trash-empty
+map DR trash-restore
+
+map t dragon-drop
+
+map xx extract
+map xa push :compress<space>
+
+map e edit
+
+map zw wallpaper
+map z1 set ratios 3:2:1
+map z2 set ratios 1:2:1
+map z3 set ratios 1:2:3
+
+cmd on-cd &zoxide add "$PWD"
+
+cmd edit &{{
+    case $(file --mime-type -Lb $f) in
+        image/*) gimp "$f";;
+        *) lf -remote "send $id \$$EDITOR \"\$f\"" ;;
+    esac
+}}
+
+
+cmd z %{{
+	result="$(zoxide query --exclude "$PWD" "$@")"
+	lf -remote "send $id cd '$result'"
+}}
+cmd zi ${{
+	result="$(zoxide query --exclude "$PWD" -i)"
+	lf -remote "send $id cd '$result'"
+}}
+
+cmd qrcp ${{
+    tput clear
+
+    (eval "$(printf 'IFS="\n"')"; ~/.scripts/qrcp.sh "$1" $fx)
+}}
+
+cmd wallpaper &~/.scripts/wallpaper.sh "$f"
+
+cmd add %{{
+    for new in "$@"; do
+        if printf '%s' "$new" | grep -qE '/'; then
+            mkdir -p "$new"
+        else
+            touch "$new"
+        fi
+    done
+}}
+
+cmd extract !{{
+    tput clear
+
+    7z x "$f" -o"${f%.*}"
+}}
+cmd compress !{{
+    tput clear
+
+    type="${1##*.}"
+
+    case "$type" in
+        7z|zip|gzip|bzip2|lzip|tar)
+            (eval "$(printf 'IFS="\n"')"; 7z a -t"$type" "$1" $fx)
+        ;;
+        *)
+            echo "Unsopprted format"
+            exit 1
+        ;;
+    esac
+}}
+
+cmd trash %(eval "$(printf 'IFS="\n"')"; trash-put $fx)
+cmd trash-empty %{{
+    printf 'Empty trash? [y/n] '
+    read ans
+
+    if [ "$ans" = "y" ]; then
+        trash-empty -f
+    fi
+}}
+cmd trash-restore ${{
+    tput clear
+    trash-restore
+}}
+
+cmd dragon-drop &{{
+    # ~/.config/hypr/scripts/scratchpad.sh "fm"
+    (eval "$(printf 'IFS="\n"')"; dragon-drop -a -x $fx)
+}}
+
+cmd fzf-jump ${{
+    choice="$(find "$PWD" | fzf)"
+    if [ -d "$choice" ]; then
+        lf -remote "send $id cd '$choice'"
+    else
+        lf -remote "send $id select '$choice'"
+    fi
+}}

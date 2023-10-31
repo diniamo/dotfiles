@@ -24,16 +24,16 @@ plugins=(
 )
 
 custom_plugins=(
+    aloxaf/fzf-tab
 	MichaelAquilina/zsh-you-should-use
 	MichaelAquilina/zsh-auto-notify:auto-notify
 	zsh-users/zsh-autosuggestions
 	zsh-users/zsh-syntax-highlighting
-	agkozak/zsh-z
 	hlissner/zsh-autopair
 	joshskidmore/zsh-fzf-history-search
 	zpm-zsh/colorize
 )
-autoload -U add-zsh-hook
+# autoload -U add-zsh-hook
 source $HOME/.zsh_plugins > /dev/null 2>&1
 
 # OMZ
@@ -55,7 +55,11 @@ ZSH_FZF_HISTORY_SEARCH_EVENT_NUMBERS=0
 ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=0
 ZSH_FZF_HISTORY_SEARCH_REMOVE_DUPLICATES=true
 
-TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer" "ranger")
+# zstyle ':fzf-tab:*' fzf-min-height 15
+zstyle ':fzf-tab:*' fzf-flags "--height=45%"
+
+
+TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer" "lf" "joshuto")
 
 # remove-padding() {
 # 	local IFS=' '
@@ -98,3 +102,5 @@ eval "$(pyenv init -)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+eval "$(zoxide init zsh)"

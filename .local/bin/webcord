@@ -1,0 +1,2 @@
+#!/bin/sh
+/sbin/webcord webcord --ozone-platform-hint=auto --disable-gpu --disable-gpu-sandbox $@

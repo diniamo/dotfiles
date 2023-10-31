@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Python 3
+Exec=kitty -- dash -c "python %f; printf 'Press any key to continue...'; read null"
+Terminal=false
+Type=Application
+Icon=python
+MimeType=text/x-python3;text/x-python;
+Categories=Development;
+

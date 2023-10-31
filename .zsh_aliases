@@ -12,39 +12,47 @@ alias sudo='sudo '
 eval $(thefuck --alias)
 
 alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
+
+lf() {
+    tmp=$(mktemp)
+    lfrun -last-dir-path "$tmp" "$@"
+    dir="$(cat "$tmp")"
+    if [ "$dir" != "$PWD" ]; then
+        cd "$dir"
+    fi
+}
+alias joshuto='joshutorun'
 
 alias ls='exa --icons'
 alias ll='exa --icons --git -lha'
 alias lt='exa --icons -T'
 alias la='exa --icons -a'
 
+alias xtouch='install /dev/null'
+
 alias pls='sudo  $(fc -ln -1)'
 alias please='sudo bash -c "$(fc -ln -1)"'
 
-alias icat='wezterm imgcat'
-# alias ssh='wezterm ssh'
-
-alias dragon-drop='dragon-drop -x'
+alias icat='kitten icat'
+alias dragon-drop='dragon-drop -a -x'
 
 alias rm='rmtrash'
 alias rmdir='rmdirtrash'
 alias rmd='/usr/sbin/rm'
 
 alias hash='sha256sum'
-alias copy='xclip -in -selection clipboard'
-alias paste='xclip -out -selection clipboard'
+alias copy='wl-copy'
+alias paste='wl-paste'
 
 alias windows='sudo grub-reboot 2 && sudo reboot'
+
+alias def="trans -d"
+alias say="trans -no-translate -speak"
+alias hun="trans :hu"
 
 # Suffix aliases
 alias -s git="git clone"
 alias -s py="python"
-
-alias def="trans -d"
-alias say="trans -sp"
-alias hun="trans :hu"
 
 ..() {
     if [ -z "$1" ]; then
@@ -55,7 +63,7 @@ alias hun="trans :hu"
 }
 
 mcd () {
-	[ -d $1 ] || mkdir $1
+	[ -d $1 ] || mkdir -p $1
 	cd $1 && pwd
 }
 

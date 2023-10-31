@@ -13,7 +13,7 @@ track_table_item_max_len = 32
 play_icon = "▶"
 pause_icon = "▌▌"
 liked_icon = "♥"
-border_type = "Plain"
+border_type = "Rounded"
 progress_bar_type = "Rectangle"
 playback_window_position = "Bottom"
 playback_window_width = 6
@@ -23,11 +23,8 @@ enable_cover_image_cache = true
 default_device = "spotify-player"
 
 [copy_command]
-command = "xclip"
-args = [
-    "-sel",
-    "c",
-]
+command = "wl-copy"
+args = []
 
 [device]
 name = "spotify-player"

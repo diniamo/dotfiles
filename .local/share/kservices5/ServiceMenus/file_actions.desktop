@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+Icon=folder
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=application/octet-stream;
+Actions=chmodX;
+Encoding=UTF-8
+
+[Desktop Action chmodX]
+Name=Convert to executable
+Icon=application-x-executable
+Exec=$HOME/.scripts/chmod_x.sh "%U"
+

@@ -1,4 +1,9 @@
 [global]
+follow = keyboard
+
+gap_size = 8
+corner_radius = 10
+
 frame_color = "#8AADF4"
 separator_color= frame
 

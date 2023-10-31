@@ -20,19 +20,23 @@ collect-garbage() {
 }
 
 update-custom-plugins() {
+    echo Updating custom plugins
+
+    for plugin in $custom_plugins; do
+        split-str /: $plugin
+
+        echo -n "Updating $split[2]: "
+        git -C "$ZSH/custom/plugins/$split[-1]" pull
+    done
+}
+
+update-custom-plugins-hook() {
 	if [[ $1 = "omz update"* ]]; then
-		echo Updating custom plugins
-
-		for plugin in $custom_plugins; do
-			split-str /: $plugin
-
-			echo -n "Updating $split[2]: "
-			git -C "$ZSH/custom/plugins/$split[-1]" pull
-		done
+        update-custom-plugins
 	fi
 }
 
-add-zsh-hook preexec update-custom-plugins
+# add-zsh-hook preexec update-custom-plugins
 
 custom_plugins_names=()
 for plugin in $custom_plugins; do

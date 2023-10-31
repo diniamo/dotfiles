@@ -41,6 +41,7 @@ set ideastatusicon="grey"
 " Mappings
 nmap <CR> o<ESC>
 nmap <S-CR> O<ESC>
+imap <S-CR> <C-O>O
 
 nmap <A-j> :m .+1<CR>==
 nmap <A-k> :m .-2<CR>==

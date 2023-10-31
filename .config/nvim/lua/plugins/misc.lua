@@ -15,6 +15,9 @@ return {
             show_current_context_start = false,
             use_treesitter = true,
         },
+        config = function()
+            require("ibl").setup()
+        end,
         init = function()
             vim.api.nvim_set_hl(0, "IndentBlanklineChar", { bg = "NONE" })
         end

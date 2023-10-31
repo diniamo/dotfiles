@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/bin/sh
 
 export PATH=/usr/bin
 

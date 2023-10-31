@@ -1,0 +1,45 @@
+MenuBar=Disabled
+
+[$Version]
+update_info=dolphin_detailsmodesettings.upd:rename-leading-padding,dolphin_detailsmodesettings.upd:move-content-display
+
+[CompactMode]
+PreviewSize=32
+
+[ContextMenu]
+ShowAddToPlaces=false
+ShowViewMode=false
+
+[DetailsMode]
+PreviewSize=22
+
+[General]
+BrowseThroughArchives=true
+CloseActiveSplitView=false
+ConfirmClosingTerminalRunningProgram=false
+ShowFullPath=true
+ShowToolTips=true
+ShowZoomSlider=false
+UseTabForSwitchingSplitView=true
+Version=202
+ViewPropsTimestamp=2023,10,10,15,56,27.902
+
+[IconsMode]
+PreviewSize=80
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[KPropertiesDialog]
+2 screens: Window-Maximized=true
+
+[MainWindow]
+MenuBar=Disabled
+ToolBarsMovable=Disabled
+
+[PreviewSettings]
+Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,svgthumbnail,textthumbnail
+
+[VersionControl]
+enabledPlugins=Git

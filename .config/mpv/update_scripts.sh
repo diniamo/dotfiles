@@ -1,9 +1,13 @@
+#!/usr/bin/bash
+
 scripts=(
     "https://raw.githubusercontent.com/4e6/mpv-reload/master/reload.lua"
     "https://raw.githubusercontent.com/po5/thumbfast/master/thumbfast.lua"
     "https://github.com/hoyon/mpv-mpris/releases/latest/download/mpris.so"
-    "https://raw.githubusercontent.com/mpv-player/mpv/master/TOOLS/lua/autoload.lua"
+    # "https://raw.githubusercontent.com/mpv-player/mpv/master/TOOLS/lua/autoload.lua"
     "https://raw.githubusercontent.com/Eisa01/mpv-scripts/master/scripts/UndoRedo.lua"
+    # "https://raw.githubusercontent.com/diniamo/mpv-fullscreen/master/fullscreen.lua"
+    "https://raw.githubusercontent.com/rui-ddc/skip-intro/master/skip-intro.lua"
 )
 
 mpv_dir="${XDG_CONFIG_HOME:-$HOME/.config}/mpv"

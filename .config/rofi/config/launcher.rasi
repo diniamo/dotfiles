@@ -1,6 +1,6 @@
 configuration {
     show-icons:                     true;
-    display-drun: 		            "";
+    display-drun: 		            "";
     drun-display-format:            "{icon} {name}";
     disable-history:                false;
     click-to-exit: 		            true;
@@ -37,7 +37,7 @@ textbox-prompt-colon {
     background-color:               @SEL;
     text-color:                     @FG;
     padding:                        8px 12px 8px 12px;
-    font:			                "Jetbrains Mono Nerd Font 10";
+    font:			                "Hack Nerd Font 10";
 }
 
 entry {

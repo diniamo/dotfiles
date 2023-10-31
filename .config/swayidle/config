@@ -1,0 +1,6 @@
+timeout 300 'swaylock -f'
+timeout 305 'hyprctl dispatch dpms off'
+timeout 600 'systemctl suspend'
+lock 'playerctl --all-players pause'
+before-sleep 'playerctl --all-players pause'
+before-sleep 'swaylock -f'

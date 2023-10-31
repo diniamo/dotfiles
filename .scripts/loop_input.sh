@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/bin/sh
 
 echo "Command: $1 <input>"
 
