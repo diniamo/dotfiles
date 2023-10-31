@@ -1,0 +1,9 @@
+@import "launcher.rasi"
+
+textbox-prompt-colon {
+    enabled: false;
+}
+
+window {
+	width: 600px;
+}
