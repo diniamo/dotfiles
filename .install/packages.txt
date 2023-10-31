@@ -55,7 +55,7 @@ pulsemixer
 python
 python-pipx
 qbittorrent
-qrcp-git
+qrcp
 qt5ct
 qt6ct
 ranger
@@ -102,3 +102,5 @@ yt-dlp
 zathura
 zathura-pdf-mupdf
 zoxide
+lf
+hyprland-git
