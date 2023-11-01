@@ -47,13 +47,14 @@
         "bat": "BAT0",
         "states": {
             // "good": 95,
-            "warning": 20,
+            // "warning": 20,
             "critical": 10
         },
         "format": "{capacity}% {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+        "format-empty": "Empty ",
+        "format-charging": "{capacity}% 󰂄",
+        "format-full": "Full ",
+        "format-icons": ["", "", ""]
     },
     "network": {
         // "interface": "wlp2s0", // (Optional) To force the use of this interface
