@@ -104,3 +104,4 @@ zathura-pdf-mupdf
 zoxide
 lf
 hyprland-git
+socat
