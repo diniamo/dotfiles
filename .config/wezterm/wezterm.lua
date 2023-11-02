@@ -32,11 +32,11 @@ wezterm.on('update-status', function(window, pane)
 end)
 
 return {
-    color_scheme = 'Catppuccin Mocha',
+    color_scheme = 'Catppuccin Macchiato',
     font = wezterm.font('Hack Nerd Font Mono'),
     font_size = 11.0,
 
-    enable_wayland = false,
+    enable_wayland = true,
     front_end = "OpenGL",
 
     window_padding = padding,

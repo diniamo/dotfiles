@@ -1,7 +1,7 @@
 {
     "layer": {
         "silent": true,
-        "output": "wayland",
-        "no-opencv": false
+        "output": "kitty",
+        "no-opencv": true
     }
 }
