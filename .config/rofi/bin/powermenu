@@ -56,15 +56,12 @@ case $chosen in
 		systemctl reboot
         ;;
     $lock)
-		swaylock
+		swaylock -f
         ;;
     $suspend)
-        # playerctl pause
 		systemctl suspend
         ;;
     $logout)
-		# qtile cmd-obj -o cmd -f shutdown
         hyprctl dispatch exit
         ;;
 esac
--suspend
