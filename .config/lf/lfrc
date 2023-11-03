@@ -6,17 +6,20 @@ set hidden
 set info size
 set cursorpreviewfmt "\033[7m"
 
-# set filesep " "
+# set shell "bash"
 
 set previewer ~/.config/lf/preview
 set cleaner ~/.config/lf/cleaner
 
 map <enter> open
 
-map gp cd /tmp
+map gt cd /tmp
 map gr cd /
+map gd cd ~/Downloads
+map gp cd ~/Pictures
+map gw cd ~/Pictures/wallpapers
 
-map gR cd ~/.config/lf
+map gL cd ~/.config/lf
 map gH cd ~/.config/hypr
 
 map gz push :z<space>
