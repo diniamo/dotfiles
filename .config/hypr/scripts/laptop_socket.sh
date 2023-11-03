@@ -1,9 +1,14 @@
 #!/bin/sh
 
 socat -U - UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r event; do
-    case "$event" in
-        monitoradded*|monitorremoved*)
-            ~/.config/hypr/scripts/hdmi_hotplug.sh
+    action=$(printf '%s' "$event" | grep -oP '^.*(?=>>)')
+    details=$(printf '%s' "$event" | grep -oP '^.*>>\K.*')
+
+    case "$action" in
+        monitoradded|monitorremoved)
+            if printf '%s' "$details" | grep -q '^HDMI.*'; then
+                ~/.config/hypr/scripts/hdmi_hotplug.sh
+            fi
             ;;
     esac
 done 

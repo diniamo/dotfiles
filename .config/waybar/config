@@ -29,6 +29,7 @@
     "mpris": {
         "format": "{dynamic}",
         "dynamic-len": 50,
+        "dynmic-order": ["title", "artist"]
     },
     "tray": {
         // "icon-size": 21,
@@ -59,7 +60,7 @@
     "network": {
         // "interface": "wlp2s0", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-ethernet": "{ifname}: {ipaddr} ",
         "format-disconnected": "Disconnected ⚠"
     },
     "pulseaudio": {
