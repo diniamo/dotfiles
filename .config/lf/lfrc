@@ -15,9 +15,9 @@ map <enter> open
 
 map gp cd /tmp
 map gr cd /
-# map g/ cd /
-# map g~ cd ~
+
 map gR cd ~/.config/lf
+map gH cd ~/.config/hypr
 
 map gz push :z<space>
 map gi :zi
