@@ -92,9 +92,11 @@ bindkey '^[[3;5~' kill-word
 
 # Environment variables
 source $HOME/.zshenv
+source $HOME/.zsh_secrets
 # Aliases
 source $HOME/.zsh_aliases
 # pyenv
+
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"

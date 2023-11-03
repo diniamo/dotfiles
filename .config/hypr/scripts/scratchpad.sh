@@ -29,13 +29,13 @@ case "$1" in
         toggle_scratchpad "mixer" "$TERMINAL_CMD --title Mixer -- pulsemixer"
         ;;
     "music")
-        toggle_scratchpad "music" "$TERMINAL_CMD --title \"Music Player\" -- spotify_player"
+        toggle_scratchpad "music" "$TERMINAL_CMD --title \"Music Player\" -- ncspot"
         ;;
     "calculator")
         toggle_scratchpad "calculator" "$TERMINAL_CMD --title Calculator -- python -i -c \"from math import *\""
         ;;
-    "tungsten")
-        toggle_scratchpad "tungsten" "$TERMINAL_CMD --title \"Wolfram Alpha\" -- ~/.scripts/loop_input.sh tungsten"
+    "wa")
+        toggle_scratchpad "wa" "$TERMINAL_CMD --title \"Wolfram Alpha\" -- ~/.scripts/loop_input.sh 'wa -p'"
         ;;
     "fm")
         toggle_scratchpad "fm" "$TERMINAL_CMD --title \"File Manager\" -- lfrun"

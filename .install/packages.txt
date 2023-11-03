@@ -105,3 +105,4 @@ zoxide
 lf
 hyprland-git
 socat
+expect

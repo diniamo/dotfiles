@@ -1,5 +1,4 @@
 #!/bin/bash
-# This script currently requires autoreload to be off, otherwise there will be issues
 # This script should be run with exec, not exec-once
 
 # This is needed for while-true scripts for some reason

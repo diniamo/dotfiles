@@ -1,15 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Command: $1 <input>"
 
 while true; do
-    echo -n "> "
-    read -r user_input
+    read -p "❯ " -r -e user_input
 
     if [ "$user_input" = "exit" ]; then
-        echo "Exiting the script."
-        break
+        exit 0
     fi
 
-    "$1" "$user_input"
+    $1 "$user_input"
 done
