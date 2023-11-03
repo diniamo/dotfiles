@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # This script currently requires autoreload to be off, otherwise there will be issues
 # Should be run with exec, and not exec-once
 
