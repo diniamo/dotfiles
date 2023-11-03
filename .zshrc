@@ -92,7 +92,6 @@ bindkey '^[[3;5~' kill-word
 
 # Environment variables
 source $HOME/.zshenv
-source $HOME/.zsh_secrets
 # Aliases
 source $HOME/.zsh_aliases
 # pyenv

@@ -106,3 +106,10 @@ lf
 hyprland-git
 socat
 expect
+hyprpicker-git
+libqalculate
+kvantum
+dolphin
+dolphin-plugins
+qt5-wayland
+qt6-wayland

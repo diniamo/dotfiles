@@ -32,7 +32,7 @@ case "$1" in
         toggle_scratchpad "music" "$TERMINAL_CMD --title \"Music Player\" -- ncspot"
         ;;
     "calculator")
-        toggle_scratchpad "calculator" "$TERMINAL_CMD --title Calculator -- python -i -c \"from math import *\""
+        toggle_scratchpad "calculator" "$TERMINAL_CMD --title Calculator -- qalc"
         ;;
     "wa")
         toggle_scratchpad "wa" "$TERMINAL_CMD --title \"Wolfram Alpha\" -- ~/.scripts/loop_input.sh 'wa -p'"
