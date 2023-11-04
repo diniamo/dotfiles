@@ -1,6 +1,5 @@
 aria2
 bat
-betterlockscreen
 btop
 catppuccin-cursors-macchiato
 catppuccin-gtk-theme-macchiato
@@ -37,7 +36,6 @@ mimeo
 mpv
 ncspot
 neovim-git
-nerd-fonts-inter
 nwg-look
 obsidian
 p7zip
@@ -58,14 +56,11 @@ qbittorrent
 qrcp
 qt5ct
 qt6ct
-ranger
-redshift
 ripgrep
 rmtrash
 rofi-emoji
 rofi-lbonn-wayland
 rustup
-scrot
 slurp
 speech-dispatcher
 speedtest-cli
@@ -90,7 +85,7 @@ ueberzugpp
 waybar
 webcord
 wev
-wezterm
+wezterm-git
 wget
 which
 wireplumber
