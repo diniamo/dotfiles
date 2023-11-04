@@ -28,6 +28,10 @@ alias ll='exa --icons --git -lha'
 alias lt='exa --icons -T'
 alias la='exa --icons -a'
 
+# Resolve conflicts faster
+alias gitresolve="git status -s | grep -oP '(?<=UU \").*(?=\")' | xargs -d'\n' nvim && git commit -am 'Resolve conflicts' && git rebase --continue"
+
+# Create a file with execute perms
 alias xtouch='install /dev/null'
 
 alias pls='sudo  $(fc -ln -1)'
