@@ -48,7 +48,8 @@ return {
                     telescope = {
                         enabled = true
                     },
-                    lsp_trouble = true
+                    lsp_trouble = true,
+                    which_key = true
                 }
             }
 
