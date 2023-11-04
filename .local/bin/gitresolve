@@ -1,0 +1,13 @@
+#!/bin/bash
+
+git status -s | grep '^\s*UU' | sed -E 's/(\s*UU\s+"?)(.*)("?)/\2/' | xargs -d'\n' nvim
+
+printf 'Commit message \e[90m(Resolve conflicts)\e[0m: '
+read -re msg
+if [ -z "$msg" ]; then
+    msg="Resolve conflicts"
+    printf '\e[KCommit message: Resolve conflicts\n'
+fi
+
+git commit -am "$msg"
+git rebase --continue
