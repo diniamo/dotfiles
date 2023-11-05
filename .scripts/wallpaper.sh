@@ -17,6 +17,7 @@ else
 fi
 
 hyprctl dispatch -- exec swaybg --mode fill --image "$image"
-sleep 1
-kill -TERM "$pid"
-
+if [ ! -z "$pid" ]; then
+    sleep 1
+    kill -TERM "$pid"
+fi
