@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo paccache -rk3
+paru -Scc --noconfirm
