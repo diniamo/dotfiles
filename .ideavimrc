@@ -1,5 +1,4 @@
 " Plugins
-set sneak
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
@@ -11,11 +10,17 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'dbakker/vim-paragraph-motion'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'chrisbra/matchit'
+Plug 'easymotion/vim-easymotion'
+Plug 'TheBlob42/idea-which-key'
 set quickscope
 
 " Plug 'romainl/vim-cool'
 
 " Plugin settings
+let g:EasyMotion_do_mapping = 0
+map s <Plug>(easymotion-f)
+map S <Plug>(easymotion-F)
+
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:highlightedyank_highlight_duration = "-1"
 
@@ -38,10 +43,13 @@ set ideajoin
 set ideamarks
 set ideastatusicon="grey"
 
+set notimeout
+set timeoutlen=500
+
 " Mappings
 nmap <CR> o<ESC>
 nmap <S-CR> O<ESC>
-imap <S-CR> <C-O>O
+" imap <S-CR> <C-O>O
 
 nmap <A-j> :m .+1<CR>==
 nmap <A-k> :m .-2<CR>==
@@ -49,3 +57,6 @@ imap <A-j> <Esc>:m .+1<CR>==gi
 imap <A-k> <Esc>:m .-2<CR>==gi
 vmap <A-j> :m >+1<CR>gv=gv
 vmap <A-k> :m <-2<CR>gv=gv
+
+nmap <Tab> <Action>(NextTab)
+nmap <S-Tab> <Action>(PreviousTab)

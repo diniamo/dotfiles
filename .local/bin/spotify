@@ -1,2 +1,2 @@
 #!/bin/sh
-/sbin/spotify --enable-features=UseOzonePlatform --ozone-platform=wayland --disable-gpu --disable-gpu-sandbox $@
+/sbin/spotify --enable-features=UseOzonePlatform --ozone-platform=wayland $@
