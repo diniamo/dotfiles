@@ -124,6 +124,10 @@ cmd dragon-drop &{{
     (eval "$(printf 'IFS="\n"')"; dragon-drop -a -x $fx)
 }}
 
+cmd copy-path &{{
+    wl-copy "$f"
+}}
+
 cmd fzf-jump ${{
     choice="$(find "$PWD" | fzf)"
     if [ -d "$choice" ]; then
