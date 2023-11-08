@@ -1,10 +1,5 @@
 #!/bin/sh
 
-if hyprctl -j monitors | jq -e 'any(.[]; .specialWorkspace.name != "")'; then
-    exit 0
-fi
-
-
 workspace_id=$(hyprctl -j activeworkspace | jq -r '.id')
 workspace_string=$(hyprctl -j activeworkspace | jq -r '.name')
 if [ "$workspace_string" != "$workspace_id" ]; then
