@@ -1,4 +1,4 @@
 #!/bin/sh
 
 sudo paccache -rk3
-paru -Scc --noconfirm
+yay -Sc --aur --noconfirm

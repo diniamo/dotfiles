@@ -16,8 +16,9 @@ fi
 
 
 echo "Installing packages..."
-sudo pacman -Sy --needed --noconfirm paru
-paru -S --needed - < $ROOT/packages.txt
+sudo pacman -Sy --needed --noconfirm yay
+yay -Y --devel --save
+yay -S --needed - < $ROOT/packages.txt
 
 echo "Enabling services..."
 sudo systemctl enable ly
