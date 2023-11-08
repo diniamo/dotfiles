@@ -40,17 +40,16 @@ get_state_option() {
 }
 
 if hyprctl -j activeworkspace | jq -e '.hasfullscreen' >/dev/null; then
-    hyprctl keyword workspace "$workspace_id, gapsout:$(get_state_option 'gapsout'),border:$(get_state_option 'border'),rounding:$(get_state_option 'rounding')"
+    hyprctl keyword workspace "$workspace_id, gapsout:$(get_state_option 'gapsout'),gapsin:$(get_state_option 'gapsin'),border:$(get_state_option 'border'),rounding:$(get_state_option 'rounding')"
     hyprctl dispatch fullscreen
 else
     gaps_out=$(get_option 'gapsOut' 'general:gaps_out' 'int')
+    gaps_in=$(get_option 'gapsIn' 'general:gaps_in' 'int')
     rounding=$(get_option 'rounding' 'decoration:rounding' 'int')
     border=$(get_option 'border' 'general:border_size' 'int')
 
-    printf 'gaps_out: "%s"\nborder: "%s"\nrounding: "%s"\n' "$gaps_out" "$border" "$rounding"
-
     tmp=$(mktemp)
-    printf '%s' "$original_state" | jq ".\"$workspace_id\".gapsout = \"$gaps_out\" | .\"$workspace_id\".rounding = \"$rounding\" | .\"$workspace_id\".border = \"$border\"" > "$tmp"
+    printf '%s' "$original_state" | jq ".\"$workspace_id\".gapsout = \"$gaps_out\" | .\"$workspace_id\".gapsin = \"$gaps_in\" | .\"$workspace_id\".rounding = \"$rounding\" | .\"$workspace_id\".border = \"$border\"" > "$tmp"
     mv "$tmp" "$state_file"
 
     hyprctl keyword workspace "$workspace_id, gapsout:0,border:false,rounding:false"
