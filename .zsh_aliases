@@ -38,7 +38,7 @@ alias pls='sudo  $(fc -ln -1)'
 alias please='sudo bash -c "$(fc -ln -1)"'
 
 alias icat='kitten icat'
-alias dragon-drop='dragon-drop -a -x'
+alias drop='dragon-drop -a -x'
 
 alias rm='rmtrash'
 alias rmdir='rmdirtrash'
