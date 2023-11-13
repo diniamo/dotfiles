@@ -9,12 +9,13 @@ done
 
 SHADER_FILE="$HOME/.config/hypr/shaders/blue-light-filter.glsl"
 
-start_interp=1200
+start_interp=1140
 end_interp=1320
 
 end=300
 
-min_temp=2600
+min_temp=1000
+# min_temp=2600
 max_temp=4000
 
 while true; do

@@ -113,4 +113,4 @@ rsync
 wf-recorder
 cp-p-git
 python-virtualenv
-
+sdbus-cpp

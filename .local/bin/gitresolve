@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git status -s | grep '^\s*UU' | sed -E 's/(\s*UU\s+"?)(.*)("?)/\2/' | xargs -d'\n' nvim
+git status -s | grep '^\s*UU' | grep -oP '\s*UU\s+"?\K.*' | sed 's/"$//' | xargs -d'\n' nvim
 
 printf 'Commit message \e[90m(Resolve conflicts)\e[0m: '
 read -re msg
