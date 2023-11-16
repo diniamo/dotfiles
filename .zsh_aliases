@@ -51,8 +51,12 @@ alias paste='wl-paste'
 alias windows='sudo grub-reboot 2 && sudo reboot'
 
 alias def="trans -d"
+alias defd="dict"
+alias udef="udict"
 alias say="trans -no-translate -speak"
 alias hun="trans :hu"
+alias eng="trans :en"
+alias deu="trans :de"
 
 # Suffix aliases
 alias -s git="git clone"
