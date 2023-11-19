@@ -5,6 +5,7 @@ dfcp() {
 dst() { dotfiles status }
 
 alias paru='yay'
+alias spkg='unbuffer yay -Q | grep'
 alias listxwl="hyprctl -j clients | jq -r '.[] | select( [ .xwayland == true ] | any ) | .title' | awk 'NF'"
 
 alias btw='neofetch'

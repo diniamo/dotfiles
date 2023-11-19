@@ -8,6 +8,7 @@ scripts=(
     "https://raw.githubusercontent.com/Eisa01/mpv-scripts/master/scripts/UndoRedo.lua"
     # "https://raw.githubusercontent.com/diniamo/mpv-fullscreen/master/fullscreen.lua"
     "https://raw.githubusercontent.com/rui-ddc/skip-intro/master/skip-intro.lua"
+    "https://github.com/ekisu/mpv-webm/releases/download/latest/webm.lua"
 )
 
 mpv_dir="${XDG_CONFIG_HOME:-$HOME/.config}/mpv"
@@ -19,6 +20,9 @@ mkdir -v "$mpv_dir/scripts"
 for script in "${scripts[@]}"; do
     wget --directory-prefix "$mpv_dir/scripts/" "$script"
 done
+
+# mpv-cut
+# git clone -b release --single-branch "https://github.com/familyfriendlymikey/mpv-cut.git" "$mpv_dir/scripts/mpv-cut" 
 
 # sponsorblock
 git clone -- "https://www.github.com/po5/mpv_sponsorblock" "/tmp/mpv_sponsorblock"

@@ -47,6 +47,8 @@ map z1 set ratios 3:2:1
 map z2 set ratios 1:2:1
 map z3 set ratios 1:2:3
 
+map bd download-clipboard
+
 cmd on-cd &zoxide add "$PWD"
 
 cmd edit &{{
@@ -135,4 +137,11 @@ cmd fzf-jump ${{
     else
         lf -remote "send $id select '$choice'"
     fi
+}}
+
+cmd download %{{
+    wget -q --show-progress --progress=bar:force $@
+}}
+cmd download-clipboard %{{
+    wget -q --show-progress --progress=bar:force $(wl-paste)
 }}
