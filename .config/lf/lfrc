@@ -48,6 +48,7 @@ map z2 set ratios 1:2:1
 map z3 set ratios 1:2:3
 
 map bd download-clipboard
+map bs current-size
 
 cmd on-cd &zoxide add "$PWD"
 
@@ -144,4 +145,8 @@ cmd download %{{
 }}
 cmd download-clipboard %{{
     wget -q --show-progress --progress=bar:force $(wl-paste)
+}}
+
+cmd current-size %{{
+    du -sh "$f"
 }}
