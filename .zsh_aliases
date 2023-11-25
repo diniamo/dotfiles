@@ -3,6 +3,7 @@ dfcp() {
 	dotfiles commit -am $1 && dotfiles pull && dotfiles push
 }
 dst() { dotfiles status }
+dfd() { dotfiles diff }
 
 alias paru='yay'
 alias spkg='unbuffer yay -Q | grep'
