@@ -61,7 +61,8 @@
         // "interface": "wlp2s0", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-ethernet": "{ifname}: {ipaddr} ",
-        "format-disconnected": "Disconnected ⚠"
+        "format-disconnected": "Disconnected ⚠",
+        "on-click": "sh -c '$TERMINAL nmtui'"
     },
     "pulseaudio": {
         //"scroll-step": 1,

@@ -121,3 +121,4 @@ patch
 make
 unzip
 pyenv
+xdg-desktop-portal-gtk
