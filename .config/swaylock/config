@@ -11,7 +11,7 @@ fade-in=1
 # Background effect
 effect-blur=20x5
 # effect-greyscale
-effect-vignette=0.6:0.001
+effect-vignette=0.75:0.001
 
 # Indicator circle
 indicator

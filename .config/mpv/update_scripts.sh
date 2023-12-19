@@ -9,6 +9,7 @@ scripts=(
     # "https://raw.githubusercontent.com/diniamo/mpv-fullscreen/master/fullscreen.lua"
     "https://raw.githubusercontent.com/rui-ddc/skip-intro/master/skip-intro.lua"
     "https://github.com/ekisu/mpv-webm/releases/download/latest/webm.lua"
+    "https://raw.githubusercontent.com/dexeonify/mpv-config/main/scripts/seek-to.lua"
 )
 
 mpv_dir="${XDG_CONFIG_HOME:-$HOME/.config}/mpv"

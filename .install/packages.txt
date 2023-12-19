@@ -7,7 +7,7 @@ cava
 cliphist
 cmatrix
 croc
-dash
+dashbinsh
 dictd
 downgrade
 dragon-drop
@@ -68,7 +68,7 @@ sshfs
 sway-audio-idle-inhibit-git
 swaybg
 swayidle
-swaylock-effects
+swaylock-effects-git
 termdown
 tesseract
 thefuck
@@ -115,3 +115,4 @@ cp-p-git
 python-virtualenv
 sdbus-cpp
 gammastep
+libreoffice-still
