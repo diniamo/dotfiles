@@ -15,15 +15,20 @@ fi
 
 if ! grep -qxF "[chaotic-aur]" /etc/pacman.conf; then
 	echo "Adding chaotic-aur..."
-	pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-	pacman-key --lsign-key 3056513887B78AEB
+	sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+	sudo pacman-key --lsign-key 3056513887B78AEB
 	sudo pacman -U --noconfirm "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst" "https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst"
-	echo -e "\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
+	printf "\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" | sudo tee -a /etc/pacman.conf
 fi
 
 
 echo "Installing packages..."
-sudo pacman -Sy --needed --noconfirm yay
+sudo pacman -Sy --needed --noconfirm yay rate-mirrors
+
+TMPFILE="$(mktemp)"
+rate-mirrors --save=$TMPFILE arch --max-delay=21600
+sudo mv $TMPFILE /etc/pacman.d/mirrorlist
+
 yay -Y --devel --save
 yay -S --needed - < $ROOT/packages.txt
 
@@ -45,6 +50,7 @@ if [ !  -d "$HOME/.dotfiles" ]; then
         bat cache --build
 
         $HOME/.config/mpv/update_scripts.sh
+        $HOME/.config/etc/install.sh
 	else
 		echo "Please run the script again once you have set an ssh key up!"
 	fi

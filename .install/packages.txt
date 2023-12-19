@@ -111,9 +111,13 @@ qt6-wayland
 rate-mirrors
 rsync
 wf-recorder
-cp-p-git
 python-virtualenv
 sdbus-cpp
 gammastep
 libreoffice-still
 util-linux
+pkgconf
+patch
+make
+unzip
+pyenv
