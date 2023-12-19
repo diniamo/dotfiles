@@ -6,6 +6,10 @@ fi
 ROOT=$(dirname "$0")
 echo "Script directory: $ROOT"
 
+if [ ! -f "$ROOT/packages.txt" ]; then
+    curl -o "$ROOT/packages.txt" "https://raw.githubusercontent.com/diniamo/dotfiles/workstation/.install/packages.txt"
+fi
+
 if ! grep -qxF "[chaotic-aur]" /etc/pacman.conf; then
 	echo "Adding chaotic-aur..."
 	pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
@@ -22,6 +26,7 @@ yay -S --needed - < $ROOT/packages.txt
 
 echo "Enabling services..."
 sudo systemctl enable ly
+sudo systemctl enable fstrim.timer
 
 if [ !  -d "$HOME/.dotfiles" ]; then
 	echo "Initializing dotfiles..."

@@ -116,3 +116,4 @@ python-virtualenv
 sdbus-cpp
 gammastep
 libreoffice-still
+util-linux
