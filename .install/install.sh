@@ -1,3 +1,5 @@
+#!/bin/sh
+
 if ! command -v sudo > /dev/null; then
 	echo "Please set sudo up before running this script!"
 	exit
