@@ -4,6 +4,7 @@ if ! command -v sudo > /dev/null; then
 	echo "Please set sudo up before running this script!"
 	exit
 fi
+sudo true
 
 ROOT=$(dirname "$0")
 echo "Script directory: $ROOT"
