@@ -1,0 +1,4 @@
+image_preview = false
+json = false
+rofi = false
+quiet = false
