@@ -122,3 +122,4 @@ make
 unzip
 pyenv
 xdg-desktop-portal-gtk
+lobster-git
