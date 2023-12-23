@@ -12,12 +12,22 @@ socat -U - UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | w
                 hyprctl dispatch movetoworkspace "$(hyprctl -j activeworkspace | jq -r '.id'),address:0x${details[0]}"
                 # hyprctl dispatch togglespecialworkspace
             fi
-            ;;
+        ;;
         workspace)
             if hyprctl -j monitors | jq -e '.[] | select(.focused == true) | .specialWorkspace.id != 0'; then
                 hyprctl dispatch togglespecialworkspace
             fi
-            ;;
+        ;;
+        fullscreen)
+            case "$details" in
+                0)
+                    ~/.config/hypr/scripts/workspace_decoration_manager.sh on
+                ;;
+                1)
+                    ~/.config/hypr/scripts/workspace_decoration_manager.sh off
+                ;;
+            esac
+        ;;
     esac
 done
 
