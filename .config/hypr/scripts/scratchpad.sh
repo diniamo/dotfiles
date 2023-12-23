@@ -31,6 +31,9 @@ case "$1" in
     "music")
         toggle_scratchpad "music" "$TERMINAL_CMD --title \"Music Player\" -- ncspot"
         ;;
+    "music_gui")
+        toggle_scratchpad "music_gui" "spotify"
+        ;;
     "calculator")
         toggle_scratchpad "calculator" "$TERMINAL_CMD --title Calculator -- qalc"
         ;;
