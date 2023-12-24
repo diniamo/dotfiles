@@ -40,17 +40,13 @@ get_state_option() {
 case "$1" in
     init)
         state=$(hyprctl workspaces -j | jq -r '.[] | select(.name | startswith("special:") | not) | .name' | while read -r name; do
-            printf '%s' "$current_state\"$name\": {
+            printf '%s' "\"$name\": {
     \"gapsout\": $(get_option 'gapsOut' 'general:gaps_out' 'int' "$name"),
     \"rounding\": $(get_option 'rounding' 'decoration:rounding' 'int' "$name"),
     \"border\": $(get_option 'border' 'general:border_size' 'int' "$name")
 }"
         done)
         state=$(printf '%s' "$state" | sed 's/}"/},"/')
-
-        echo "blah"
-        echo "$state"
-        
         printf '{\n%s}' "$state" > "$state_file"
     ;;
     on)
