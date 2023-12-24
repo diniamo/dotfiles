@@ -39,6 +39,10 @@
   color: #cad3f5;
 }
 
+.floating-notifications.background .notification-row .notification-background .notification .notification-content .image {
+  margin-right: 12.6px;
+}
+
 .floating-notifications.background .notification-row .notification-background .notification > *:last-child > * {
   min-height: 3.4em;
 }
