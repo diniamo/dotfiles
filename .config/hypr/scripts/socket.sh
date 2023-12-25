@@ -7,7 +7,10 @@ update_window_decorations() {
         exit
     fi
 
-    windows=$(jq -e '.windows' <<< "$active")
+    # This doesn't work with removewindow because a window is only removed from the client list after closewindow has been called 
+    # windows=$(hyprctl -j clients | jq -r "[.[] | select(.workspace.id == $(jq -r '.id' <<< "$active") and .floating == false)] | length") 
+
+    windows=$(jq -r '.windows' <<< "$active")
     if [[ $windows < 2 ]]; then
         ~/.config/hypr/scripts/workspace_decoration_manager.sh off
     else
