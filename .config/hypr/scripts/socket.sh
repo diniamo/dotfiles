@@ -4,7 +4,7 @@ update_window_decorations() {
     active=$(hyprctl -j activeworkspace)
 
     if jq -e '.hasfullscreen' <<< "$active"; then
-        exit
+        return
     fi
 
     # This doesn't work with removewindow because a window is only removed from the client list after closewindow has been called 

@@ -43,7 +43,8 @@ case "$1" in
             printf '%s' "\"$name\": {
     \"gapsout\": $(get_option 'gapsOut' 'general:gaps_out' 'int' "$name"),
     \"rounding\": $(get_option 'rounding' 'decoration:rounding' 'int' "$name"),
-    \"border\": $(get_option 'border' 'general:border_size' 'int' "$name")
+    \"border\": $(get_option 'border' 'general:border_size' 'int' "$name"),
+    \"gapsin\": $(get_option 'gapsIn' 'general:gaps_in' 'int' "$name")
 }"
         done)
         state=$(printf '%s' "$state" | sed 's/}"/},"/')
@@ -51,7 +52,7 @@ case "$1" in
     ;;
     on)
         state=$(cat "$state_file")
-        hyprctl keyword workspace "$workspace_id, gapsout:$(get_state_option 'gapsout' 'general:gaps_out' 'int'),border:$(get_state_option 'border' 'general:border_size' 'int'),rounding:$(get_state_option 'rounding' 'decoration:rounding' 'int')"
+        hyprctl keyword workspace "$workspace_id, gapsin:$(get_state_option 'gapsin' 'general:gaps_in' 'int'),gapsout:$(get_state_option 'gapsout' 'general:gaps_out' 'int'),border:$(get_state_option 'border' 'general:border_size' 'int'),rounding:$(get_state_option 'rounding' 'decoration:rounding' 'int')"
     ;;
     off)
         hyprctl keyword workspace "$workspace_id, gapsout:0,border:false,rounding:false"
