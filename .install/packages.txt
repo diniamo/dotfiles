@@ -123,3 +123,5 @@ unzip
 pyenv
 xdg-desktop-portal-gtk
 lobster-git
+lazygit
+fd
