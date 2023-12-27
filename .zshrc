@@ -32,6 +32,7 @@ custom_plugins=(
 	hlissner/zsh-autopair
 	joshskidmore/zsh-fzf-history-search
 	zpm-zsh/colorize
+    jeffreytse/zsh-vi-mode
 )
 # autoload -U add-zsh-hook
 source $HOME/.zsh_plugins > /dev/null 2>&1

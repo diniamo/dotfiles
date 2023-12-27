@@ -11,8 +11,15 @@ return {
       },
     },
   },
-
-  -- This shows it on the start page as well unfortunately
+  {
+    "folke/noice.nvim",
+    opts = {
+      presets = {
+        bottom_search = false,
+      },
+    },
+  },
+  -- FIX: This shows it on the start page as well
   -- {
   --   "akinsho/bufferline.nvim",
   --   opts = {
