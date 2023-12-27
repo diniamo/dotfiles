@@ -1,7 +1,7 @@
 {
     "layer": {
         "silent": true,
-        "output": "kitty",
+        "output": "iterm2",
         "no-opencv": true
     }
 }

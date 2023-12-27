@@ -19,6 +19,16 @@ return {
       },
     },
   },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters = {
+        shfmt = {
+          prepend_args = { "-i", "4" },
+        },
+      },
+    },
+  },
   -- FIX: This shows it on the start page as well
   -- {
   --   "akinsho/bufferline.nvim",

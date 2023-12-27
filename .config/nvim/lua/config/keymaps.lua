@@ -6,7 +6,8 @@ local map = vim.keymap.set
 map("n", "<CR>", "o<ESC>")
 map("n", "<S-CR>", "O<ESC>")
 
-map("i", "<C-BS>", "<C-w>")
+-- <C-H> is <C-BS> in wezterm
+map("i", "<C-H>", "<C-w>")
 map("i", "<C-Del>", "<C-o>de")
 
 map("n", "<C-A>", "ggVG")

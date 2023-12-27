@@ -9,7 +9,7 @@ opt.shiftwidth = 4
 opt.expandtab = true
 
 -- These are overridden normally
-api.nvim_create_autocmd({ "BufEnter" }, {
+api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     opt.formatoptions:remove({ "c", "o" })
   end,
