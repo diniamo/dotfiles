@@ -127,3 +127,4 @@ lazygit
 fd
 ark
 unrar
+mako
