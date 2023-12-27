@@ -125,3 +125,5 @@ xdg-desktop-portal-gtk
 lobster-git
 lazygit
 fd
+ark
+unrar

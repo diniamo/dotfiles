@@ -13,10 +13,9 @@ set cleaner ~/.config/lf/cleaner
 
 map <enter> open
 
-map gt cd /tmp
+map gp cd /tmp
 map gr cd /
 map gd cd ~/Downloads
-map gp cd ~/Pictures
 map gw cd ~/Pictures/wallpapers
 
 map gL cd ~/.config/lf

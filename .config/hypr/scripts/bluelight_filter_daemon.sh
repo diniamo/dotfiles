@@ -4,7 +4,7 @@
 for pid in $(pgrep -f $0); do
     if [ $pid != $$ ]; then
         kill $pid
-    fi 
+    fi
 done
 
 SHADER_FILE="$HOME/.config/hypr/shaders/blue-light-filter.glsl"
@@ -21,7 +21,7 @@ max_temp=4000
 while true; do
     hour=$(date +%T | cut -f1 -d':')
     minute=$(date +%T | cut -f2 -d':')
-    minutes=$((hour*60 + minute))
+    minutes=$((hour * 60 + minute))
 
     # 05:00 - 20:00
     if ((minutes >= end && minutes < start_interp)); then
@@ -29,7 +29,7 @@ while true; do
     else
         # 20:00 - 22:00
         if ((minutes >= start_interp && minutes <= end_interp)); then
-            temperature="$(( max_temp+(minutes-start_interp)*(min_temp-max_temp)/(end_interp-start_interp) )).0"
+            temperature="$((max_temp + (minutes - start_interp) * (min_temp - max_temp) / (end_interp - start_interp))).0"
         else
             temperature="$min_temp.0"
         fi

@@ -6,8 +6,8 @@ scripts=(
     "https://github.com/hoyon/mpv-mpris/releases/latest/download/mpris.so"
     # "https://raw.githubusercontent.com/mpv-player/mpv/master/TOOLS/lua/autoload.lua"
     "https://raw.githubusercontent.com/Eisa01/mpv-scripts/master/scripts/UndoRedo.lua"
-    # "https://raw.githubusercontent.com/diniamo/mpv-fullscreen/master/fullscreen.lua"
-    "https://raw.githubusercontent.com/rui-ddc/skip-intro/master/skip-intro.lua"
+    # "https://raw.githubusercontent.com/diniamo/mpv-scripts/master/fullscreen.lua"
+    "https://raw.githubusercontent.com/diniamo/mpv-scripts/master/skip-intro.lua"
     "https://github.com/ekisu/mpv-webm/releases/download/latest/webm.lua"
     "https://raw.githubusercontent.com/dexeonify/mpv-config/main/scripts/seek-to.lua"
 )
@@ -15,7 +15,7 @@ scripts=(
 mpv_dir="${XDG_CONFIG_HOME:-$HOME/.config}/mpv"
 tmp_dir="/tmp"
 
-rm  -rfv "$mpv_dir/scripts" "$mpv_dir/fonts"
+rm -rfv "$mpv_dir/scripts" "$mpv_dir/fonts"
 mkdir -v "$mpv_dir/scripts"
 
 for script in "${scripts[@]}"; do
@@ -23,7 +23,7 @@ for script in "${scripts[@]}"; do
 done
 
 # mpv-cut
-# git clone -b release --single-branch "https://github.com/familyfriendlymikey/mpv-cut.git" "$mpv_dir/scripts/mpv-cut" 
+# git clone -b release --single-branch "https://github.com/familyfriendlymikey/mpv-cut.git" "$mpv_dir/scripts/mpv-cut"
 
 # sponsorblock
 git clone -- "https://www.github.com/po5/mpv_sponsorblock" "/tmp/mpv_sponsorblock"
