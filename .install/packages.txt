@@ -127,4 +127,4 @@ lazygit
 fd
 ark
 unrar
-mako
+neovide-git

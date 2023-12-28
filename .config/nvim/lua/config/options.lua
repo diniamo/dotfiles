@@ -3,6 +3,7 @@
 
 local opt = vim.opt
 local api = vim.api
+local g = vim.g
 
 opt.tabstop = 4
 opt.shiftwidth = 4
@@ -14,3 +15,8 @@ api.nvim_create_autocmd({ "FileType" }, {
     opt.formatoptions:remove({ "c", "o" })
   end,
 })
+
+if vim.g.neovide then
+  opt.guifont = "Hack Nerd Font Mono:h12"
+  g.neovide_confirm_quit = false
+end
