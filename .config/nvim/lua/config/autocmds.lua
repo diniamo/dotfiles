@@ -4,23 +4,23 @@
 local api = vim.api
 
 -- Workaround for #21856
-api.nvim_create_autocmd({ "VimLeave" }, {
-  callback = function()
-    vim.cmd('!notify-send  ""')
-    vim.cmd("sleep 10m")
-  end,
-})
-api.nvim_create_autocmd({ "VimLeave" }, {
-  callback = function()
-    vim.fn.jobstart('notify-send ""', { detach = true })
-  end,
-})
+-- api.nvim_create_autocmd({ "VimLeave" }, {
+--   callback = function()
+--     vim.cmd('!notify-send  ""')
+--     vim.cmd("sleep 10m")
+--   end,
+-- })
+-- api.nvim_create_autocmd({ "VimLeave" }, {
+--   callback = function()
+--     vim.fn.jobstart('notify-send ""', { detach = true })
+--   end,
+-- })
 
 -- Remove padding in Neovim
-vim.cmd([[
-  augroup kitty_padding
-    autocmd!
-    au VimLeave * :silent !kitty @ --to=$KITTY_LISTEN_ON set-spacing padding=5
-    au VimEnter * :silent !kitty @ --to=$KITTY_LISTEN_ON set-spacing padding=0
-  augroup END
-]])
+-- vim.cmd([[
+--   augroup kitty_padding
+--     autocmd!
+--     au VimLeave * :silent !kitty @ --to=$KITTY_LISTEN_ON set-spacing padding=5
+--     au VimEnter * :silent !kitty @ --to=$KITTY_LISTEN_ON set-spacing padding=0
+--   augroup END
+-- ]])

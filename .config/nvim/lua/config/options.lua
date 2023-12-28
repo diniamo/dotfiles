@@ -16,7 +16,14 @@ api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+-- local api_nvim_open_win = api.nvim_open_win
+-- api.nvim_open_win = function(buffer, enter, conf)
+--   conf = conf or {}
+--   conf.border = "rounded"
+--   return api_nvim_open_win(buffer, enter, conf)
+-- end
+
 if vim.g.neovide then
   opt.guifont = "Hack Nerd Font Mono:h12"
-  g.neovide_confirm_quit = false
+  g.neovide_remember_window_size = false
 end
