@@ -1,7 +1,7 @@
 {
     "layer": {
         "silent": true,
-        "output": "iterm2",
+        "output": "sixel",
         "no-opencv": true
     }
 }

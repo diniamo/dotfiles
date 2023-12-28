@@ -1,7 +1,8 @@
 #!/bin/sh
 
-TERMINAL_CMD="wezterm start --always-new-process"
-# TERMINAL_CMD="kitty"
+# TERMINAL_CMD="wezterm start --always-new-process"
+TERMINAL_CMD="foot"
+CLASS_ARGUMENT="--app-id"
 
 windows_in() {
     hyprctl clients -j | jq ".[] | select(.workspace.name == \"special:$1\" )"
@@ -41,7 +42,7 @@ case "$1" in
     toggle_scratchpad "wa" "$TERMINAL_CMD -- ~/.scripts/loop_input.sh 'wa -p'"
     ;;
 "fm")
-    toggle_scratchpad "fm" "$TERMINAL_CMD --class lf -- lfrun"
+    toggle_scratchpad "fm" "$TERMINAL_CMD $CLASS_ARGUMENT lf -- lfrun"
     ;;
 "fm_gui")
     toggle_scratchpad "fm_gui" "dolphin"

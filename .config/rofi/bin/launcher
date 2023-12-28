@@ -1,13 +1,13 @@
 #!/bin/sh
 rofi \
-	-show drun \
-	-modi run,drun,ssh \
-	-scroll-method 1 \
-	-drun-match-fields all \
-	-drun-display-format "{name}" \
-	-no-drun-show-actions \
-	-terminal wezterm start \
-	-kb-row-up Alt+k \
-	-kb-row-down Alt+j \
-	-kb-cancel Escape \
-	-theme "$HOME"/.config/rofi/config/launcher.rasi
+    -show drun \
+    -modi run,drun,ssh \
+    -scroll-method 1 \
+    -drun-match-fields all \
+    -drun-display-format "{name}" \
+    -no-drun-show-actions \
+    -terminal foot \
+    -kb-row-up Alt+k \
+    -kb-row-down Alt+j \
+    -kb-cancel Escape \
+    -theme "$HOME"/.config/rofi/config/launcher.rasi

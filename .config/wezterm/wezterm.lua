@@ -36,8 +36,10 @@ return {
     font = wezterm.font("Hack Nerd Font Mono"),
     font_size = 11.0,
 
-    enable_wayland = true,
-    -- front_end = "OpenGL",
+    -- Wayland WebGPU doesn't work with Nvidia
+    -- Wayland OpenGL has input issues
+    -- Forced to use XWayland
+    enable_wayland = false,
 
     window_padding = padding,
     window_decorations = "NONE",

@@ -1,8 +1,8 @@
 #!/bin/sh
 rofi \
-	-show run \
-	-scroll-method 1 \
-	-terminal wezterm start \
-	-kb-row-up Alt+k \
-	-kb-row-down Alt+j \
-	-theme "$HOME"/.config/rofi/config/runner.rasi
+    -show run \
+    -scroll-method 1 \
+    -terminal foot \
+    -kb-row-up Alt+k \
+    -kb-row-down Alt+j \
+    -theme "$HOME"/.config/rofi/config/runner.rasi
