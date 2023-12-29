@@ -1,7 +1,7 @@
 {
     "layer": {
         "silent": true,
-        "output": "sixel",
+        "output": "wayland",
         "no-opencv": true
     }
 }

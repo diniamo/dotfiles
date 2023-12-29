@@ -2,8 +2,7 @@
 
 WA_APPID=$(<$HOME/.wolfram_api_key)
 
-VIEWER="wezterm imgcat --no-resample"
-# VIEWER="kitty +kitten icat --align left"
+VIEWER="kitty +kitten icat --align left"
 BG="transparent"
 FG="white"
 # BG="white"

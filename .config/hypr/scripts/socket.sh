@@ -21,13 +21,12 @@ update_window_decorations() {
 socat -U - UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r event; do
     action=${event%%>>*}
     details=${event##*>>}
-    asdf
 
     case "$action" in
     openwindow)
         IFS=',' read -r -a details <<<"$details"
 
-        if [[ "${details[2]}" != "lf" && "${details[1]}" == "special:fm" ]]; then
+        if [[ "${details[1]}" == "special:fm" && "${details[2]}" != "lf" && ! "${details[2]}" =~ ueberzugpp_.* ]]; then
             hyprctl dispatch movetoworkspace "$(hyprctl -j activeworkspace | jq -r '.id'),address:0x${details[0]}"
             # hyprctl dispatch togglespecialworkspace
         fi

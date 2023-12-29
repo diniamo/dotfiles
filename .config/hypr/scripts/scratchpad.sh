@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # TERMINAL_CMD="wezterm start --always-new-process"
-TERMINAL_CMD="foot"
+TERMINAL_CMD="footclient"
 CLASS_ARGUMENT="--app-id"
 
 windows_in() {
@@ -39,7 +39,7 @@ case "$1" in
     toggle_scratchpad "calculator" "$TERMINAL_CMD -- qalc"
     ;;
 "wa")
-    toggle_scratchpad "wa" "$TERMINAL_CMD -- ~/.scripts/loop_input.sh 'wa -p'"
+    toggle_scratchpad "wa" "kitty -- ~/.scripts/loop_input.sh 'wa -p'"
     ;;
 "fm")
     toggle_scratchpad "fm" "$TERMINAL_CMD $CLASS_ARGUMENT lf -- lfrun"

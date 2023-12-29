@@ -6,7 +6,7 @@ rofi \
     -drun-match-fields all \
     -drun-display-format "{name}" \
     -no-drun-show-actions \
-    -terminal foot \
+    -terminal footclient \
     -kb-row-up Alt+k \
     -kb-row-down Alt+j \
     -kb-cancel Escape \

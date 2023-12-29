@@ -24,6 +24,6 @@ api.nvim_create_autocmd({ "FileType" }, {
 -- end
 
 if vim.g.neovide then
-  opt.guifont = "Hack Nerd Font Mono:h12"
+  opt.guifont = "Hack Nerd Font Mono:h11"
   g.neovide_remember_window_size = false
 end
