@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # TERMINAL_CMD="wezterm start --always-new-process"
-TERMINAL_CMD="footclient"
+TERMINAL_CMD="foot"
 CLASS_ARGUMENT="--app-id"
 
 windows_in() {
