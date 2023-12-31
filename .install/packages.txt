@@ -75,7 +75,7 @@ thefuck
 tldr
 translate-shell
 trash-cli
-ttf-hack-nerd
+ttf-jetbrains-mono-nerd
 ttf-icomoon-feather
 ttf-noto-nerd
 tty-clock
@@ -128,3 +128,4 @@ fd
 ark
 unrar
 neovide-git
+foot

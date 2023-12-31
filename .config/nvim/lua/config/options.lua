@@ -5,9 +5,13 @@ local opt = vim.opt
 local api = vim.api
 local g = vim.g
 
-opt.tabstop = 4
-opt.shiftwidth = 4
-opt.expandtab = true
+-- opt.tabstop = 4
+-- opt.softtabstop = 4
+-- opt.shiftwidth = 4
+-- opt.expandtab = true
+
+opt.copyindent = true
+opt.preserveindent = true
 
 -- These are overridden normally
 api.nvim_create_autocmd({ "FileType" }, {
@@ -16,14 +20,7 @@ api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
--- local api_nvim_open_win = api.nvim_open_win
--- api.nvim_open_win = function(buffer, enter, conf)
---   conf = conf or {}
---   conf.border = "rounded"
---   return api_nvim_open_win(buffer, enter, conf)
--- end
-
 if vim.g.neovide then
-  opt.guifont = "Hack Nerd Font Mono:h11"
+  opt.guifont = "JetBrainsMono Nerd Font Mono:h11"
   g.neovide_remember_window_size = false
 end
