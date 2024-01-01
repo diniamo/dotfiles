@@ -26,7 +26,7 @@ plugins=(
 custom_plugins=(
     aloxaf/fzf-tab
     MichaelAquilina/zsh-you-should-use
-    MichaelAquilina/zsh-auto-notify:auto-notify
+    # MichaelAquilina/zsh-auto-notify:auto-notify
     zsh-users/zsh-autosuggestions
     zsh-users/zsh-syntax-highlighting
     hlissner/zsh-autopair
@@ -59,7 +59,7 @@ ZSH_FZF_HISTORY_SEARCH_REMOVE_DUPLICATES=true
 zstyle ':fzf-tab:*' fzf-flags "--height=45%"
 
 
-TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer" "lf" "joshuto")
+# TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer" "lf" "joshuto")
 
 # remove-padding() {
 #     local IFS=' '
@@ -81,8 +81,8 @@ TUI=("jerry" "lobster" "nmtui" "ncspot" "pulsemixer" "lf" "joshuto")
 # add-zsh-hook preexec remove-padding
 # add-zsh-hook precmd readd-padding
 
-AUTO_NOTIFY_IGNORE+=("feh" "scrcpy" "bg" "fg" "mpv" "locedit" "bluetoothctl" "btop" "bacon" "notify-send")
-AUTO_NOTIFY_IGNORE+=($TUI)
+# AUTO_NOTIFY_IGNORE+=("feh" "scrcpy" "bg" "fg" "mpv" "locedit" "bluetoothctl" "btop" "bacon" "notify-send")
+# AUTO_NOTIFY_IGNORE+=($TUI)
 
 bindkey "^[[1;3D" insert-cycledleft
 bindkey "^[[1;3C" insert-cycledright

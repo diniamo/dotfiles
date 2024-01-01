@@ -37,7 +37,6 @@ textbox-prompt-colon {
     background-color:               @SEL;
     text-color:                     @FG;
     padding:                        8px 12px 8px 12px;
-    font:			                "Hack Nerd Font 10";
 }
 
 entry {

@@ -13,24 +13,24 @@ scripts=(
 )
 
 mpv_dir="${XDG_CONFIG_HOME:-$HOME/.config}/mpv"
-tmp_dir="/tmp"
+scripts_dir="$mpv_dir/scripts"
 
-rm -rfv "$mpv_dir/scripts" "$mpv_dir/fonts"
-mkdir -v "$mpv_dir/scripts"
+rm -rfv "$scripts_dir" "$mpv_dir/fonts"
+mkdir -v "$scripts_dir"
 
 for script in "${scripts[@]}"; do
-    wget --directory-prefix "$mpv_dir/scripts/" "$script"
+    wget --directory-prefix "$scripts_dir" "$script"
 done
 
-# mpv-cut
-# git clone -b release --single-branch "https://github.com/familyfriendlymikey/mpv-cut.git" "$mpv_dir/scripts/mpv-cut"
+# autosubsync-mpv
+git clone "https://github.com/Ajatt-Tools/autosubsync-mpv" "$scripts_dir/autosubsync"
 
 # sponsorblock
 git clone -- "https://www.github.com/po5/mpv_sponsorblock" "/tmp/mpv_sponsorblock"
-mv -v "/tmp/mpv_sponsorblock/sponsorblock.lua" "/tmp/mpv_sponsorblock/sponsorblock_shared/" "$mpv_dir/scripts/"
+mv -v "/tmp/mpv_sponsorblock/sponsorblock.lua" "/tmp/mpv_sponsorblock/sponsorblock_shared/" "$scripts_dir"
 rm -rfv /tmp/mpv_sponsorblock/
 
 # uosc
 wget -P /tmp/ https://github.com/tomasklaen/uosc/releases/latest/download/uosc.zip
-unzip -od "$mpv" /tmp/uosc.zip
+unzip -od "$mpv_dir" /tmp/uosc.zip
 rm -fv /tmp/uosc.zip
