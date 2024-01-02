@@ -33,7 +33,7 @@ end)
 
 return {
     color_scheme = "Catppuccin Macchiato",
-    font = wezterm.font("Hack Nerd Font Mono"),
+    font = wezterm.font("JetBrainsMono Nerd Font Mono"),
     font_size = 11.0,
 
     -- Wayland WebGPU doesn't work with Nvidia

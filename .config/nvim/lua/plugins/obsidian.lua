@@ -10,6 +10,9 @@ return {
                         path = "~/Documents/Notes",
                     },
                 },
+                attachments = {
+                    img_folder = "Attachments",
+                },
             },
         },
     },
