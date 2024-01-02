@@ -13,6 +13,8 @@ opt.expandtab = true
 opt.copyindent = true
 opt.preserveindent = true
 
+opt.conceallevel = 0
+
 -- These are overridden normally
 api.nvim_create_autocmd({ "FileType" }, {
     callback = function()
