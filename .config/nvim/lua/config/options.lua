@@ -5,22 +5,22 @@ local opt = vim.opt
 local api = vim.api
 local g = vim.g
 
--- opt.tabstop = 4
 -- opt.softtabstop = 4
--- opt.shiftwidth = 4
--- opt.expandtab = true
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.expandtab = true
 
 opt.copyindent = true
 opt.preserveindent = true
 
 -- These are overridden normally
 api.nvim_create_autocmd({ "FileType" }, {
-  callback = function()
-    opt.formatoptions:remove({ "c", "o" })
-  end,
+    callback = function()
+        opt.formatoptions:remove({ "c", "o" })
+    end,
 })
 
 if vim.g.neovide then
-  opt.guifont = "JetBrainsMono Nerd Font Mono:h11"
-  g.neovide_remember_window_size = false
+    opt.guifont = "JetBrainsMono Nerd Font Mono:h11"
+    g.neovide_remember_window_size = false
 end

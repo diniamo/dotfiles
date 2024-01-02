@@ -29,4 +29,17 @@ return {
             },
         },
     },
+    {
+        "nvimdev/dashboard-nvim",
+        opts = function(_, opts)
+            table.insert(opts.config.center, 4, {
+                action = "Telescope zoxide list",
+                desc = " Zoxide List",
+                icon = " ",
+                key = "z",
+                key_format = "  %s",
+            })
+            return opts
+        end,
+    },
 }
