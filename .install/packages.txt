@@ -110,7 +110,6 @@ qt5-wayland
 qt6-wayland
 rate-mirrors
 rsync
-wf-recorder
 python-virtualenv
 sdbus-cpp
 gammastep

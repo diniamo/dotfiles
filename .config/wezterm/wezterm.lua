@@ -38,8 +38,8 @@ return {
 
     -- Wayland WebGPU doesn't work with Nvidia
     -- Wayland OpenGL has input issues
-    -- Forced to use XWayland
     enable_wayland = true,
+    -- front_end = "OpenGL",
 
     window_padding = padding,
     window_decorations = "NONE",
