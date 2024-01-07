@@ -42,7 +42,7 @@ case "$1" in
     toggle_scratchpad "wa" "kitty -- ~/.scripts/loop_input.sh 'wa -p'"
     ;;
 "fm")
-    toggle_scratchpad "fm" "$TERMINAL_CMD $CLASS_ARGUMENT lf -- lfrun"
+    toggle_scratchpad "fm" "$TERMINAL_CMD $CLASS_ARGUMENT foot_lf -- lfrun"
     ;;
 "fm_gui")
     toggle_scratchpad "fm_gui" "dolphin"
