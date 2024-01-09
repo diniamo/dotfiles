@@ -7,11 +7,12 @@ local g = vim.g
 
 -- opt.softtabstop = 4
 opt.tabstop = 4
-opt.shiftwidth = 4
+opt.shiftwidth = 0
 opt.expandtab = true
 
-opt.copyindent = true
-opt.preserveindent = true
+-- These don't work
+-- opt.copyindent = true
+-- opt.preserveindent = true
 
 opt.conceallevel = 0
 
