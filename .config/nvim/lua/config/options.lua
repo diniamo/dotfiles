@@ -15,6 +15,7 @@ opt.expandtab = true
 -- opt.preserveindent = true
 
 opt.conceallevel = 0
+opt.spelllang = "en,hu"
 
 -- These are overridden normally
 api.nvim_create_autocmd({ "FileType" }, {

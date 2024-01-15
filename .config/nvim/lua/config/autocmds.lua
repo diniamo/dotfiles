@@ -1,7 +1,7 @@
 -- Autocmds are automatically loaded on the VeryLazy event
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 
-local api = vim.api
+-- local api = vim.api
 
 -- Workaround for #21856
 -- api.nvim_create_autocmd({ "VimLeave" }, {

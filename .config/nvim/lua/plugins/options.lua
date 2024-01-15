@@ -64,4 +64,14 @@ return {
             return opts
         end,
     },
+    {
+        "folke/flash.nvim",
+        opts = {
+            modes = {
+                search = {
+                    enabled = false
+                }
+            }
+        }
+    }
 }

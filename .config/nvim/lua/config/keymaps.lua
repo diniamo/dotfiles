@@ -24,6 +24,14 @@ map("n", "<leader>;", function()
     vim.api.nvim_win_set_cursor(0, cursor)
 end, { desc = "Appends a ; to the current line" })
 
+map("n", "i", function()
+    if #vim.fn.getline(".") == 0 then
+        return "\"_cc"
+    else
+        return "i"
+    end
+end, { expr = true, desc = "Properly indent when entering insert mode" })
+
 -- Terminals
 local terminals = {}
 local function toggle_terminal(name, term)
