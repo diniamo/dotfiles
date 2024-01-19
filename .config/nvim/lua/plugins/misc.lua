@@ -6,6 +6,7 @@ return {
             shade_terminals = false,
             direction = "float",
             -- Use background colored single border for padding
+
             float_opts = {
                 border = "single",
             },
@@ -20,9 +21,9 @@ return {
             },
         },
         keys = {
-            { "<C-t>" },
-            { "<leader>gg" },
-            { "<leader>gG" },
+            "<C-t>",
+            "<leader>gg",
+            "<leader>gG",
         },
     },
     {

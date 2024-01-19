@@ -13,7 +13,8 @@ return {
             map("n", "<leader>zz", require("utils").inputZoxide)
         end,
         keys = {
-            { "<leader>z" },
+            "<leader>zz",
+            "<leader>zi",
         },
     },
 }
