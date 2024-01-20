@@ -12,7 +12,7 @@ dictd
 downgrade
 dragon-drop
 duf
-swaync-git
+mako
 eza
 ffmpeg
 ffmpeg4.4

@@ -130,6 +130,10 @@ cmd copy-path &{{
     wl-copy "$f"
 }}
 
+cmd copy-file &{{
+    cat "$f" | wl-copy
+}}
+
 cmd fzf-jump ${{
     choice="$(find "$PWD" | fzf)"
     if [ -d "$choice" ]; then

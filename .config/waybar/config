@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "mpris"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["tray", "custom/notification", "network", "pulseaudio", "battery", "clock"],
+    "modules-right": ["tray", "network", "pulseaudio", "battery", "clock"],
 //    "hyprland/workspaces": {
 //        "disable-scroll": true,
 //        "all-outputs": false,

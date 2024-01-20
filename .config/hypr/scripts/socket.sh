@@ -38,7 +38,7 @@ socat -U - UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | w
     closewindow)
         update_window_decorations true
         ;;
-    movewindow | changefloatingmode)
+    movewindow | changefloatingmode | configreloaded)
         update_window_decorations
         ;;
     workspace)
