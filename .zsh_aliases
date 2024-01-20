@@ -9,12 +9,8 @@ alias paru='yay'
 alias spkg='unbuffer yay -Q | grep'
 alias listxwl="hyprctl -j clients | jq -r '.[] | select( [ .xwayland == true ] | any ) | .title' | awk 'NF'"
 
-alias btw='neofetch'
-
-# This fixes sudo usage with aliases
-alias sudo='sudo '
-
-eval $(thefuck --alias)
+alias sudo='doas '
+alias sudoedit='doasedit'
 
 alias v='nvim'
 
@@ -26,12 +22,11 @@ lf() {
         cd "$dir"
     fi
 }
-alias joshuto='joshutorun'
 
-alias ls='exa --icons'
-alias ll='exa --icons --git -lha'
-alias lt='exa --icons -T'
-alias la='exa --icons -a'
+alias ls='eza --icons'
+alias ll='eza --icons --git -lha'
+alias lt='eza --icons --tree'
+alias la='eza --icons --all'
 
 # Create a file with execute perms
 alias xtouch='install /dev/null'
@@ -44,11 +39,12 @@ alias drop='dragon-drop -a -x'
 
 alias rm='rmtrash'
 alias rmdir='rmdirtrash'
-alias rmd='/usr/sbin/rm'
+alias rmd='/usr/bin/rm'
 
 alias hash='sha256sum'
 alias copy='wl-copy'
 alias paste='wl-paste'
+alias which='command -v'
 
 alias windows='sudo grub-reboot 2 && sudo reboot'
 
@@ -75,10 +71,6 @@ alias -s py="python"
 mcd () {
 	[ -d $1 ] || mkdir -p $1
 	cd $1 && pwd
-}
-
-locedit() {
-    locate $@ | fzf | xargs nvim
 }
 
 upload() {

@@ -71,7 +71,6 @@ swayidle
 swaylock-effects-git
 termdown
 tesseract
-thefuck
 tldr
 translate-shell
 trash-cli
@@ -87,7 +86,6 @@ webcord
 wev
 wezterm-git
 wget
-which
 wireplumber
 wl-clipboard
 wtype
@@ -128,3 +126,6 @@ ark
 unrar
 neovide-git
 foot
+opendoas
+doas-sudo-shim
+doasedit
