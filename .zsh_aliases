@@ -13,6 +13,10 @@ alias sudo='doas '
 alias sudoedit='doasedit'
 
 alias v='nvim'
+neovide() {
+    (/usr/bin/neovide $@ &)
+    exit
+}
 
 lf() {
     tmp=$(mktemp)
@@ -46,7 +50,7 @@ alias copy='wl-copy'
 alias paste='wl-paste'
 alias which='command -v'
 
-alias windows='sudo grub-reboot 2 && sudo reboot'
+alias windows='systemctl reboot --boot-loader-entry=windows.conf'
 
 alias def="trans -d"
 alias defd="dict"

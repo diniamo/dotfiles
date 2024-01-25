@@ -15,9 +15,6 @@ export DATAGRIP_JDK=/usr/lib/jvm/jre-jetbrains
 export GOLAND_JDK=/usr/lib/jvm/jre-jetbrains
 export STUDIO_JDK=/usr/lib/jvm/jre-jetbrains
 
-# export TERMINAL='kitty'
-# export TERMCMD='kitty'
-export VISUAL='nvim'
 export EDITOR='nvim'
 
 export ZSHZ_SRC="$HOME/.oh-my-zsh/custom/plugins/zsh-z/zsh-z.plugin.zsh"

@@ -58,7 +58,6 @@ cmd edit &{{
     esac
 }}
 
-
 cmd z %{{
 	result="$(zoxide query --exclude "$PWD" "$@")"
 	lf -remote "send $id cd '$result'"

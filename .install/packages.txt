@@ -129,3 +129,4 @@ foot
 opendoas
 doas-sudo-shim
 doasedit
+zenity

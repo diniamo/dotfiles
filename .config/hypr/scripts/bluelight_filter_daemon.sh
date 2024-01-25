@@ -14,8 +14,7 @@ end_interp=1320
 
 end=300
 
-min_temp=1000
-# min_temp=2600
+min_temp=2000
 max_temp=4000
 
 while true; do
@@ -43,5 +42,5 @@ while true; do
         fi
     fi
 
-    sleep 10m
+    sleep 1m
 done
