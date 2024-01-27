@@ -8,20 +8,17 @@ if [ "$workspace_string" != "$workspace_id" ]; then
     workspace_string="name:$workspace_string"
 fi
 
-
+# Arguments: workspaceString, workspaceRule, [defaultValue] OR [option, type]
 get_option() {
-    if [ -z "$4" ]; then
-        name="$workspace_string"
-    else
-        name="$4"
-    fi
-
-    if [ ! -z "$1" ]; then
-        value=$(hyprctl -j workspacerules | jq -r ".[] | select(.workspaceString == \"$name\") | .$1")
+    if [ -n "$1" ]; then
+        value=$(hyprctl -j workspacerules | jq -r ".[] | select(.workspaceString == \"$1\") | .$2")
     fi
 
     if [ "$value" = "null" -o -z "$value" ]; then
-        value=$(hyprctl -j getoption "$2" | jq -r ".$3")
+        case "$#" in
+            3) value="$3" ;;
+            4) value="$(hyprctl -j getoption "$3" | jq -r ".$4")" ;;
+        esac
     fi
 
     printf '%s' "$value"
@@ -29,30 +26,27 @@ get_option() {
 
 get_state_option() {
     value=$(printf '%s' "$state" | jq -r ".\"$workspace_string\".$1")
-
-    if [ "$value" = "null" ]; then
-        value=$(get_option '' "$2" "$3")
-    fi
-
     printf '%s' "$value"
 }
 
 case "$1" in
     init)
-        state=$(hyprctl workspaces -j | jq -r '.[] | select(.name | startswith("special:") | not) | .name' | while read -r name; do
+        default_monitor="$(hyprctl -j monitors | jq -r 'first | .name')"
+        state=$(hyprctl -j workspaces | jq -r '.[] | select(.name | startswith("special:") | not) | .name' | while read -r name; do
             printf '%s' "\"$name\": {
-    \"gapsout\": $(get_option 'gapsOut' 'general:gaps_out' 'int' "$name"),
-    \"rounding\": $(get_option 'rounding' 'decoration:rounding' 'int' "$name"),
-    \"border\": $(get_option 'border' 'general:border_size' 'int' "$name"),
-    \"gapsin\": $(get_option 'gapsIn' 'general:gaps_in' 'int' "$name")
+    \"gapsout\": $(get_option "$name" 'gapsOut' 'general:gaps_out' 'int'),
+    \"rounding\": $(get_option "$name" 'rounding' 'decoration:rounding' 'int'),
+    \"border\": $(get_option "$name" 'border' 'general:border_size' 'int'),
+    \"gapsin\": $(get_option "$name" 'gapsIn' 'general:gaps_in' 'int'),
+    \"monitor\": \"$(get_option "$name" 'monitor' "$default_monitor")\"
 }"
         done)
         state=$(printf '%s' "$state" | sed 's/}"/},"/')
         printf '{\n%s}' "$state" > "$state_file"
     ;;
     on)
-        state=$(cat "$state_file")
-        hyprctl keyword workspace "$workspace_id, gapsin:$(get_state_option 'gapsin' 'general:gaps_in' 'int'),gapsout:$(get_state_option 'gapsout' 'general:gaps_out' 'int'),border:$(get_state_option 'border' 'general:border_size' 'int'),rounding:$(get_state_option 'rounding' 'decoration:rounding' 'int')"
+        state="$(cat "$state_file")"
+        hyprctl keyword workspace "$workspace_id, gapsin:$(get_state_option 'gapsin'),gapsout:$(get_state_option 'gapsout'),border:$(get_state_option 'border'),rounding:$(get_state_option 'rounding'),monitor:$(get_state_option 'monitor')"
     ;;
     off)
         hyprctl keyword workspace "$workspace_id, gapsout:0,border:false,rounding:false"
