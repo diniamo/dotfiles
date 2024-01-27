@@ -32,7 +32,7 @@ get_state_option() {
 case "$1" in
     init)
         default_monitor="$(hyprctl -j monitors | jq -r 'first | .name')"
-        state=$(hyprctl -j workspaces | jq -r '.[] | select(.name | startswith("special:") | not) | .name' | while read -r name; do
+        state=$(hyprctl -j workspacerules | jq -r '.[] | .workspaceString' | while read -r name; do
             printf '%s' "\"$name\": {
     \"gapsout\": $(get_option "$name" 'gapsOut' 'general:gaps_out' 'int'),
     \"rounding\": $(get_option "$name" 'rounding' 'decoration:rounding' 'int'),
