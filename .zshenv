@@ -16,6 +16,8 @@ export GOLAND_JDK=/usr/lib/jvm/jre-jetbrains
 export STUDIO_JDK=/usr/lib/jvm/jre-jetbrains
 
 export EDITOR='nvim'
+export PAGER='less'
+export LESS='-R'
 
 export ZSHZ_SRC="$HOME/.oh-my-zsh/custom/plugins/zsh-z/zsh-z.plugin.zsh"
 

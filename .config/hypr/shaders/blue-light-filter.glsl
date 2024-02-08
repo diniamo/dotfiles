@@ -1,10 +1,10 @@
-// from https://github.com/hyprwm/Hyprland/issues/1140#issuecomment-1335128437
+// From https://github.com/hyprwm/Hyprland/issues/1140#issuecomment-1335128437
 
 precision mediump float;
 varying vec2 v_texcoord;
 uniform sampler2D tex;
 
-const float temperature = 2278.0;
+const float temperature = 2000.0;
 const float temperatureStrength = 1.0;
 
 #define WithQuickAndDirtyLuminancePreservation

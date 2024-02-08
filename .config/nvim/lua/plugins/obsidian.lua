@@ -4,6 +4,7 @@ return {
             "epwalsh/obsidian.nvim",
             ft = "markdown",
             opts = {
+                ui = { enable = false },
                 workspaces = {
                     {
                         name = "Notes",

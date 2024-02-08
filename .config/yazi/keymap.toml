@@ -1,0 +1,29 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+
+[manager]
+prepend_keymap = [
+    { on = [
+        "W",
+    ], exec = 'shell "$SHELL" --block --confirm', desc = "Open a shell" },
+    { on = [
+        "X",
+    ], exec = [
+        "unyank",
+        "escape --select --visual",
+    ], desc = "Same as Y" },
+    { on = [
+        "d",
+    ], exec = [
+        "remove --force",
+        "escape --select --visual",
+    ], desc = "Move to trash" },
+    { on = [
+        "g",
+        "y",
+    ], exec = "cd ~/.config/yazi", desc = "CD to yazi config directory" },
+]
+
+[input]
+prepend_keymap = [{ on = ["<Esc>"], exec = "close", desc = "Cancel input" }]

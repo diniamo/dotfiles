@@ -18,8 +18,8 @@ min_temp=2000
 max_temp=4000
 
 while true; do
-    hour=$(date +%T | cut -f1 -d':')
-    minute=$(date +%T | cut -f2 -d':')
+    hour=$(date +%T | cut -f1 -d':' | sed 's/^0//')
+    minute=$(date +%T | cut -f2 -d':' | sed 's/^0//')
     minutes=$((hour * 60 + minute))
 
     # 05:00 - 20:00

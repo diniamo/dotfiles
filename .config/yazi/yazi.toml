@@ -1,0 +1,15 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
+[opener]
+reveal = [
+    { exec = 'open -R "$1"', desc = "Reveal", for = "macos" },
+    { exec = 'explorer /select, "%1"', orphan = true, desc = "Reveal", for = "windows" },
+    { exec = '''exiftool "$1" | $PAGER''', block = true, desc = "Show EXIF", for = "unix" },
+]
+play = [
+    { exec = 'mpv "$@"', orphan = true, for = "unix" },
+    { exec = 'mpv "%1"', orphan = true, for = "windows" },
+    { exec = '''mediainfo "$1" | $PAGER''', block = true, desc = "Show media info", for = "unix" },
+]

@@ -26,6 +26,14 @@ lf() {
         cd "$dir"
     fi
 }
+yazi() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+    /usr/bin/yazi "$@" --cwd-file="$tmp"
+    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
 
 alias ls='eza --icons'
 alias ll='eza --icons --git -lha'

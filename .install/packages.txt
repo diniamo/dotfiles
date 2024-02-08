@@ -95,7 +95,11 @@ yt-dlp
 zathura
 zathura-pdf-mupdf
 zoxide
-lf
+yazi
+jq
+unarchiver
+poppler
+perl-image-exiftool
 hyprland-git
 socat
 expect
