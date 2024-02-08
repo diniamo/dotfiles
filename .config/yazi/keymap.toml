@@ -20,6 +20,9 @@ prepend_keymap = [
         "escape --select --visual",
     ], desc = "Move to trash" },
     { on = [
+        "e",
+    ], exec = "shell trash-restore --block --confirm", desc = "Restore files from the trash" },
+    { on = [
         "g",
         "y",
     ], exec = "cd ~/.config/yazi", desc = "CD to yazi config directory" },
