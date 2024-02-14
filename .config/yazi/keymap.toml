@@ -5,8 +5,11 @@
 [manager]
 prepend_keymap = [
     { on = [
-        "W",
+        "w",
     ], exec = 'shell "$SHELL" --block --confirm', desc = "Open a shell" },
+    { on = [
+        "W",
+    ], exec = "tasks_show", desc = "Show the task manager" },
     { on = [
         "X",
     ], exec = [
@@ -25,8 +28,18 @@ prepend_keymap = [
     { on = [
         "g",
         "y",
-    ], exec = "cd ~/.config/yazi", desc = "CD to yazi config directory" },
+    ], exec = "cd ~/.config/yazi", desc = "Go to yazi's config directory" },
+    { on = [
+        "<Enter>",
+    ], exec = "plugin --sync smart-enter", desc = "Enter directory or open file" },
 ]
 
 [input]
 prepend_keymap = [{ on = ["<Esc>"], exec = "close", desc = "Cancel input" }]
+
+[tasks]
+prepend_keymap = [
+    { on = [
+        "W",
+    ], exec = "close", desc = "Hide the task manager" },
+]
