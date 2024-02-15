@@ -46,6 +46,6 @@ case "$1" in
     toggle_scratchpad "fm" "$TERMINAL_CMD $CLASS_ARGUMENT foot_lf -- yazi"
     ;;
 "fm_gui")
-    toggle_scratchpad "fm_gui" "dolphin"
+    toggle_scratchpad "fm_gui" "thunar"
     ;;
 esac
