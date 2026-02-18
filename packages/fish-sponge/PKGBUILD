@@ -1,0 +1,17 @@
+pkgname=fish-sponge
+_reponame="${pkgname#fish-}"
+pkgver=1.1.0
+pkgrel=1
+pkgdesc='Clean fish history from typos automatically'
+arch=(any)
+url="https://github.com/meaningful-ooo/$_reponame"
+license=(MIT)
+depends=(fish)
+source=("$_reponame-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz")
+sha256sums=('73251e07e6caecf7565921fecc1746053f6f27a7fb18a2617045e567b5c7bc84')
+
+package() {
+	cd "$_reponame-$pkgver"
+	install -Dm644 functions/* -t "$pkgdir/usr/share/fish/vendor_functions.d"
+	install -Dm644 conf.d/* -t "$pkgdir/usr/share/fish/vendor_conf.d"
+}
