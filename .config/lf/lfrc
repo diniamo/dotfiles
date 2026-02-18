@@ -1,0 +1,86 @@
+set shell "fish"
+set shellopts "-N"
+set dupfilefmt "%b.%n%e"
+set searchmethod "regex"
+set incsearch true
+set filtermethod "regex"
+set incfilter true
+set findlen 0
+# set mergeindicators true
+set mouse true
+set ratios "1:3:2"
+set ignoredia false
+set tabstop 4
+set timefmt "2006-01-02 15:04:05"
+set infotimefmtold "2006-01-02"
+set truncatechar "…"
+set watch true
+set wrapscroll true
+
+
+cmd on-cd &zoxide add $PWD
+
+cmd trash &trash-put (string split \n $fx)
+cmd zoxide %lf -remote "send $id cd '$(zoxide query --exclude $PWD $argv[1])'"
+cmd drop &dragon-drop --all --and-exit (string split \n $fx)
+cmd chmod %chmod $argv (string split \n $fx)
+
+cmd create %{{
+    for path in $argv
+        if [ -z $path ]
+            exit
+        else if [ -e $path ]
+            echo already exists
+            exit 1
+        end
+
+        if string match -rq '/$' $path
+            mkdir -p $path
+        else
+            mkdir -p (dirname $path)
+            touch $path
+        end
+        lf -remote "send $id select '$path'"
+    end
+}}
+
+
+map q $lf -remote "send $id :cd '$OLDPWD'; quit"
+map Q quit
+map d trash
+map D delete
+map x cut
+map . set hidden!
+map s filter
+map S setfilter
+map o drop
+map a push :create<space>
+map z push :zoxide<space>
+map c push :chmod<space>
+
+map gt cd /tmp
+map gs cd /tmp/dl
+map gd cd ~/dev
+
+map ,
+map ,a :{{ set sortby atime; set info atime; }}
+map ,b :{{ set sortby btime; set info btime; }}
+map ,c :{{ set sortby ctime; set info ctime; }}
+map ,t :{{ set sortby time; set info time; }}
+map ,s :{{ set sortby size; set info size; }}
+map ,n :{{ set sortby natural; set info; }}
+map ,e :{{ set sortby ext; set info; }}
+
+map -a set info size:time
+map -s set info size
+map -t set info time
+map -n set info
+map -r set reverse!
+
+nmap v visual
+nmap V invert
+nmap <esc> clear
+
+vmap v visual-accept
+vmap V visual-change
+

@@ -1,0 +1,26 @@
+font=sans 12
+icon-path=/usr/share/icons/Papirus-Dark
+max-icon-size=32
+markup=0
+layer=overlay
+default-timeout=5000
+
+on-touch=invoke-default-action
+on-button-left=invoke-default-action
+on-button-middle=dismiss
+on-button-right=exec makoctl menu -n "$id" -- fuzzel --dmenu --placeholder "Select action" --no-exit-on-keyboard-focus-loss --minimal-lines --anchor top-right
+
+border-radius=12
+background-color=#121212
+text-color=#e8e6e1
+border-color=#2a2a2a
+
+[actionable]
+border-color=#8ab4f8
+
+[urgency=low]
+default-timeout=3000
+
+[urgency=critical]
+default-timeout=0
+border-color=#b9543b

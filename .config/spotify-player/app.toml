@@ -1,0 +1,10 @@
+border_type = "Rounded"
+cover_img_scale = 1.8
+page_size_in_rows = 30
+
+[layout]
+playback_window_position = "Bottom"
+
+[device]
+device_type = "computer"
+volume = 100

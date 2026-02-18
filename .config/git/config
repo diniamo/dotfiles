@@ -1,0 +1,20 @@
+[user]
+	name = diniamo
+	email = diniamo53@gmail.com
+
+[init]
+	defaultBranch = main
+
+[pull]
+	ff = only
+
+[push]
+	default = current
+	autoSetupRemote = true
+	followTags = true
+
+[branch]
+	autoSetupMerge = true
+
+[diff]
+	external = difft

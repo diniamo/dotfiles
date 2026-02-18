@@ -1,0 +1,94 @@
+#!/bin/bash
+set -euo pipefail
+
+# Packages
+packages=(
+    # Graphics
+    mesa-dri vulkan-loader
+    # Services
+    elogind polkit greetd tuigreet
+    niri xwayland-satellite
+    xdg-desktop-portal-gnome mako gammastep
+    # Media
+    pipewire alsa-pipewire wireplumber
+    # CLI
+    fish-shell zoxide
+    fd ripgrep eza curl wget libnotify 7zip patch playerctl trash-cli wl-clipboard jq xdg-utils
+    git difftastic lazygit
+    lf wiremix
+    man-pages-devel
+    # GUI
+    firefox emacs-pgtk foot fuzzel dragon hyprpicker
+    mpv mpv-mpris
+    # Look
+    font-inter noto-fonts-emoji
+    papirus-icon-theme
+    gsettings-desktop-schemas
+    qt5-wayland qt6-wayland
+)
+devoid_packages=(
+    # Look
+    bibata-cursor-modern-classic lyth-mono-term-nerd-font
+)
+
+sudo xbps-install -Syu "${packages[@]}"
+
+if [ ! -e ~/.ssh/id_ed25519 ]; then
+    ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -P ""
+
+    echo "Add ~/.ssh/id_ed25519.pub to GitHub ssh keys..."
+    read
+fi
+
+[ ! -e ~/dev ] && mkdir ~/dev
+if [ ! -e ~/dev/void-packages ]; then
+    git clone git@github.com:diniamo/void-packages.git ~/dev/void-packages
+    git -C ~/dev/void-packages remote add upstream https://github.com/void-linux/void-packages.git
+fi
+if [ ! -e ~/dev/devoid ]; then
+    git clone git@github.com:diniamo/devoid.git ~/dev/devoid
+    ~/dev/devoid/configure ~/dev/void-packages
+    ~/dev/devoid/build "${devoid_packages[@]}"
+fi
+
+sudo xbps-install -yuR ~/dev/devoid/repo "${devoid_packages[@]}"
+
+# Dotfiles
+if [ ! -e ~/.dot ]; then
+    git clone --bare git@github.com:diniamo/dotfiles.git ~/.dot
+    git --git-dir ~/.dot --work-tree ~ config status.showUntrackedFiles no
+    git --git-dir ~/.dot --work-tree ~ config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    git --git-dir ~/.dot --work-tree ~ checkout --force
+fi
+
+# Shell
+[ ! -e ~/.config/fish/functions/fisher.fish ] && fish -c "
+    curl -L https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+    fisher update
+"
+[ "$SHELL" != /usr/bin/fish ] && sudo chsh -s /usr/bin/fish "$USER"
+
+# /etc
+cd ~/.etc
+while read relative; do
+    target=~/.etc/"$relative"
+    link=/etc/"$relative"
+
+    if [ -e "$link" ]; then
+        if [ "$(realpath "$link")" = "$target" ]; then
+            continue
+        else
+            sudo rm "$link"
+        fi
+    else
+        sudo mkdir -p "$(dirname "$link")"
+    fi
+
+    sudo ln -s "$target" "$link"
+done < <(fd --type file .)
+
+# Services
+[ ! -e /var/service/dbus ] && sudo ln -s /etc/sv/dbus /var/service
+[ ! -e /var/service/greetd ] && sudo ln -s /etc/sv/greetd /var/service
+
+exit 0

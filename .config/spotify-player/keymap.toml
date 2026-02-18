@@ -1,0 +1,8 @@
+keymaps = [
+  { key_sequence = "left",  command = { SeekBackward = {} } },
+  { key_sequence = "right", command = { SeekForward = {} } },
+  { key_sequence = "q",     command = "Quit" },
+  { key_sequence = "C-u",   command = "PageSelectPreviousOrScrollUp" },
+  { key_sequence = "C-d",   command = "PageSelectNextOrScrollDown" },
+  { key_sequence = "g e",   command = "SelectLastOrScrollToBottom" }
+]
