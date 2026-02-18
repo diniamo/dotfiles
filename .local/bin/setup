@@ -1,0 +1,77 @@
+#!/bin/bash
+set -euo pipefail
+
+is_installed() {
+	pacman -Q "$@" &>/dev/null
+}
+
+sudo pacman -Syyu
+
+# Bootstrap
+if [[ ! -e ~/.ssh/id_ed25519 ]]; then
+	sudo pacman -S --needed --noconfirm openssh
+	ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -P ""
+
+	echo 'Add ~/.ssh/id_ed25519.pub to GitHub ssh keys...'
+	exit
+fi
+
+if [[ ! -e ~/.dotfiles ]]; then
+	git clone --bare git@github.com:diniamo/dotfiles.git ~/.dotfiles
+	git --git-dir ~/.dotfiles --work-tree ~ config status.showUntrackedFiles no
+	git --git-dir ~/.dotfiles --work-tree ~ config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+	git --git-dir ~/.dotfiles --work-tree ~ checkout --force
+fi
+
+if ! is_installed paru; then
+	sudo pacman -S --needed --noconfirm git base-devel
+
+	cd "$(mktemp -d)"
+	git clone https://aur.archlinux.org/paru.git .
+	makepkg -si
+fi
+
+# Packages
+packages=(
+	plasma-meta
+	bibata-cursor-theme-bin
+	ttf-lythmono-nerd-font
+	kwallet-pam
+	dolphin ark kdegraphics-thumbnailers ffmpegthumbs
+	gwenview
+
+	helium-browser-bin
+	dragon-drop
+	# TODO: switch back to stable on the next release
+	mpv-git mpv-mpris
+	qalculate-qt
+
+	fish fish-sponge
+	zoxide
+	man-db man-pages
+	fd
+	ripgrep
+	eza
+	rtrash
+	wl-clipboard
+	xdg-utils
+	git difftastic lazygit
+	lf unarchiver
+	kakoune kakoune-lsp kak-ansi editorconfig-core-c
+	gcc
+	openssh
+	libnotify
+	chafa
+	yt-dlp
+	aria2
+	sqlite
+	rate-mirrors
+)
+paru -S --needed "${packages[@]}"
+
+# Configuration
+sudo systemctl enable plasmalogin.service
+
+[[ "$SHELL" != /usr/bin/fish ]] && sudo chsh -s /usr/bin/fish "$USER"
+
+exit 0

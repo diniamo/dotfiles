@@ -1,0 +1,109 @@
+set shellopts "-eu"
+set ifs "\n"
+set dupfilefmt "%b.%n%e"
+set searchmethod "regex"
+set incsearch true
+set filtermethod "regex"
+set incfilter true
+set findlen 0
+# set mergeindicators true
+set mouse true
+set ratios "1:3:2"
+set ignoredia false
+set tabstop 4
+set timefmt "2006-01-02 15:04:05"
+set infotimefmtold "2006-01-02"
+set truncatechar "…"
+set watch true
+set wrapscroll true
+set previewer ~/.config/lf/previewer
+
+
+cmd on-cd &zoxide add "$PWD"
+
+cmd trash &trash-put --recursive $fx
+cmd restore $trash-restore --cwd-only
+cmd empty $trash-empty
+cmd zoxide %lf -remote "send cd '$(zoxide query --exclude "$PWD" "$1")'"
+cmd drop &dragon-drop --all --and-exit $fx
+cmd chmod %chmod "$@" $fx
+
+cmd add %{{
+	for path in "$@"; do
+		if [ -e "$path" ]; then
+			echo "already exists: $path"
+			continue
+		fi
+
+		case "$path" in
+			*/) mkdir -p "$path"                               ;;
+			*)  mkdir -p "$(dirname "$path")" && touch "$path" ;;
+		esac
+
+		lf -remote "send $id select '$path'"
+	done
+}}
+
+cmd open &{{
+	mimetype="$(file --mime-type --brief "$f")"
+	case "$mimetype" in
+		application/zip|application/vnd.rar|application/x-rar-compressed|application/x-7z-compressed|application/x-tar|application/gzip|application/x-bzip2|application/x-lzma|application/x-xz|application/vnd.ms-cab-compressed|application/x-msi|application/x-nsis|application/x-msdownload|application/x-iso9660-image|application/octet-stream|application/x-cpio|application/x-compress|application/x-arj|application/x-arc|application/x-compressed|application/x-ace-compressed|application/x-zoo|application/x-lzh-compressed|application/x-lha|application/x-adf|application/x-dms|application/x-lzx|application/x-stuffit|application/x-sit|application/x-diskdoubler|application/x-compactpro|application/x-packit|application/x-powerpacker|application/x-lbr|application/x-squeeze|application/x-crunch|application/x-gtar-compressed|application/x-bzip2-compressed-tar|application/x-xz-compressed-tar|application/x-lzma-compressed-tar)
+			lf -remote "send $id \$unar $fx"
+			;;
+		*)
+			for file in $fx; do
+				xdg-open "$file"
+			done
+			;;
+	esac
+}}
+
+
+map Q $lf -remote "send $id cd '$OLDPWD'; quit"
+map d trash
+map D delete
+map x cut
+map . set hidden!
+map s filter
+map S setfilter
+map o drop
+map <enter> open
+map a push :add<space>
+map z push :zoxide<space>
+map c push :chmod<space>
+
+map gg
+map G
+map gk top
+map gj bottom
+
+map gr cd /
+map gt cd /tmp
+map gs cd ~/downloads
+map gp cd ~/projects
+map gm cd /run/media/diniamo
+map g<space> push :cd<space>
+
+map <esc> unselect
+map u &udevil unmount $fx
+
+map ,
+map ,a :{{ set sortby atime; set info atime; }}
+map ,b :{{ set sortby btime; set info btime; }}
+map ,c :{{ set sortby ctime; set info ctime; }}
+map ,t :{{ set sortby time; set info time; }}
+map ,s :{{ set sortby size; set info size; }}
+map ,n :{{ set sortby natural; set info; }}
+map ,e :{{ set sortby ext; set info; }}
+
+map -a set info size:time
+map -s set info size
+map -t set info time
+map -n set info
+map -r set reverse!
+
+nmap v visual
+nmap V invert
+
+vmap v visual-accept
+vmap V visual-change
