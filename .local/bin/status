@@ -1,0 +1,13 @@
+#!/bin/bash
+
+options=(
+  "$(date +%R)"
+  --expire-time=2000
+  --icon=time
+  --print-id
+)
+
+id_path=/tmp/information_notification_id
+[ -f $id_path ] && options+=(--replace-id=$(cat $id_path))
+
+notify-send "${options[@]}" > $id_path

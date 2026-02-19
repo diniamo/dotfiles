@@ -1,0 +1,118 @@
+source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
+bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle
+
+bundle auto-pairs https://github.com/alexherbo2/auto-pairs.kak %{ enable-auto-pairs }
+bundle kakoune-grep-write https://github.com/JacobTravers/kakoune-grep-write %{
+	hook global WinSetOption filetype=grep %{
+		alias window w grep-write
+		alias window write grep-write
+		alias window x grep-write-quit
+		alias window wq grep-write-quit
+		alias window write-quit grep-write-quit
+	}
+}
+
+
+define-command rc -docstring "edit kakrc" %{ edit ~/.config/kak/kakrc }
+define-command file-menu -docstring "file menu" %{ prompt -shell-script-candidates %{ fd --type file } -menu "file: " %{ edit %val{text} } }
+define-command buffer-menu -docstring "buffer menu" %{ prompt -buffer-completion -menu "buffer: " %{ buffer %val{text} } }
+define-command grep-prompt -docstring "grep for prompt" %{ prompt "regex: " %{ grep %val{text} } }
+define-command zoxide -docstring "cd with zoxide" %{ prompt "query: " %{ evaluate-commands %sh{ directory="$(zoxide query "$kak_text")" && echo "cd '$directory'; echo '$directory'" } } }
+define-command make-prompt -docstring "run prompt as make command" %{ prompt -init %opt{makecmd} "command: " %{ set-option global makecmd %val{text}; make } }
+define-command select-pair -docstring "select pair" %{ on-key -mode-name pair %{ execute-keys "<a-a>%val{key}<a-S>" } }
+define-command surround -docstring "surround selection" %{
+	on-key -mode-name pair %{ evaluate-commands %sh{
+		case $kak_key in
+		\(|\)) open=\(; close=\) ;;
+		[|]) open=[; close=] ;;
+		{|}) open={; close=} ;;
+		*) open=$kak_key; close=$kak_key
+		esac
+		echo "execute-keys -draft i$open<esc>a$close<esc>"
+	} }
+}
+
+alias global x write-all-quit
+
+
+colorscheme gruvbox-dark
+
+
+set-option global completers filename word=buffer
+set-option global startup_info_version 2147483647 # Don't show changelog
+set-option global autoreload yes
+set-option global grepcmd "rg --vimgrep"
+set-option global make_error_pattern "^([^:]+):(\d+):(?:(\d+):)"
+set-option -remove global autocomplete insert
+
+
+add-highlighter global/ number-lines -relative -separator ' ' -min-digits 0
+
+
+set-face global PrimaryCursor black,bright-cyan
+set-face global PrimaryCursorEol black,bright-cyan
+set-face global PrimarySelection black,bright-black
+set-face global SecondaryCursor black,cyan
+set-face global SecondaryCursorEol black,cyan
+set-face global SecondarySelection black,bright-black
+hook global ModeChange (push|pop):.*:insert %{
+    set-face window PrimaryCursor black,bright-green
+    set-face window PrimaryCursorEol black,bright-green
+    set-face window PrimarySelection black,bright-black
+    set-face window SecondaryCursor black,green
+    set-face window SecondaryCursorEol black,green
+    set-face window SecondarySelection black,bright-black
+}
+hook global ModeChange (push|pop):insert:.* %{
+    unset-face window PrimaryCursor
+    unset-face window PrimaryCursorEol
+    unset-face window PrimarySelection
+    unset-face window SecondaryCursor
+    unset-face window SecondaryCursorEol
+    unset-face window SecondarySelection
+}
+
+hook global BufNewFile .* editorconfig-load
+hook global BufOpenFile .* %{
+	editorconfig-load
+	modeline-parse
+}
+hook global WinSetOption filetype=man %{
+	map window normal <tab> :man-link-next<ret>
+	map window normal <s-tab> :man-link-prev<ret>
+}
+
+
+map global normal / /(?i)
+map global normal ? ?(?i)
+map global normal <a-/> <a-/>(?i)
+map global normal <a-?> <a-?>(?i)
+map global normal X x_
+map global normal <c-o> <c-o>vc
+map global normal <c-i> <c-i>vc
+unmap global normal <tab>
+
+declare-user-mode match
+map global match m m                 -docstring "go to next matching pair"
+map global match M M                 -docstring "extend to next matching pair"
+map global match s :surround<ret>    -docstring "surround selection"
+map global match p :select-pair<ret> -docstring "select pair"
+map global normal m ":enter-user-mode match<ret>"
+map global normal M ":enter-user-mode match<ret>"
+
+map global user c :comment-line<ret>                     -docstring "comment selected lines"
+map global user C :comment-block<ret>                    -docstring "comment block"
+map global user y <a-|>wl-copy<ret>                      -docstring "copy to system clipboard"
+map global user p "<a-!>wl-paste --no-newline<ret>"      -docstring "paste from system clipboard"
+map global user P "h<a-!>wl-paste --no-newline<ret>"     -docstring "paste before from system clipboard"
+map global user R "<a-d><a-!>wl-paste --no-newline<ret>" -docstring "replace from system system clipboard"
+map global user f :file-menu<ret>                        -docstring "find file"
+map global user b :buffer-menu<ret>                      -docstring "find buffer"
+map global user / :grep-prompt<ret>                      -docstring "find in files"
+map global user z :zoxide<ret>                           -docstring "zoxide"
+
+declare-user-mode make
+map global make m :make-prompt<ret>            -docstring "run prompt as make command"
+map global make n :make-next-error<ret>        -docstring "go to the next make error"
+map global make p :make-previous-error<ret>    -docstring "go to the previous make error"
+map global user m ":enter-user-mode make<ret>" -docstring "make mode"
