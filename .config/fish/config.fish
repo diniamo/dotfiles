@@ -14,9 +14,11 @@ if status is-interactive
         set -U fish_cursor_replace underscore
         set -U fish_cursor_external line
 
-        set -Ux EDITOR ~/.scripts/emacs-nw
+        set -Ux EDITOR kak
         set -Ux PAGER less
     end
+
+    set -gxa PATH ~/.local/bin
 
 
     bind ctrl-z fg
@@ -55,6 +57,7 @@ if status is-interactive
     abbr --add '-' 'cd -'
     abbr --add anime 'mpv --profile=anime'
     abbr --add drop 'dragon-drop --all --and-exit'
+    abbr --add k kak
 
     abbr --add install 'sudo xbps-install -y'
     abbr --add remove 'sudo xbps-remove -Ry'

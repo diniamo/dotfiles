@@ -40,7 +40,6 @@ if [ ! -e ~/.ssh/id_ed25519 ]; then
     read
 fi
 
-[ ! -e ~/dev ] && mkdir ~/dev
 if [ ! -e ~/dev/void-packages ]; then
     git clone git@github.com:diniamo/void-packages.git ~/dev/void-packages
     git -C ~/dev/void-packages remote add upstream https://github.com/void-linux/void-packages.git
@@ -48,10 +47,16 @@ fi
 if [ ! -e ~/dev/devoid ]; then
     git clone git@github.com:diniamo/devoid.git ~/dev/devoid
     ~/dev/devoid/configure ~/dev/void-packages
-    ~/dev/devoid/build "${devoid_packages[@]}"
 fi
 
-sudo xbps-install -yuR ~/dev/devoid/repo "${devoid_packages[@]}"
+install_devoid_packages() {
+    sudo xbps-install -yuR ~/dev/devoid/binpkgs "${devoid_packages[@]}"
+}
+if ! install_devoid_packages; then
+    ~/dev/devoid/build "${devoid_packages[@]}"
+    install_devoid_packages
+fi
+
 
 # Dotfiles
 if [ ! -e ~/.dot ]; then
@@ -61,12 +66,13 @@ if [ ! -e ~/.dot ]; then
     git --git-dir ~/.dot --work-tree ~ checkout --force
 fi
 
-# Shell
 [ ! -e ~/.config/fish/functions/fisher.fish ] && fish -c "
     curl -L https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
     fisher update
 "
 [ "$SHELL" != /usr/bin/fish ] && sudo chsh -s /usr/bin/fish "$USER"
+
+[ ! -e ~/.config/kak/bundle/kak-bundle ] && git clone https://codeberg.org/jdugan6240/kak-bundle.git ~/.config/kak/bundle/kak-bundle
 
 # /etc
 cd ~/.etc
