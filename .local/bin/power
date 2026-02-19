@@ -1,0 +1,8 @@
+#!/bin/bash
+case "$(echo -en 'Suspend\0icon\x1fsystem-suspend\nShutdown\0icon\x1fsystem-shutdown\nReboot\0icon\x1fsystem-reboot\nLock\0icon\x1fsystem-lock-screen\nLogout\0icon\x1fsystem-log-out' | fuzzel --dmenu --placeholder "Select action" --minimal-lines)" in
+    Suspend)  loginctl suspend ;;
+    Shutdown) loginctl poweroff ;;
+    Reboot)   loginctl reboot ;;
+    Lock)     loginctl lock-session ;;
+    Logout)   niri msg action quit --skip-confirmation ;;
+esac

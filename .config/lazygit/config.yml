@@ -16,7 +16,7 @@ git:
   autoForwardBranches: none
 
 os:
-  editPreset: helix (hx)
+  editPreset: kakoune
   open: xdg-open '{{filename}}'
   openLink: xdg-open '{{link}}'
   copyToClipboardCmd: echo -n '{{text}}' | wl-copy

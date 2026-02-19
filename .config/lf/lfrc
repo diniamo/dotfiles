@@ -25,7 +25,7 @@ cmd zoxide %lf -remote "send $id cd '$(zoxide query --exclude $PWD $argv[1])'"
 cmd drop &dragon-drop --all --and-exit (string split \n $fx)
 cmd chmod %chmod $argv (string split \n $fx)
 
-cmd create %{{
+cmd add %{{
     for path in $argv
         if [ -z $path ]
             exit
@@ -34,7 +34,7 @@ cmd create %{{
             exit 1
         end
 
-        if string match -rq '/$' $path
+        if string match --quiet --regex '/$' $path
             mkdir -p $path
         else
             mkdir -p (dirname $path)
@@ -54,13 +54,14 @@ map . set hidden!
 map s filter
 map S setfilter
 map o drop
-map a push :create<space>
+map a push :add<space>
 map z push :zoxide<space>
 map c push :chmod<space>
 
 map gt cd /tmp
 map gs cd /tmp/dl
 map gd cd ~/dev
+map g<space> push :cd<space>
 
 map ,
 map ,a :{{ set sortby atime; set info atime; }}
@@ -83,4 +84,3 @@ nmap <esc> clear
 
 vmap v visual-accept
 vmap V visual-change
-
