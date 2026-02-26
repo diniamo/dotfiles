@@ -27,11 +27,9 @@ cmd chmod %chmod $argv (string split \n $fx)
 
 cmd add %{{
     for path in $argv
-        if [ -z $path ]
-            exit
-        else if [ -e $path ]
-            echo already exists
-            exit 1
+        if [ -e $path ]
+            echo "already exists: $path"
+            continue
         end
 
         if string match --quiet --regex '/$' $path
@@ -45,8 +43,7 @@ cmd add %{{
 }}
 
 
-map q $lf -remote "send $id :cd '$OLDPWD'; quit"
-map Q quit
+map Q $lf -remote "send $id :cd '$OLDPWD'; quit"
 map d trash
 map D delete
 map x cut
