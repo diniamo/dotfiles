@@ -16,6 +16,7 @@ if status is-interactive
 
         set -Ux EDITOR kak
         set -Ux PAGER less
+        set -Ux GOPATH ~/.local/share/go
     end
 
     set -gxa PATH ~/.local/bin
