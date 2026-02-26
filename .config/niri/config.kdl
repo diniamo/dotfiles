@@ -76,7 +76,7 @@ layout {
 }
 
 binds {
-    Mod+Return              { spawn "foot"; }
+    Mod+Return              { spawn "alacritty"; }
     Mod+Space  repeat=false { spawn "fuzzel"; }
     Super+X    repeat=false { spawn "~/.local/bin/power"; }
     Super+G    repeat=false { spawn "~/.local/bin/status"; }
