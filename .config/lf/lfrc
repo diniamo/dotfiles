@@ -51,6 +51,7 @@ map . set hidden!
 map s filter
 map S setfilter
 map o drop
+map <enter> open
 map a push :add<space>
 map z push :zoxide<space>
 map c push :chmod<space>

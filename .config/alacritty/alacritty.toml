@@ -6,7 +6,6 @@ ipc_socket = false
 [window]
 padding = { x = 10, y = 10 }
 dynamic_padding = true
-decorations = "None"
 
 [font]
 size = 12

@@ -29,7 +29,7 @@ define-command surround-select -params 0..1 -docstring 'select surrounding pair'
 }
 define-command surround -docstring 'surround selection' %{
 	on-key -mode-name pair %{ evaluate-commands -draft %sh{
-		case '$kak_key' in
+		case "$kak_key" in
 		'('|')') open='('; close=')' ;;
 		'['|']') open='['; close=']' ;;
 		'{'|'}') open='{'; close='}' ;;
@@ -43,7 +43,7 @@ define-command surround-replace -docstring 'replace surrounding pair' %{
 	execute-keys '"xZ'
 	surround-select %{
 		on-key -mode-name new-pair %{ evaluate-commands -itersel %sh{
-			case '$kak_key' in
+			case "$kak_key" in
 			'('|')') open='('; close=')' ;;
 			'['|']') open='['; close=']' ;;
 			'{'|'}') open='{'; close='}' ;;
@@ -112,12 +112,11 @@ hook global BufWritePre .* %{ nop %sh{
 } }
 
 hook global EnterDirectory .* %{ evaluate-commands -no-hooks %sh{
-	if makecmd="$(jq -e ".\"$PWD\"" ~/.local/share/makecmds.json 2>/dev/null)"; then
-		echo "set-option window makecmd '$makecmd'"
+	if makecmd="$(jq -er ".\"$PWD\"" ~/.local/share/makecmds.json 2>/dev/null)"; then
+		echo "set-option global makecmd '$makecmd'"
 	fi
 } }
 hook global WinSetOption makecmd=(?!make).* %{ nop %sh{
-	echo "MATCH" 1>&2
 	persistent=~/.local/share/makecmds.json
 	[ ! -e "$persistent" ] && echo '{}' > "$persistent"
 
@@ -136,6 +135,8 @@ map global normal ? ?(?i)
 map global normal <a-/> <a-/>(?i)
 map global normal <a-?> <a-?>(?i)
 map global normal X x_
+map global normal J Jx
+map global normal K Kx
 unmap global normal <tab>
 
 declare-user-mode match
