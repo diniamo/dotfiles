@@ -76,20 +76,23 @@ set-option -remove global autocomplete insert
 
 
 add-highlighter global/ number-lines -relative -separator ' ' -min-digits 0
+add-highlighter global/ regex '\b(TODO)\b' 0:bright-cyan+fb
+add-highlighter global/ regex '\b(NOTE)\b' 0:bright-green+fb
+add-highlighter global/ regex '\b(HACK)\b' 0:bright-yellow+fb
 
 
-set-face global PrimaryCursor black,bright-cyan
-set-face global PrimaryCursorEol black,bright-cyan
+set-face global PrimaryCursor black,bright-cyan+fg
+set-face global PrimaryCursorEol black,bright-cyan+fg
 set-face global PrimarySelection black,bright-black
-set-face global SecondaryCursor black,cyan
-set-face global SecondaryCursorEol black,cyan
+set-face global SecondaryCursor black,cyan+fg
+set-face global SecondaryCursorEol black,cyan+fg
 set-face global SecondarySelection black,bright-black
 hook global ModeChange (push|pop):.*:insert %{
-    set-face window PrimaryCursor black,bright-green
-    set-face window PrimaryCursorEol black,bright-green
+    set-face window PrimaryCursor black,bright-green+fg
+    set-face window PrimaryCursorEol black,bright-green+fg
     set-face window PrimarySelection black,bright-black
-    set-face window SecondaryCursor black,green
-    set-face window SecondaryCursorEol black,green
+    set-face window SecondaryCursor black,green+fg
+    set-face window SecondaryCursorEol black,green+fg
     set-face window SecondarySelection black,bright-black
 }
 hook global ModeChange (push|pop):insert:.* %{
