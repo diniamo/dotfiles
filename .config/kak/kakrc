@@ -16,10 +16,10 @@ bundle kakoune-grep-write https://github.com/JacobTravers/kakoune-grep-write %{
 define-command rc -docstring 'edit kakrc' %{ edit ~/.config/kak/kakrc }
 define-command file-menu -docstring 'file menu' %{ prompt -shell-script-candidates %{ fd --type file } -menu 'file: ' %{ edit %val{text} } }
 define-command buffer-menu -docstring 'buffer menu' %{ prompt -buffer-completion -menu 'buffer: ' %{ buffer %val{text} } }
-define-command grep-prompt -docstring 'grep for prompt' %{ prompt 'regex: ' %{ grep %val{text} } }
-define-command man-prompt -docstring 'open man page from prompt' %{ prompt 'man: ' %{ man %val{text} } }
-define-command zoxide -docstring 'cd with zoxide' %{ prompt 'query: ' %{ evaluate-commands %sh{ directory="$(zoxide query "$kak_text")" && echo "cd '$directory'; echo '$directory'" } } }
-define-command make-prompt -docstring 'run prompt as make command' %{ prompt -init %opt{makecmd} 'command: ' %{ set-option global makecmd %val{text}; make } }
+define-command grep-prompt -docstring 'grep for prompt' %{ prompt 'grep: ' %{ grep %val{text} } }
+define-command man-prompt -docstring 'open man page from prompt' %{ prompt -shell-script-candidates %{ find /usr/share/man/ $(echo -n "$MANPATH" | sed 's/:/ /') -name '*.[1-8]*' | sed 's,^.*/\(.*\)\.\([1-8][a-zA-Z]*\).*$,\1(\2),' } 'man: ' %{ man %val{text} } }
+define-command zoxide -docstring 'cd with zoxide' %{ prompt 'zoxide: ' %{ evaluate-commands %sh{ if directory="$(zoxide query "$kak_text")"; then echo "cd '$directory'; echo '$directory'" else echo "no match found: $kak_text" fi } } }
+define-command make-prompt -docstring 'run prompt as make command' %{ prompt -init %opt{makecmd} -shell-completion 'make: ' %{ set-option global makecmd %val{text}; make } }
 
 define-command surround-select -params 0..1 -docstring 'select surrounding pair' %{
 	on-key -mode-name pair %{
