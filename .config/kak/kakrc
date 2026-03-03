@@ -50,7 +50,7 @@ define-command surround-replace -docstring 'replace surrounding pair' %{
 			'<lt>'|'<gt>') open='<lt>'; close='<gt>' ;;
 			*) open="$kak_key"; close="$kak_key"
 			esac
-			echo "execute-keys r$open,r$close"xz"
+			echo "execute-keys r$open,r$close\"xz"
 		} }
 	}
 }

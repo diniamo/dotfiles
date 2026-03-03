@@ -1,0 +1,40 @@
+#!/bin/bash
+set -euo pipefail
+
+pattern="([0-9]+)\. ([^\[]*)"
+id_path=/tmp/audio-output-notification-id
+
+sinks=false
+default=false
+output=()
+while read line; do
+	if $sinks; then
+		if [[ "$line" =~ $pattern ]]; then
+			if [[ "$line" == *"*"* ]]; then
+				default=true
+			else
+				if $default; then
+					output=("${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}")
+					break
+				elif [[ "${#output[@]}" == 0 ]]; then
+					output=("${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}")
+				fi
+			fi
+		else
+			break
+		fi
+	else
+		[[ "$line" == *"Sinks:"* ]] && sinks=true
+	fi
+done < <(wpctl status --nick)
+
+wpctl set-default "${output[0]}"
+
+options=(
+	"Audio Output" "${output[1]}"
+	--icon audio-card
+	--expire-time 2000
+	--print-id
+)
+[[ -f "$id_path" ]] && options+=(--replace-id "$(cat "$id_path")")
+notify-send "${options[@]}" > "$id_path"
