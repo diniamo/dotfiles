@@ -75,6 +75,12 @@ layout {
     }
 }
 
+window-rule {
+	match app-id="river"
+
+	open-focused false
+}
+
 binds {
     Mod+Return              { spawn "alacritty"; }
     Mod+Space  repeat=false { spawn "fuzzel"; }
@@ -120,8 +126,8 @@ binds {
 
     Mod+Comma        { focus-monitor-left; }
     Mod+Period       { focus-monitor-right; }
-    Mod+Shift+Comma  { move-column-to-monitor-right; }
-    Mod+Shift+Period { move-column-to-monitor-left; }
+    Mod+Shift+Comma  { move-column-to-monitor-left; }
+    Mod+Shift+Period { move-column-to-monitor-right; }
 
     Mod+N { focus-workspace-down; }
     Mod+P { focus-workspace-up; }
