@@ -79,6 +79,7 @@ add-highlighter global/ number-lines -relative -separator ' ' -min-digits 0
 add-highlighter global/ regex '\b(TODO)\b' 0:bright-cyan+fb
 add-highlighter global/ regex '\b(NOTE)\b' 0:bright-green+fb
 add-highlighter global/ regex '\b(HACK)\b' 0:bright-yellow+fb
+add-highlighter global/ regex '\b(TEMP)\b' 0:bright-red+fb
 
 
 set-face global PrimaryCursor black,bright-cyan+fg
