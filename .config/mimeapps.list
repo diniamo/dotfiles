@@ -1,0 +1,4 @@
+[Default Applications]
+x-scheme-handler/terminal=Alacritty.desktop
+x-scheme-handler/sgnl=signal.desktop
+x-scheme-handler/signalcaptcha=signal.desktop
