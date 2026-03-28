@@ -23,7 +23,7 @@ packages=(
 	wiremix libnotify playerctl wl-clipboard xdg-utils
 	# GUI
 	firefox foot fuzzel dragon
-	mpv mpv-mpris
+	mpv-mpris
 	# Look
 	font-inter noto-fonts-emoji
 	papirus-icon-theme
@@ -32,6 +32,7 @@ packages=(
 )
 devoid_packages=(
 	# GUI
+	mpv
 	still
 	# Look
 	bibata-cursor-modern-classic lyth-mono-term-nerd-font
