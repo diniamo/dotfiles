@@ -4,5 +4,5 @@ case "$(echo -en 'Suspend\0icon\x1fsystem-suspend\nShutdown\0icon\x1fsystem-shut
     Shutdown) loginctl poweroff ;;
     Reboot)   loginctl reboot ;;
     Lock)     loginctl lock-session ;;
-    Logout)   niri msg action quit --skip-confirmation ;;
+    Logout)   pkill dwl ;;
 esac

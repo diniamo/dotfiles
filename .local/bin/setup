@@ -5,10 +5,13 @@ set -euo pipefail
 packages=(
 	# Graphics
 	mesa-dri vulkan-loader
+	# Compositor
+	clang21 pkg-config wlroots0.19-devel
+	slurp grim hyprpicker
+	wlr-randr lswt
 	# Services
 	elogind polkit greetd tuigreet
-	niri xwayland-satellite
-	xdg-desktop-portal-gnome mako gammastep
+	xdg-desktop-portal-wlr xdg-desktop-portal-gtk mako gammastep
 	# Media
 	pipewire alsa-pipewire wireplumber
 	# CLI
@@ -19,7 +22,7 @@ packages=(
 	kakoune editorconfig
 	wiremix libnotify playerctl wl-clipboard xdg-utils
 	# GUI
-	firefox foot fuzzel dragon hyprpicker
+	firefox foot fuzzel dragon
 	mpv mpv-mpris
 	# Look
 	font-inter noto-fonts-emoji
@@ -28,6 +31,8 @@ packages=(
 	qt5-wayland qt6-wayland
 )
 devoid_packages=(
+	# GUI
+	still
 	# Look
 	bibata-cursor-modern-classic lyth-mono-term-nerd-font
 )
@@ -41,15 +46,13 @@ if [ ! -e ~/.ssh/id_ed25519 ]; then
 	read
 fi
 
-if [ ! -e ~/dev/void-packages ]; then
-	git clone git@github.com:diniamo/void-packages.git ~/dev/void-packages
-	git -C ~/dev/void-packages remote add upstream https://github.com/void-linux/void-packages.git
-fi
-if [ ! -e ~/dev/devoid ]; then
-	git clone git@github.com:diniamo/devoid.git ~/dev/devoid
-	~/dev/devoid/configure ~/dev/void-packages
-fi
-sudo xbps-install -yuR ~/dev/devoid/binpkgs "${devoid_packages[@]}"
+[ ! -e ~/dev/devoid ] && git clone git@github.com:diniamo/devoid.git ~/dev/devoid
+cd ~/dev/devoid
+	for package in "${devoid_packages[@]}"; do
+		fd -qd1 "$package-" binpkgs || ./build "$package"
+	done
+	sudo xbps-install -yuR binpkgs "${devoid_packages[@]}"
+cd -
 
 
 # Dotfiles
@@ -70,22 +73,30 @@ fi
 
 # /etc
 cd ~/.etc
-while read relative; do
-	target=~/.etc/"$relative"
-	link=/etc/"$relative"
+	while read relative; do
+		target=~/.etc/"$relative"
+		link=/etc/"$relative"
 
-	if [ -e "$link" ]; then
-	if [ "$(realpath "$link")" = "$target" ]; then
-	continue
-	else
-	sudo rm "$link"
-	fi
-	else
-	sudo mkdir -p "$(dirname "$link")"
-	fi
+		if [ -e "$link" ]; then
+			if [ "$(realpath "$link")" = "$target" ]; then
+				continue
+			else
+				sudo rm "$link"
+			fi
+		else
+			sudo mkdir -p "$(dirname "$link")"
+		fi
 
-	sudo ln -s "$target" "$link"
-done < <(fd --type file .)
+		sudo ln -s "$target" "$link"
+	done < <(fd --type file .)
+cd -
+
+# Compositor
+[ ! -e ~/dev/dwl ] && git clone git@github.com/diniamo/dwl.git ~/dev/dwl
+cd ~/dev/dwl
+	CC=clang CFLAGS=-O3 make all
+	sudo make install
+cd -
 
 # Services
 [ ! -e /var/service/dbus ] && sudo ln -s /etc/sv/dbus /var/service

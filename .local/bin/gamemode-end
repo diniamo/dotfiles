@@ -1,0 +1,6 @@
+#!/bin/sh
+
+pkill -USR2 --exact dwl
+bluetoothctl power off
+
+notify-send --urgency low --app-name Gamemode --icon system-shutdown --expire-time 1000 'Optimizations deactivated'

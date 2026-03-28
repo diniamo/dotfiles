@@ -1,37 +1,25 @@
 #!/bin/bash
 set -euo pipefail
 
-pattern="([0-9]+)\. ([^\[]*)"
-id_path=/tmp/audio-output-notification-id
+sinks="$(wpctl status --nick | sed -n '/Audio/,/^$/p' | sed -n '/Sinks/,/Sources/p')"
 
-sinks=false
-default=false
-output=()
-while read line; do
-	if $sinks; then
-		if [[ "$line" =~ $pattern ]]; then
-			if [[ "$line" == *"*"* ]]; then
-				default=true
-			else
-				if $default; then
-					output=("${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}")
-					break
-				elif [[ "${#output[@]}" == 0 ]]; then
-					output=("${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}")
-				fi
-			fi
-		else
-			break
-		fi
-	else
-		[[ "$line" == *"Sinks:"* ]] && sinks=true
-	fi
-done < <(wpctl status --nick)
+ids=()
+target=
+for (( i=1; i <= "$#"; ++i )); do
+	match="$(grep -oP "[\* ] +(\d+)(?=\. \Q${!i}\E)" <<< "$sinks")"
+	ids+=("$match")
 
-wpctl set-default "${output[0]}"
+	# i is 1 past the inserted ID's index (we are selecting the sink after the default)
+	[[ "${match:0:1}" == "*" ]] && target="$i"
+done
+[[ "$target" == "${#ids[@]}" ]] && target=0
+name_index="$((target + 1))"
 
+wpctl set-default "${ids[$target]}"
+
+id_path=/tmp/cycle-audio-output-notification-id
 options=(
-	"Audio Output" "${output[1]}"
+	"Audio Output" "${!name_index}"
 	--icon audio-card
 	--expire-time 2000
 	--print-id

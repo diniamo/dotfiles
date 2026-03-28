@@ -3,5 +3,5 @@
 vt = 7
 
 [default_session]
-command = "tuigreet --cmd 'dbus-run-session niri --session' --window-padding 1 --time --time-format '%R - %F' --remember --remember-session --asterisks --power-shutdown 'loginctl poweroff' --power-reboot 'loginctl reboot' --power-no-setsid"
+command = "tuigreet --cmd 'dbus-run-session dwl' --window-padding 1 --time --time-format '%R - %F' --remember --remember-session --asterisks --power-shutdown 'loginctl poweroff' --power-reboot 'loginctl reboot' --power-no-setsid"
 user = "_greeter"
