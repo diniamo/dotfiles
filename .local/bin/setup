@@ -22,7 +22,7 @@ packages=(
 	kakoune editorconfig
 	wiremix libnotify playerctl wl-clipboard xdg-utils
 	# GUI
-	firefox foot fuzzel dragon
+	foot fuzzel dragon
 	mpv-mpris
 	# Look
 	font-inter noto-fonts-emoji
@@ -32,7 +32,7 @@ packages=(
 )
 devoid_packages=(
 	# GUI
-	mpv
+	helium mpv
 	still
 	# Look
 	bibata-cursor-modern-classic lyth-mono-term-nerd-font
