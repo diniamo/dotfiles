@@ -24,6 +24,7 @@ static const Env envs[] = {
 	{ "WLR_RENDERER", "vulkan" },
 	{ "WLR_DRM_NO_ATOMIC", "1" },
 	{ "XDG_CURRENT_DESKTOP", "X-Generic" },
+	{ "SDL_VIDEODRIVER", "wayland,x11,windows" }
 };
 
 static const char *const autostart[] = {
