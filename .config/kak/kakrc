@@ -11,7 +11,6 @@ bundle kakoune-grep-write https://github.com/JacobTravers/kakoune-grep-write %{
 	}
 }
 
-
 define-command rc -docstring 'edit kakrc' %{ edit ~/.config/kak/kakrc }
 define-command file-menu -docstring 'file menu' %{ prompt -shell-script-candidates %{ fd --type file } -menu 'file: ' %{ edit %val{text} } }
 define-command buffer-menu -docstring 'buffer menu' %{ prompt -buffer-completion -menu 'buffer: ' %{ buffer %val{text} } }
@@ -64,6 +63,17 @@ alias global x write-all-quit
 
 
 colorscheme gruvbox-dark
+evaluate-commands %sh{
+	terminal=default
+	[ -n "$ALACRITTY_WINDOW_ID" ] && terminal=alacritty
+	echo "source '~/.config/kak/$terminal.kak'"
+}
+
+add-highlighter global/ number-lines -relative -separator ' ' -min-digits 0
+add-highlighter global/ regex '\b(TODO)\b' 0:bright-cyan+fb
+add-highlighter global/ regex '\b(NOTE)\b' 0:bright-green+fb
+add-highlighter global/ regex '\b(HACK)\b' 0:bright-yellow+fb
+add-highlighter global/ regex '\b(TEMP)\b' 0:bright-red+fb
 
 
 set-option global startup_info_version 2147483647 # Don't show changelog
@@ -73,36 +83,6 @@ set-option global make_error_pattern '^([^:]+):(\d+):(?:(\d+):)'
 set-option global scrolloff 3,3
 set-option -remove global autocomplete insert
 
-
-add-highlighter global/ number-lines -relative -separator ' ' -min-digits 0
-add-highlighter global/ regex '\b(TODO)\b' 0:bright-cyan+fb
-add-highlighter global/ regex '\b(NOTE)\b' 0:bright-green+fb
-add-highlighter global/ regex '\b(HACK)\b' 0:bright-yellow+fb
-add-highlighter global/ regex '\b(TEMP)\b' 0:bright-red+fb
-
-
-set-face global PrimaryCursor black,bright-cyan+fg
-set-face global PrimaryCursorEol black,bright-cyan+fg
-set-face global PrimarySelection black,bright-black
-set-face global SecondaryCursor black,cyan+fg
-set-face global SecondaryCursorEol black,cyan+fg
-set-face global SecondarySelection black,bright-black
-hook global ModeChange (push|pop):.*:insert %{
-    set-face window PrimaryCursor black,bright-green+fg
-    set-face window PrimaryCursorEol black,bright-green+fg
-    set-face window PrimarySelection black,bright-black
-    set-face window SecondaryCursor black,green+fg
-    set-face window SecondaryCursorEol black,green+fg
-    set-face window SecondarySelection black,bright-black
-}
-hook global ModeChange (push|pop):insert:.* %{
-    unset-face window PrimaryCursor
-    unset-face window PrimaryCursorEol
-    unset-face window PrimarySelection
-    unset-face window SecondaryCursor
-    unset-face window SecondaryCursorEol
-    unset-face window SecondarySelection
-}
 
 hook global BufNewFile .* editorconfig-load
 hook global BufOpenFile .* %{

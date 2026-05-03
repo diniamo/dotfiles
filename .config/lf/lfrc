@@ -16,6 +16,7 @@ set infotimefmtold "2006-01-02"
 set truncatechar "…"
 set watch true
 set wrapscroll true
+set previewer ~/.config/lf/previewer
 
 
 cmd on-cd &zoxide add $PWD

@@ -22,7 +22,7 @@ packages=(
 	kakoune editorconfig
 	wiremix spotify-player
 	# GUI
-	foot fuzzel dragon
+	fuzzel dragon
 	mpv-mpris
 	# Look
 	font-inter noto-fonts-emoji
@@ -32,6 +32,7 @@ packages=(
 )
 devoid_packages=(
 	# GUI
+	alacritty
 	helium mpv
 	still
 	# Look

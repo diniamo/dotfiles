@@ -16,7 +16,9 @@ save_to_clipboard = true
 [cursor]
 style = "Beam"
 vi_mode_style = "Block"
-blink_timeout = 0
+
+smooth_motion_factor = 0.6
+smooth_motion_spring = 1.0
 
 [hints]
 alphabet = "jfkdlséahgurieowpq"

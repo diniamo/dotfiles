@@ -1,0 +1,22 @@
+#!/bin/sh
+set -e
+
+path="$1"
+width="$2"
+height="$3"
+# x="$4"
+# y="$5"
+# mode="$6"
+
+mimetype="$(file --mime-type --brief "$path")"
+case "$mimetype" in
+	text/*)
+		cat "$path"
+		;;
+	image/*)
+		chafa --format sixels --size "$width"x"$height" --animate off "$path"
+		;;
+	*)
+		file --brief "$path"
+		;;
+esac
