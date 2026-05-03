@@ -1,7 +1,6 @@
 source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
 bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle
 
-bundle auto-pairs https://github.com/alexherbo2/auto-pairs.kak %{ enable-auto-pairs }
 bundle kakoune-grep-write https://github.com/JacobTravers/kakoune-grep-write %{
 	hook global WinSetOption filetype=grep %{
 		alias window w grep-write
