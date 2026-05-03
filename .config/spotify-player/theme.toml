@@ -1,0 +1,5 @@
+[[themes]]
+name = "custom"
+
+[themes.component_style]
+playback_progress_bar = { bg = "Black", fg = "Green" }

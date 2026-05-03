@@ -16,11 +16,11 @@ packages=(
 	pipewire alsa-pipewire wireplumber
 	# CLI
 	fish-shell zoxide man-pages-devel
-	fd ripgrep eza curl wget patch trash-cli jq
+	fd ripgrep eza curl wget patch trash-cli jq libnotify playerctl wl-clipboard xdg-utils
 	git difftastic lazygit
 	lf 7zip xz
 	kakoune editorconfig
-	wiremix libnotify playerctl wl-clipboard xdg-utils
+	wiremix spotify-player
 	# GUI
 	foot fuzzel dragon
 	mpv-mpris
