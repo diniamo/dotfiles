@@ -5,7 +5,7 @@ function man --wraps man --description='view man page in Kakoune'
 		set -f page $argv[1]
 	end
 
-	kak -ro -e "try %{ man '$page' } catch %{ quit 1 }" || {
+	kak -e "try %{ man '$page' } catch %{ quit 1 }" || {
 		echo "$page not found" 1>&2
 		return 1
 	}

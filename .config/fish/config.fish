@@ -15,7 +15,7 @@ if status is-interactive
         set -U fish_cursor_external line
 
         set -Ux EDITOR kak
-        set -Ux PAGER less
+        set -Ux PAGER kak
         set -Ux GOPATH ~/.local/share/go
     end
 
