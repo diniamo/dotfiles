@@ -1,4 +1,8 @@
 [Default Applications]
+application/pdf=helium.desktop
+
+text/html=helium.desktop
+
 x-scheme-handler/terminal=Alacritty.desktop
 x-scheme-handler/sgnl=signal.desktop
 x-scheme-handler/signalcaptcha=signal.desktop
@@ -6,8 +10,6 @@ x-scheme-handler/http=helium.desktop
 x-scheme-handler/https=helium.desktop
 x-scheme-handler/about=helium.desktop
 x-scheme-handler/unknown=helium.desktop
-
-text/html=helium.desktop
 
 image/apng=helium.desktop
 image/astc=helium.desktop
