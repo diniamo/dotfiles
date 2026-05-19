@@ -57,6 +57,13 @@ map a push :add<space>
 map z push :zoxide<space>
 map c push :chmod<space>
 
+
+map gg
+map G
+map gk top
+map gj bottom
+
+map gr cd /
 map gt cd /tmp
 map gs cd /tmp/dl
 map gd cd ~/dev
