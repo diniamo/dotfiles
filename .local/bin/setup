@@ -83,6 +83,8 @@ if [[ ! -e ~/.dot ]]; then
 	git --git-dir ~/.dot --work-tree ~ checkout --force
 fi
 
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+
 [[ ! -e ~/.config/fish/functions/fisher.fish ]] && fish -c "
 	curl -L https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
 	fisher update
