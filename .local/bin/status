@@ -8,6 +8,8 @@ options=(
 )
 
 id_path=/tmp/information-notification-id
-[ -f "$id_path" ] && options+=(--replace-id=$(cat "$id_path"))
+[ -e "$id_path" ] && options+=(--replace-id="$(cat "$id_path")")
+
+[ -e /sys/class/power_supply/BAT0 ] && options+=("$(cat /sys/class/power_supply/BAT0/capacity)% - $(cat /sys/class/power_supply/BAT0/status)")
 
 notify-send "${options[@]}" > "$id_path"
