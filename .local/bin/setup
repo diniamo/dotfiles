@@ -20,6 +20,7 @@ packages=(
 	lf 7zip
 	kakoune editorconfig
 	wiremix spotify-player
+	btop
 	# GUI
 	fuzzel dragon
 	slurp grim hyprpicker
