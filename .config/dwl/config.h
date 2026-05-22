@@ -160,4 +160,6 @@ static const Key keys[] = {
 	CHVT(1), CHVT(2), CHVT(3), CHVT(4), CHVT(5), CHVT(6), CHVT(7), CHVT(8), CHVT(9), CHVT(10), CHVT(11), CHVT(12),
 #undef CHVT
 
+#define MONITOR(NAME, X, Y, MODE, ADAPTIVE) { NAME, 0.55f, 1, 1, &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, X, Y, 0, 0, 0.0f, MODE, ADAPTIVE }
 #include "device.h"
+#undef MONITOR

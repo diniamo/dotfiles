@@ -6,23 +6,23 @@ packages=(
 	# Graphics
 	mesa-dri vulkan-loader
 	# Compositor
-	clang21 pkg-config wlroots0.19-devel
-	slurp grim hyprpicker
-	wlr-randr lswt
+	make pkg-config clang21 wlroots0.19-devel
 	# Services
 	elogind polkit greetd tuigreet
-	xdg-desktop-portal-wlr xdg-desktop-portal-gtk mako gammastep
+	xdg-desktop-portal-wlr xdg-desktop-portal-gtk
+	mako gammastep
 	# Media
 	pipewire alsa-pipewire wireplumber
 	# CLI
 	fish-shell zoxide man-pages-devel
 	fd ripgrep eza curl wget patch trash-cli jq libnotify playerctl wl-clipboard xdg-utils
 	git difftastic lazygit
-	lf 7zip xz
+	lf 7zip
 	kakoune editorconfig
 	wiremix spotify-player
 	# GUI
 	fuzzel dragon
+	slurp grim hyprpicker
 	mpv-mpris
 	# Look
 	font-inter noto-fonts-emoji
@@ -39,37 +39,55 @@ devoid_packages=(
 	bibata-cursor-modern-classic lyth-mono-term-nerd-font
 )
 
-sudo xbps-install -Syu "${packages[@]}"
+installed=()
+while read package; do
+	installed+=("${package%-*}")
+done < <(xbps-query --list-manual-pkgs)
+is_installed() {
+	for p in "${installed[@]}"; do
+		[[ "$p" == "$1" ]] && return 0
+	done
+	return 1
+}
 
-if [ ! -e ~/.ssh/id_ed25519 ]; then
+to_install=()
+for package in "${packages[@]}"; do
+	is_installed "$package" || to_install+=("$package")
+done
+[[ "${#to_install[@]}" > 0 ]] && sudo xbps-install -Sy "${to_install[@]}"
+
+if [[ ! -e ~/.ssh/id_ed25519 ]]; then
 	ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -P ""
 
 	echo "Add ~/.ssh/id_ed25519.pub to GitHub ssh keys..."
 	read
 fi
 
-[ ! -e ~/dev/devoid ] && git clone git@github.com:diniamo/devoid.git ~/dev/devoid
+[[ ! -e ~/dev/devoid ]] && git clone git@github.com:diniamo/devoid.git ~/dev/devoid
 cd ~/dev/devoid
+	to_install=()
 	for package in "${devoid_packages[@]}"; do
-		fd -qd1 "$package-" binpkgs || ./build "$package"
+		if ! is_installed "$package"; then
+			fd -qd1 "$package-" binpkgs || ./build "$package"
+			to_install+=("$package")
+		fi
 	done
-	sudo xbps-install -yuR binpkgs "${devoid_packages[@]}"
+	[[ "${#to_install[@]}" > 0 ]] && sudo xbps-install -yR binpkgs "${to_install[@]}"
 cd -
 
-
 # Dotfiles
-if [ ! -e ~/.dot ]; then
+if [[ ! -e ~/.dot ]]; then
 	git clone --bare git@github.com:diniamo/dotfiles.git ~/.dot
 	git --git-dir ~/.dot --work-tree ~ config status.showUntrackedFiles no
 	git --git-dir ~/.dot --work-tree ~ config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 	git --git-dir ~/.dot --work-tree ~ checkout --force
 fi
 
-[ ! -e ~/.config/fish/functions/fisher.fish ] && fish -c "
+[[ ! -e ~/.config/fish/functions/fisher.fish ]] && fish -c "
 	curl -L https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
 	fisher update
 "
-[ "$SHELL" != /usr/bin/fish ] && sudo chsh -s /usr/bin/fish "$USER"
+[[ "$SHELL" != /usr/bin/fish ]] && sudo chsh -s /usr/bin/fish "$USER"
 
 # /etc
 cd ~/.etc
@@ -77,8 +95,8 @@ cd ~/.etc
 		target=~/.etc/"$relative"
 		link=/etc/"$relative"
 
-		if [ -e "$link" ]; then
-			if [ "$(realpath "$link")" = "$target" ]; then
+		if [[ -e "$link" ]]; then
+			if [[ "$(realpath "$link")" = "$target" ]]; then
 				continue
 			else
 				sudo rm "$link"
@@ -91,15 +109,26 @@ cd ~/.etc
 	done < <(fd --type file .)
 cd -
 
+sudo mkdir -p /etc/alsa/conf.d
+[[ ! -e /etc/alsa/conf.d/50-pipewire.conf         ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d/
+[[ ! -e /etc/alsa/conf.d/99-pipewire-default.conf ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d/
+
 # Compositor
-[ ! -e ~/dev/dwl ] && git clone git@github.com/diniamo/dwl.git ~/dev/dwl
+[[ ! -e ~/dev/dwl              ]] && git clone git@github.com:diniamo/dwl.git ~/dev/dwl
+[[ ! -e ~/.config/dwl/device.h ]] && echo "};
+
+static const MonitorRule monrules[] = {
+	MONITOR(NULL, -1, -1, 0, 0)
+};" >~/.config/dwl/device.h
+[[ ! -e ~/dev/dwl/config.h     ]] && ln -s ~/.config/dwl/config.h ~/dev/dwl/
+[[ ! -e ~/dev/dwl/device.h     ]] && ln -s ~/.config/dwl/device.h ~/dev/dwl/
 cd ~/dev/dwl
 	CC=clang CFLAGS=-O3 make all
 	sudo make install
 cd -
 
 # Services
-[ ! -e /var/service/dbus ] && sudo ln -s /etc/sv/dbus /var/service
-[ ! -e /var/service/greetd ] && sudo ln -s /etc/sv/greetd /var/service
+[[ ! -e /var/service/dbus   ]] && sudo ln -s /etc/sv/dbus /var/service/
+[[ ! -e /var/service/greetd ]] && sudo ln -s /etc/sv/greetd /var/service/
 
 exit 0
