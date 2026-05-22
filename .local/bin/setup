@@ -71,8 +71,6 @@ fi
 "
 [ "$SHELL" != /usr/bin/fish ] && sudo chsh -s /usr/bin/fish "$USER"
 
-[ ! -e ~/.config/kak/bundle/kak-bundle ] && git clone https://codeberg.org/jdugan6240/kak-bundle.git ~/.config/kak/bundle/kak-bundle
-
 # /etc
 cd ~/.etc
 	while read relative; do

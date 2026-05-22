@@ -1,16 +1,3 @@
-source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
-bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle
-
-bundle kakoune-grep-write https://github.com/JacobTravers/kakoune-grep-write %{
-	hook global WinSetOption filetype=grep %{
-		alias window w grep-write
-		alias window write grep-write
-		alias window x grep-write-quit
-		alias window wq grep-write-quit
-		alias window write-quit grep-write-quit
-	}
-}
-
 define-command rc -docstring 'edit kakrc' %{ edit ~/.config/kak/kakrc }
 define-command file-menu -docstring 'file menu' %{ prompt -shell-script-candidates %{ fd --type file } -menu 'file: ' %{ edit %val{text} } }
 define-command buffer-menu -docstring 'buffer menu' %{ prompt -buffer-completion -menu 'buffer: ' %{ buffer %val{text} } }
