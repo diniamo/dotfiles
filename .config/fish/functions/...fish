@@ -1,5 +1,5 @@
-function .. --argument-names n --description 'go up n directories'
-    if set -q n
+function .. --description 'go up n directories'
+    if set -q argv[1]
         cd (string repeat -Nn $argv[1] ../)
     else
         cd ..
