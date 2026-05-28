@@ -6,7 +6,7 @@ packages=(
 	# Graphics
 	mesa-dri vulkan-loader
 	# Compositor
-	make pkg-config clang21 wlroots0.19-devel
+	labwc kanshi
 	# Services
 	elogind polkit greetd tuigreet
 	xdg-desktop-portal-wlr xdg-desktop-portal-gtk
@@ -116,20 +116,6 @@ cd -
 sudo mkdir -p /etc/alsa/conf.d
 [[ ! -e /etc/alsa/conf.d/50-pipewire.conf         ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d/
 [[ ! -e /etc/alsa/conf.d/99-pipewire-default.conf ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d/
-
-# Compositor
-[[ ! -e ~/dev/dwl              ]] && git clone git@github.com:diniamo/dwl.git ~/dev/dwl
-[[ ! -e ~/.config/dwl/device.h ]] && echo "};
-
-static const MonitorRule monrules[] = {
-	MONITOR(NULL, -1, -1, 0, 0)
-};" >~/.config/dwl/device.h
-[[ ! -e ~/dev/dwl/config.h     ]] && ln -s ~/.config/dwl/config.h ~/dev/dwl/
-[[ ! -e ~/dev/dwl/device.h     ]] && ln -s ~/.config/dwl/device.h ~/dev/dwl/
-cd ~/dev/dwl
-	CC=clang CFLAGS=-O3 make all
-	sudo make install
-cd -
 
 # Services
 [[ ! -e /var/service/dbus   ]] && sudo ln -s /etc/sv/dbus /var/service/
