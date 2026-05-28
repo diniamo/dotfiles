@@ -1,6 +1,6 @@
 if status is-interactive
     # -U is slightly faster than -g
-    if not set -q fish_configured
+    if not set -Uq fish_configured
         set -U fish_configured
         set -U fish_greeting
         set -U fish_transient_prompt 1
@@ -14,12 +14,15 @@ if status is-interactive
         set -U fish_cursor_replace underscore
         set -U fish_cursor_external line
 
+		set -U fish_user_paths ~/.local/bin
+        set -U fisher_path ~/.local/share/fisher
+        set -Up fish_function_path ~/.local/share/fisher/functions
+        set -Up fish_complete_path ~/.local/share/fisher/completions
+
         set -Ux EDITOR kak
         set -Ux PAGER kak
         set -Ux GOPATH ~/.local/share/go
     end
-
-    set -gxa PATH ~/.local/bin
 
 
     bind ctrl-z fg

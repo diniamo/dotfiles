@@ -86,10 +86,11 @@ fi
 
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
-[[ ! -e ~/.config/fish/functions/fisher.fish ]] && fish -c "
+[[ ! -e ~/.local/share/fisher/functions/fisher.fish ]] && fish -c "
 	curl -L https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
 	fisher update
 "
+[[ ! -e ~/.config/fish/conf.d ]] && ln -s ~/.local/share/fisher/conf.d ~/.config/fish/conf.d
 [[ "$SHELL" != /usr/bin/fish ]] && sudo chsh -s /usr/bin/fish "$USER"
 
 # /etc
