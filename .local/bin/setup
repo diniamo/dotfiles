@@ -29,7 +29,7 @@ packages=(
 	font-inter noto-fonts-emoji
 	papirus-icon-theme
 	gsettings-desktop-schemas
-	qt5-wayland qt6-wayland
+	qt5ct qt6ct qt5-wayland qt6-wayland
 )
 devoid_packages=(
 	# GUI
