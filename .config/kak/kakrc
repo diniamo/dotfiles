@@ -126,6 +126,7 @@ unmap global normal <a-M>
 map global user c :comment-line<ret>                 -docstring 'comment selected lines'
 map global user C :comment-block<ret>                -docstring 'comment block'
 map global user y <a-|>wl-copy<ret>                  -docstring 'copy to system clipboard'
+map global user d <a-|>wl-copy<ret>"_d               -docstring 'cut to system clipboard'
 map global user p '<a-!>wl-paste --no-newline<ret>'  -docstring 'paste from system clipboard'
 map global user P '!wl-paste --no-newline<ret>'      -docstring 'paste before from system clipboard'
 map global user R '<a-d>!wl-paste --no-newline<ret>' -docstring 'replace from system system clipboard'
