@@ -33,7 +33,7 @@ define-command zoxide -docstring 'cd with zoxide' %{
 			if directory="$(zoxide query "$kak_text")"; then
 				echo "cd '$directory'; echo '$directory'"
 			else
-				echo "no match found: $kak_text" 1>&2
+				echo "fail 'no match found: $kak_text'"
 			fi
 		}
 	}
@@ -104,7 +104,7 @@ define-command smart-jump-next -docstring 'jump to next in jumplist' %{
 		case "$kak_opt_jumplist" in
 		grep) echo "jump-next"       ;;
 		make) echo "make-next-error" ;;
-		*)    echo "Invalid jumplist: $kak_opt_jumplist" 1>&2
+		*)    echo "fail 'invalid jumplist: $kak_opt_jumplist'"
 		esac
 	}
 }
@@ -113,9 +113,87 @@ define-command smart-jump-previous -docstring 'jump to previous in jumplist' %{
 		case "$kak_opt_jumplist" in
 		grep) echo "jump-previous"       ;;
 		make) echo "make-previous-error" ;;
-		*)    echo "Invalid jumplist: $kak_opt_jumplist" 1>&2
+		*)    echo "fail 'invalid jumplist: $kak_opt_jumplist'"
 		esac
 	}
+}
+
+# Harpoon
+declare-option str-list harpoons
+
+define-command harpoon-add -docstring "add the current file to the list of harpoons" %{
+	evaluate-commands %sh{
+		eval set -- "$kak_quoted_opt_harpoons"
+		for file in "$@"; do
+			if [ "$file" = "$kak_bufname" ]; then
+				echo "fail 'already saved'"
+				exit
+			fi
+		done
+
+		echo "set-option -add global harpoons '$kak_bufname'"
+		echo "harpoon-save"
+		echo "echo 'harpoon #$(($# + 1))'"
+	}
+}
+define-command harpoon-open -params 1 -docstring "go to harpoon" %{
+	evaluate-commands %sh{
+		index="$1"
+
+		eval set -- "$kak_quoted_opt_harpoons"
+		if [ "$#" -ge "$index" ]; then
+			eval "file=\$$index"
+			echo "edit '$file'"
+		else
+			echo "fail 'no file at index $index'"
+		fi
+	}
+}
+define-command harpoon-list -docstring "list harpoons" %{
+	evaluate-commands -save-regs dquote %{
+		try %{
+			set-register dquote %opt{harpoons}
+			edit -scratch *harpoon*
+			execute-keys -draft '%"_d<a-P>a<ret><esc>I<c-r>#: <esc>,gjd'
+		} catch %{
+			fail "no harpoons"
+		}
+	}
+}
+define-command harpoon-save -hidden %{
+	nop %sh{
+		eval set -- "$kak_quoted_opt_harpoons"
+		sqlite3 "$kak_opt_database" "REPLACE INTO harpoons VALUES ('$PWD', '$(printf "%s\n" "$@")')"
+	}
+}
+define-command harpoon-update -hidden %{
+	evaluate-commands -save-regs dquote %{
+		try %{
+			execute-keys -draft -save-regs '' '%<a-s><a-k>^\d+:\s*\S<ret><a-;>;f:/\S<ret><a-l>y'
+			set-option global harpoons %reg{dquote}
+			harpoon-list
+			harpoon-save
+		} catch %{
+			set-option global harpoons
+		}
+	}
+}
+
+hook global EnterDirectory .* %{
+	evaluate-commands %sh{
+		files="$(sqlite3 "$kak_opt_database" "SELECT files FROM harpoons WHERE pwd = '$PWD'")"
+		if [ -n "$files" ]; then
+			printf "set-option global harpoons "
+			IFS="\n" printf "'%s' " $files
+		fi
+	}
+}
+hook global BufCreate \*harpoon\* %{
+	add-highlighter buffer/harpoon-indices regex ^(\d+): 1:value
+	map buffer normal <ret> ':harpoon-open %val{cursor_line}<ret>'
+	map buffer user w :harpoon-update<ret>
+	alias buffer write harpoon-update
+	alias buffer w harpoon-update
 }
 
 # Aliases
@@ -143,6 +221,22 @@ set-option global make_error_pattern '^([^:\n]+):(\d+):'
 set-option global scrolloff 3,3
 set-option -remove global autocomplete insert
 
+declare-option str database
+evaluate-commands %sh{
+	database="$HOME/.local/share/kakoune.db"
+	sqlite3 "$database" "
+		CREATE TABLE IF NOT EXISTS makecmds (
+			pwd TEXT PRIMARY KEY,
+			cmd TEXT
+		);
+		CREATE TABLE IF NOT EXISTS harpoons (
+			pwd   TEXT PRIMARY KEY,
+			files TEXT
+		);
+	"
+	echo "set-option global database '$database'"
+}
+
 # Hooks
 hook global BufNewFile .* editorconfig-load
 hook global BufOpenFile .* %{
@@ -158,22 +252,13 @@ hook global BufWritePre .* %{
 
 hook global EnterDirectory .* %{
 	evaluate-commands -no-hooks %sh{
-		makecmd="$(sqlite3 ~/.local/share/makecmds.sqlite3 "SELECT cmd FROM data WHERE pwd == '$PWD'")"
+		makecmd="$(sqlite3 "$kak_opt_database" "SELECT cmd FROM makecmds WHERE pwd = '$PWD'")"
 		[ -n "$makecmd" ] && echo "set-option global makecmd '$makecmd'"
 	}
 }
 hook global GlobalSetOption makecmd=(?!make).* %{
 	nop %sh{
-		sqlite3 ~/.local/share/makecmds.sqlite3 "
-			CREATE TABLE IF NOT EXISTS data (
-				pwd TEXT PRIMARY KEY,
-				cmd TEXT
-			);
-			INSERT OR REPLACE INTO data VALUES (
-				'$PWD',
-				'$kak_opt_makecmd'
-			);
-		"
+		sqlite3 "$kak_opt_database" "REPLACE INTO makecmds VALUES ('$PWD', '$kak_opt_makecmd')"
 	}
 }
 hook global WinSetOption filetype=man %{
@@ -222,6 +307,13 @@ map global user m :smart-make<ret>                   -docstring 'run make comman
 map global user M :prompt-make<ret>                  -docstring 'run prompt as make command'
 map global user j :smart-jump-next<ret>              -docstring 'go to the next make error'
 map global user k :smart-jump-previous<ret>          -docstring 'go to the previous make error'
+map global user h :harpoon-add<ret>                  -docstring "add harpoon"
+map global user H :harpoon-list<ret>                 -docstring "list harpoons"
+map global user 1 ':harpoon-open 1<ret>'             -docstring 'go to harpoon 1'
+map global user 2 ':harpoon-open 2<ret>'             -docstring 'go to harpoon 2'
+map global user 3 ':harpoon-open 3<ret>'             -docstring 'go to harpoon 3'
+map global user 4 ':harpoon-open 4<ret>'             -docstring 'go to harpoon 4'
+map global user 5 ':harpoon-open 5<ret>'             -docstring 'go to harpoon 5'
 
 map global insert <tab> <c-n>                       -docstring 'complete next'
 map global insert <s-tab> <c-p>                     -docstring 'complete previous'
