@@ -40,7 +40,8 @@ define-command zoxide -docstring 'cd with zoxide' %{
 }
 define-command prompt-make -docstring 'run prompt as make command' %{
 	prompt -init %opt{makecmd} -shell-completion 'make: ' %{
-		set-option global makecmd %val{text}; smart-make
+		set-option global makecmd %val{text}
+		smart-make
 	}
 }
 
@@ -104,7 +105,7 @@ define-command smart-jump-next -docstring 'jump to next in jumplist' %{
 		case "$kak_opt_jumplist" in
 		grep) echo "jump-next"       ;;
 		make) echo "make-next-error" ;;
-		*)    echo "fail 'invalid jumplist: $kak_opt_jumplist'"
+		*)    echo "fail 'no jumplist"
 		esac
 	}
 }
@@ -215,10 +216,12 @@ add-highlighter global/ regex '\b(TEMP)\b' 0:bright-red+fb
 
 # Options
 set-option global startup_info_version 2147483647 # Don't show changelog
-set-option global autoreload yes
+set-option global autoreload false
 set-option global grepcmd 'rg --vimgrep --color=always'
 set-option global make_error_pattern '^([^:\n]+):(\d+):'
 set-option global scrolloff 3,3
+set-option global autoinfo command
+set-option -add global ui_options terminal_assistant=none
 set-option -remove global autocomplete insert
 
 declare-option str database
@@ -267,10 +270,6 @@ hook global WinSetOption filetype=man %{
 }
 
 # Maps
-map global normal / /(?i)
-map global normal ? ?(?i)
-map global normal <a-/> <a-/>(?i)
-map global normal <a-?> <a-?>(?i)
 map global normal X x_
 map global normal J Jx
 map global normal K Kx
