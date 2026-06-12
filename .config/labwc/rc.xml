@@ -101,6 +101,8 @@
 		<windowRule identifier="dragon-drop">
 			<action name="ToggleOmnipresent" />
 			<action name="ToggleAlwaysOnTop" />
+			<action name="MoveToEdge" direction="down" snapWindows="no" />
+			<action name="MoveToEdge" direction="right" snapWindows="no" />
 		</windowRule>
 	</windowRules>
 </labwc_config>
