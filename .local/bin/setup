@@ -17,12 +17,11 @@ packages=(
 	pipewire alsa-pipewire wireplumber
 	# CLI
 	fish-shell zoxide man-pages-devel
-	fd ripgrep eza curl wget patch trash-cli libnotify playerctl wl-clipboard xdg-utils
+	fd ripgrep eza curl wget trash-cli libnotify playerctl wl-clipboard xdg-utils
 	git difftastic lazygit
 	lf 7zip
 	kakoune editorconfig
-	wiremix spotify-player
-	btop
+	wiremix btop
 	# GUI
 	fuzzel dragon
 	slurp grim hyprpicker
@@ -67,16 +66,24 @@ if [[ ! -e ~/.ssh/id_ed25519 ]]; then
 fi
 
 [[ ! -e ~/dev/devoid ]] && git clone git@github.com:diniamo/devoid.git ~/dev/devoid
-cd ~/dev/devoid
+pushd ~/dev/devoid
 	to_install=()
 	for package in "${devoid_packages[@]}"; do
 		if ! is_installed "$package"; then
-			fd -qd1 "$package-" binpkgs || ./build "$package"
+			fd -qd1 "^$package-" binpkgs || ./build "$package"
 			to_install+=("$package")
 		fi
 	done
 	[[ "${#to_install[@]}" > 0 ]] && sudo xbps-install -yR binpkgs "${to_install[@]}"
-cd -
+
+	if ! is_installed spotify; then
+		pushd void-packages
+			[[ ! -e etc/conf ]] && echo "XBPS_ALLOW_RESTRICTED=yes" > etc/conf
+			fd -qd1 "^spotify-" hostdir/binpkgs/nonfree || ./xbps-src pkg spotify
+			sudo xbps-install -yR hostdir/binpkgs/nonfree spotify
+		popd
+	fi
+popd
 
 # Dotfiles
 if [[ ! -e ~/.dot ]]; then
@@ -98,7 +105,7 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 [[ ! -e ~/.config/kak/bundle/kak-bundle ]] && git clone https://codeberg.org/jdugan6240/kak-bundle.git ~/.config/kak/bundle/kak-bundle
 
 # /etc
-cd ~/.etc
+pushd ~/.etc
 	while read relative; do
 		target=~/.etc/"$relative"
 		link=/etc/"$relative"
@@ -115,7 +122,7 @@ cd ~/.etc
 
 		sudo ln -s "$target" "$link"
 	done < <(fd --type file .)
-cd -
+popd
 
 sudo mkdir -p /etc/alsa/conf.d
 [[ ! -e /etc/alsa/conf.d/50-pipewire.conf         ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d/
