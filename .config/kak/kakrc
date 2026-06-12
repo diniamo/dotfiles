@@ -1,33 +1,59 @@
-define-command rc -docstring 'edit kakrc' %{ edit ~/.config/kak/kakrc }
-define-command file-menu -docstring 'file menu' %{ prompt -shell-script-candidates %{ fd --type file } -menu 'file: ' %{ edit %val{text} } }
-define-command buffer-menu -docstring 'buffer menu' %{ prompt -buffer-completion -menu 'buffer: ' %{ buffer %val{text} } }
-define-command grep-prompt -docstring 'grep for prompt' %{ prompt 'grep: ' %{ grep %val{text} } }
-define-command man-prompt -docstring 'open man page from prompt' %{ prompt -shell-script-candidates %{ find /usr/share/man/ $(echo -n "$MANPATH" | sed 's/:/ /') -name '*.[1-8]*' | sed 's,^.*/\(.*\)\.\([1-8][a-zA-Z]*\).*$,\1(\2),' } 'man: ' %{ man %val{text} } }
-define-command zoxide -docstring 'cd with zoxide' %{ prompt 'zoxide: ' %{ evaluate-commands %sh{ if directory="$(zoxide query "$kak_text")"; then echo "cd '$directory'; echo '$directory'" else echo "no match found: $kak_text" fi } } }
-define-command make-prompt -docstring 'run prompt as make command' %{ prompt -init %opt{makecmd} -shell-completion 'make: ' %{ set-option global makecmd %val{text}; make } }
+# Plugins
+source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
+bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle
 
-define-command surround-select -params 0..1 -docstring 'select surrounding pair' %{
+bundle kak-ansi https://github.com/eraserhd/kak-ansi %{
+	hook global BufCreate (\*stdin\*|\*grep\*|\*make\*) %{
+		ansi-enable
+	}
+}
+
+# Commands
+define-command rc -docstring 'edit kakrc' %{
+	edit ~/.config/kak/kakrc
+}
+define-command file-menu -docstring 'file menu' %{
+	prompt -shell-script-candidates %{ fd --type file } -menu 'file: ' %{
+		edit %val{text}
+	}
+}
+define-command buffer-menu -docstring 'buffer menu' %{
+	prompt -buffer-completion -menu 'buffer: ' %{
+		buffer %val{text}
+	}
+}
+define-command prompt-grep -docstring 'grep for prompt' %{
+	prompt 'grep: ' %{
+		smart-grep %val{text}
+	}
+}
+define-command zoxide -docstring 'cd with zoxide' %{
+	prompt 'zoxide: ' %{
+		evaluate-commands %sh{
+			if directory="$(zoxide query "$kak_text")"; then
+				echo "cd '$directory'; echo '$directory'"
+			else
+				echo "no match found: $kak_text" 1>&2
+			fi
+		}
+	}
+}
+define-command prompt-make -docstring 'run prompt as make command' %{
+	prompt -init %opt{makecmd} -shell-completion 'make: ' %{
+		set-option global makecmd %val{text}; smart-make
+	}
+}
+
+# Surround
+define-command surround-select -params 1 -docstring 'select surrounding pair' %{
 	on-key -mode-name pair %{
 		execute-keys "<a-a>%val{key}<a-S>"
 		evaluate-commands %arg{1}
 	}
 }
 define-command surround -docstring 'surround selection' %{
-	on-key -mode-name pair %{ evaluate-commands -draft %sh{
-		case "$kak_key" in
-		'('|')') open='('; close=')' ;;
-		'['|']') open='['; close=']' ;;
-		'{'|'}') open='{'; close='}' ;;
-		'<lt>'|'<gt>') open='<lt>'; close='<gt>' ;;
-		*) open="$kak_key"; close="$kak_key"
-		esac
-		echo "execute-keys a$close<esc>i$open"
-	} }
-}
-define-command surround-replace -docstring 'replace surrounding pair' %{
-	execute-keys '"xZ'
-	surround-select %{
-		on-key -mode-name new-pair %{ evaluate-commands -itersel %sh{
+	on-key -mode-name pair %{
+		evaluate-commands -draft %sh{
 			case "$kak_key" in
 			'('|')') open='('; close=')' ;;
 			'['|']') open='['; close=']' ;;
@@ -35,8 +61,25 @@ define-command surround-replace -docstring 'replace surrounding pair' %{
 			'<lt>'|'<gt>') open='<lt>'; close='<gt>' ;;
 			*) open="$kak_key"; close="$kak_key"
 			esac
-			echo "execute-keys r$open,r$close\"xz"
-		} }
+			echo "execute-keys a$close<esc>i$open"
+		}
+	}
+}
+define-command surround-replace -docstring 'replace surrounding pair' %{
+	execute-keys '"xZ'
+	surround-select %{
+		on-key -mode-name new-pair %{
+			evaluate-commands -itersel %sh{
+				case "$kak_key" in
+				'('|')') open='('; close=')' ;;
+				'['|']') open='['; close=']' ;;
+				'{'|'}') open='{'; close='}' ;;
+				'<lt>'|'<gt>') open='<lt>'; close='<gt>' ;;
+				*) open="$kak_key"; close="$kak_key"
+				esac
+				echo "execute-keys r$open,r$close\"xz"
+			}
+		}
 	}
 }
 define-command surround-delete -docstring 'delete surrounding pair' %{
@@ -46,9 +89,39 @@ define-command surround-delete -docstring 'delete surrounding pair' %{
 	}
 }
 
+# Jumplist
+declare-option -hidden str jumplist
+define-command smart-grep -params .. -docstring 'grep and set jumplist' %{
+	grep %arg{@}
+	set-option global jumplist grep
+}
+define-command smart-make -docstring 'make and set jumplist' %{
+	make
+	set-option global jumplist make
+}
+define-command smart-jump-next -docstring 'jump to next in jumplist' %{
+	evaluate-commands %sh{
+		case "$kak_opt_jumplist" in
+		grep) echo "jump-next"       ;;
+		make) echo "make-next-error" ;;
+		*)    echo "Invalid jumplist: $kak_opt_jumplist" 1>&2
+		esac
+	}
+}
+define-command smart-jump-previous -docstring 'jump to previous in jumplist' %{
+	evaluate-commands %sh{
+		case "$kak_opt_jumplist" in
+		grep) echo "jump-previous"       ;;
+		make) echo "make-previous-error" ;;
+		*)    echo "Invalid jumplist: $kak_opt_jumplist" 1>&2
+		esac
+	}
+}
+
+# Aliases
 alias global x write-all-quit
 
-
+# Colors
 colorscheme gruvbox-dark
 evaluate-commands %sh{
 	terminal=default
@@ -62,44 +135,53 @@ add-highlighter global/ regex '\b(NOTE)\b' 0:bright-green+fb
 add-highlighter global/ regex '\b(HACK)\b' 0:bright-yellow+fb
 add-highlighter global/ regex '\b(TEMP)\b' 0:bright-red+fb
 
-
+# Options
 set-option global startup_info_version 2147483647 # Don't show changelog
 set-option global autoreload yes
-set-option global grepcmd 'rg --vimgrep'
-set-option global make_error_pattern '^([^:]+):(\d+):(?:(\d+):)'
+set-option global grepcmd 'rg --vimgrep --color=always'
+set-option global make_error_pattern '^([^:\n]+):(\d+):'
 set-option global scrolloff 3,3
 set-option -remove global autocomplete insert
 
-
+# Hooks
 hook global BufNewFile .* editorconfig-load
 hook global BufOpenFile .* %{
 	editorconfig-load
 	modeline-parse
 }
-hook global BufWritePre .* %{ nop %sh{
-	directory="$(dirname "$kak_buffile")"
-	mkdir -p "$directory"
-} }
+hook global BufWritePre .* %{
+	nop %sh{
+		directory="$(dirname "$kak_buffile")"
+		mkdir -p "$directory"
+	}
+}
 
-hook global EnterDirectory .* %{ evaluate-commands -no-hooks %sh{
-	if makecmd="$(jq -er ".\"$PWD\"" ~/.local/share/makecmds.json 2>/dev/null)"; then
-		echo "set-option global makecmd '$makecmd'"
-	fi
-} }
-hook global WinSetOption makecmd=(?!make).* %{ nop %sh{
-	persistent=~/.local/share/makecmds.json
-	[ ! -e "$persistent" ] && echo '{}' > "$persistent"
-
-	temporary="$(mktemp)"
-	jq ".\"$PWD\" = \"$kak_opt_makecmd\"" "$persistent" > "$temporary"
-	mv "$temporary" "$persistent"
-} }
+hook global EnterDirectory .* %{
+	evaluate-commands -no-hooks %sh{
+		makecmd="$(sqlite3 ~/.local/share/makecmds.sqlite3 "SELECT cmd FROM data WHERE pwd == '$PWD'")"
+		[ -n "$makecmd" ] && echo "set-option global makecmd '$makecmd'"
+	}
+}
+hook global GlobalSetOption makecmd=(?!make).* %{
+	nop %sh{
+		sqlite3 ~/.local/share/makecmds.sqlite3 "
+			CREATE TABLE IF NOT EXISTS data (
+				pwd TEXT PRIMARY KEY,
+				cmd TEXT
+			);
+			INSERT OR REPLACE INTO data VALUES (
+				'$PWD',
+				'$kak_opt_makecmd'
+			);
+		"
+	}
+}
 hook global WinSetOption filetype=man %{
 	map window normal <tab> :man-link-next<ret>
 	map window normal <s-tab> :man-link-prev<ret>
 }
 
-
+# Maps
 map global normal / /(?i)
 map global normal ? ?(?i)
 map global normal <a-/> <a-/>(?i)
@@ -110,16 +192,16 @@ map global normal K Kx
 unmap global normal <tab>
 
 declare-user-mode match
-map global match m m                      -docstring 'go to next matching pair'
-map global match M M                      -docstring 'extend to next matching pair'
-map global match <a-m> <a-m>              -docstring 'go to the previous matching pair'
-map global match <a-M> <a-M>              -docstring 'extend to the previous matching pair'
-map global match s :surround<ret>         -docstring 'surround selection'
-map global match p :surround-select<ret>  -docstring 'select surrounding pair'
-map global match r :surround-replace<ret> -docstring 'replace surrounding pair'
-map global match d :surround-delete<ret>  -docstring 'delete surrounding pair'
-map global normal m ':enter-user-mode match<ret>'
-map global normal M ':enter-user-mode match<ret>'
+map global match m m                              -docstring 'go to next matching pair'
+map global match M M                              -docstring 'extend to next matching pair'
+map global match <a-m> <a-m>                      -docstring 'go to the previous matching pair'
+map global match <a-M> <a-M>                      -docstring 'extend to the previous matching pair'
+map global match s :surround<ret>                 -docstring 'surround selection'
+map global match p :surround-select<ret>          -docstring 'select surrounding pair'
+map global match r :surround-replace<ret>         -docstring 'replace surrounding pair'
+map global match d :surround-delete<ret>          -docstring 'delete surrounding pair'
+map global normal m ':enter-user-mode match<ret>' -docstring 'match mode'
+map global normal M ':enter-user-mode match<ret>' -docstring 'match mode'
 unmap global normal <a-m>
 unmap global normal <a-M>
 
@@ -132,18 +214,16 @@ map global user P '!wl-paste --no-newline<ret>'      -docstring 'paste before fr
 map global user R '<a-d>!wl-paste --no-newline<ret>' -docstring 'replace from system system clipboard'
 map global user f :file-menu<ret>                    -docstring 'find file'
 map global user b :buffer-menu<ret>                  -docstring 'find buffer'
-map global user g :grep<ret>                         -docstring 'find selection in files'
-map global user G :grep-prompt<ret>                  -docstring 'find in files'
-map global user m :man<ret>                          -docstring 'open selected man page'
-map global user M :man-prompt<ret>                   -docstring 'prompt for man page'
-map global user z :zoxide<ret>                       -docstring 'zoxide to directory'
 map global user w :write<ret>                        -docstring 'save file'
-map global user l :make<ret>                         -docstring 'run make command'
-map global user L :make-prompt<ret>                  -docstring 'run prompt as make command'
-map global user j :make-next-error<ret>              -docstring 'go to the next make error'
-map global user k :make-previous-error<ret>          -docstring 'go to the previous make error'
+map global user z :zoxide<ret>                       -docstring 'zoxide to directory'
+map global user g :prompt-grep<ret>                  -docstring 'find in files'
+map global user G :smart-grep<ret>                   -docstring 'find selection in files'
+map global user m :smart-make<ret>                   -docstring 'run make command'
+map global user M :prompt-make<ret>                  -docstring 'run prompt as make command'
+map global user j :smart-jump-next<ret>              -docstring 'go to the next make error'
+map global user k :smart-jump-previous<ret>          -docstring 'go to the previous make error'
 
-map global insert <tab> <c-n>
-map global insert <s-tab> <c-p>
-map global insert <c-space> ' <a-;><gt><backspace>'
-map global insert <a-space> '<a-;><lt>'
+map global insert <tab> <c-n>                       -docstring 'complete next'
+map global insert <s-tab> <c-p>                     -docstring 'complete previous'
+map global insert <c-space> ' <a-;><gt><backspace>' -docstring 'indent forward'
+map global insert <a-space> '<a-;><lt>'             -docstring 'indent backward'

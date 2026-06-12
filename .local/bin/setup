@@ -3,6 +3,8 @@ set -euo pipefail
 
 # Packages
 packages=(
+	# Compiler
+	clang make
 	# Graphics
 	mesa-dri vulkan-loader
 	# Compositor
@@ -15,7 +17,7 @@ packages=(
 	pipewire alsa-pipewire wireplumber
 	# CLI
 	fish-shell zoxide man-pages-devel
-	fd ripgrep eza curl wget patch trash-cli jq libnotify playerctl wl-clipboard xdg-utils
+	fd ripgrep eza curl wget patch trash-cli libnotify playerctl wl-clipboard xdg-utils
 	git difftastic lazygit
 	lf 7zip
 	kakoune editorconfig
@@ -92,6 +94,8 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 "
 [[ ! -e ~/.config/fish/conf.d ]] && ln -s ~/.local/share/fisher/conf.d ~/.config/fish/conf.d
 [[ "$SHELL" != /usr/bin/fish ]] && sudo chsh -s /usr/bin/fish "$USER"
+
+[[ ! -e ~/.config/kak/bundle/kak-bundle ]] && git clone https://codeberg.org/jdugan6240/kak-bundle.git ~/.config/kak/bundle/kak-bundle
 
 # /etc
 cd ~/.etc
