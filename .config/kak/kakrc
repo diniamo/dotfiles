@@ -91,32 +91,46 @@ define-command surround-delete -docstring 'delete surrounding pair' %{
 }
 
 # Jumplist
-declare-option -hidden str jumplist
+declare-option -docstring 'the active jumplist buffer' str jumplist
+set-option global jumpclient client0
+set-option global toolsclient tools
+
+define-command tools -docstring 'open a new terminal for tools' %{
+	new rename-client tools
+}
 define-command smart-grep -params .. -docstring 'grep and set jumplist' %{
-	grep %arg{@}
-	set-option global jumplist grep
+	evaluate-commands -try-client %opt{toolsclient} %{
+		fifo -name *grep* -script %{
+			trap - INT QUIT
+			[ "$#" -eq 0 ] && set -- --fixed-strings -- "$kak_selection"
+			eval "$kak_opt_grepcmd \"\$@\"" 2>&1
+		} -- %arg{@}
+		set-option buffer filetype grep
+		set-option buffer jump_current_line 0
+	    set-option global jumplist *grep*
+	}
 }
 define-command smart-make -docstring 'make and set jumplist' %{
-	make
-	set-option global jumplist make
+	evaluate-commands -try-client %opt{toolsclient} %{
+		fifo -scroll -name *make* -script %{
+			pid_file="/tmp/kak-make-pid-$kak_session"
+			kill "$(cat "$pid_file" 2>/dev/null)" 2>/dev/null
+
+			trap - INT QUIT
+			eval "$kak_opt_makecmd \"\$@\" &"
+			printf "%s" "$!" >"$pid_file"
+			wait
+		} -- %arg{@}
+		set-option buffer filetype make
+		set-option buffer jump_current_line 0
+		set-option global jumplist *make*
+	}
 }
 define-command smart-jump-next -docstring 'jump to next in jumplist' %{
-	evaluate-commands %sh{
-		case "$kak_opt_jumplist" in
-		grep) echo "jump-next"       ;;
-		make) echo "make-next-error" ;;
-		*)    echo "fail 'no jumplist"
-		esac
-	}
+	jump-next %opt{jumplist}
 }
 define-command smart-jump-previous -docstring 'jump to previous in jumplist' %{
-	evaluate-commands %sh{
-		case "$kak_opt_jumplist" in
-		grep) echo "jump-previous"       ;;
-		make) echo "make-previous-error" ;;
-		*)    echo "fail 'invalid jumplist: $kak_opt_jumplist'"
-		esac
-	}
+	jump-previous %opt{jumplist}
 }
 
 # Harpoon
@@ -132,9 +146,11 @@ define-command harpoon-add -docstring "add the current file to the list of harpo
 			fi
 		done
 
-		echo "set-option -add global harpoons '$kak_bufname'"
-		echo "harpoon-save"
-		echo "echo 'harpoon #$(($# + 1))'"
+		echo "
+			set-option -add global harpoons '$kak_bufname'
+			harpoon-save
+			echo 'harpoon #$(($# + 1))'
+		"
 	}
 }
 define-command harpoon-open -params 1 -docstring "go to harpoon" %{
@@ -218,7 +234,7 @@ add-highlighter global/ regex '\b(TEMP)\b' 0:bright-red+fb
 set-option global startup_info_version 2147483647 # Don't show changelog
 set-option global autoreload false
 set-option global grepcmd 'rg --vimgrep --color=always'
-set-option global make_error_pattern '^([^:\n]+):(\d+):'
+set-option global make_error_pattern '^([^:\n]+):(\d+):(?:(\d+):)? (\N+)$'
 set-option global scrolloff 3,3
 set-option global autoinfo command
 set-option -add global ui_options terminal_assistant=none
@@ -301,6 +317,7 @@ map global user b :buffer-menu<ret>                  -docstring 'find buffer'
 map global user w :write<ret>                        -docstring 'save file'
 map global user z :zoxide<ret>                       -docstring 'zoxide to directory'
 map global user g :prompt-grep<ret>                  -docstring 'find in files'
+map global user t :tools<ret>                        -docstring 'open a new terminal for tools'
 map global user G :smart-grep<ret>                   -docstring 'find selection in files'
 map global user m :smart-make<ret>                   -docstring 'run make command'
 map global user M :prompt-make<ret>                  -docstring 'run prompt as make command'
