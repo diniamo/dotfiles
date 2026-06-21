@@ -6,7 +6,7 @@ wpctl set-default "$(wpctl status | awk '
 	!audio && /^Audio$/ {audio = 1; next}
 	audio && /^ ├─ Sinks:$/ {sinks = 1; next}
 	sinks && /^ │  $/ {exit}
-	sinks {
+	sinks && !/MUTED/ {
 		ids[i] = substr($2, 1, length($2) - 1)
 		if ($2 == "*") idx = i + 1
 		i += 1

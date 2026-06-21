@@ -27,7 +27,7 @@
 		<keybind key="W-w"><action name="Execute" command="helium" /></keybind>
 		<keybind key="W-g"><action name="Execute" command="~/.local/bin/status" /></keybind>
 		<keybind key="W-x"><action name="Execute" command="~/.local/bin/power" /></keybind>
-		<keybind key="F12"><action name="Execute" command="~/.local/bin/cycle-audio-output" /></keybind>
+		<keybind key="W-o"><action name="Execute" command="~/.local/bin/cycle-audio-output" /></keybind>
 		<keybind key="W-BackSpace"><action name="Execute" command="makoctl dismiss" /></keybind>
 
 		<keybind key="Print"><action name="Execute" command="~/.local/bin/screenshot all" /></keybind>
@@ -38,7 +38,7 @@
 		<keybind key="XF86Explorer"><action name="Execute" command="alacritty -e lf" /></keybind>
 		<keybind key="XF86HomePage"><action name="Execute" command="helium" /></keybind>
 		<keybind key="XF86Calculator"><action name="Execute" command="alacritty -e qalc" /></keybind>
-		<keybind key="XF86Tools"><action name="Execute" command="alacritty -e wiremix" /></keybind>
+		<keybind key="XF86Tools"><action name="Execute" command="alacritty -e wiremix --tab output" /></keybind>
 		<keybind key="XF86AudioPrev"><action name="Execute" command="playerctl previous" /></keybind>
 		<keybind key="XF86AudioNext"><action name="Execute" command="playerctl next" /></keybind>
 		<keybind key="XF86AudioPlay"><action name="Execute" command="playerctl play-pause" /></keybind>
