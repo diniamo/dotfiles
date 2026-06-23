@@ -136,7 +136,7 @@ define-command smart-jump-previous -docstring 'jump to previous in jumplist' %{
 # Harpoon
 declare-option str-list harpoons
 
-define-command harpoon-add -docstring "add the current file to the list of harpoons" %{
+define-command harpoon-add -docstring 'add the current file to the list of harpoons' %{
 	evaluate-commands %sh{
 		eval set -- "$kak_quoted_opt_harpoons"
 		for file in "$@"; do
@@ -153,7 +153,7 @@ define-command harpoon-add -docstring "add the current file to the list of harpo
 		"
 	}
 }
-define-command harpoon-open -params 1 -docstring "go to harpoon" %{
+define-command harpoon-open -params 1 -docstring 'go to harpoon' %{
 	evaluate-commands %sh{
 		index="$1"
 
@@ -166,7 +166,7 @@ define-command harpoon-open -params 1 -docstring "go to harpoon" %{
 		fi
 	}
 }
-define-command harpoon-list -docstring "list harpoons" %{
+define-command harpoon-list -docstring 'list harpoons' %{
 	evaluate-commands -save-regs dquote %{
 		try %{
 			set-register dquote %opt{harpoons}
@@ -213,6 +213,32 @@ hook global BufCreate \*harpoon\* %{
 	alias buffer w harpoon-update
 }
 
+# Grep write
+define-command grep-write -docstring 'write the changes in a grep buffer' %{
+	evaluate-commands -draft %{
+		execute-keys '%<a-s>'
+		evaluate-commands -itersel %{
+			execute-keys 's^([^:]+):(\d+):\d+:(\N*)$<ret>'
+			grep-write-impl %reg{1} %reg{2} %reg{3}
+		}
+	}
+}
+define-command grep-write-impl -params 3 -hidden %{
+	evaluate-commands -no-hooks %{
+		edit -existing %arg{1}
+		set-register '"' %arg{3}
+		execute-keys "%arg{2}gxHR"
+		write
+		delete-buffer
+	}
+}
+
+hook global BufCreate \*grep\* %{
+	map buffer user w :grep-write<ret>
+	alias buffer write grep-write
+	alias buffer w grep-write
+}
+
 # Aliases
 alias global x write-all-quit
 
@@ -229,6 +255,7 @@ add-highlighter global/ regex '\b(TODO)\b' 0:bright-cyan+fb
 add-highlighter global/ regex '\b(NOTE)\b' 0:bright-green+fb
 add-highlighter global/ regex '\b(HACK)\b' 0:bright-yellow+fb
 add-highlighter global/ regex '\b(TEMP)\b' 0:bright-red+fb
+add-highlighter global/ regex '\b(IMPORTANT)\b' 0:bright-magenta+fb
 
 # Options
 set-option global startup_info_version 2147483647 # Don't show changelog
