@@ -64,6 +64,7 @@ if status is-interactive
     abbr --add k kak
 
     abbr --add install 'sudo xbps-install -y'
+    abbr --add update 'sudo xbps-install -Syu'
     abbr --add remove 'sudo xbps-remove -Ry'
     abbr --add query 'xbps-query'
     abbr --add reconfigure 'sudo xbps-reconfigure'
