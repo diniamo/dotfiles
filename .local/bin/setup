@@ -19,7 +19,7 @@ packages=(
 	fish-shell zoxide man-pages-devel
 	fd ripgrep eza curl wget trash-cli libnotify playerctl wl-clipboard xdg-utils
 	git difftastic lazygit
-	lf 7zip
+	lf unar
 	kakoune editorconfig
 	wiremix btop
 	# GUI

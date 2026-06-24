@@ -1,5 +1,5 @@
-set shell "fish"
-set shellopts "-N"
+set shellopts "-eu"
+set ifs "\n"
 set dupfilefmt "%b.%n%e"
 set searchmethod "regex"
 set incsearch true
@@ -19,32 +19,45 @@ set wrapscroll true
 set previewer ~/.config/lf/previewer
 
 
-cmd on-cd &zoxide add $PWD
+cmd on-cd &zoxide add "$PWD"
 
-cmd trash &trash-put (string split \n $fx)
-cmd zoxide %lf -remote "send $id cd '$(zoxide query --exclude $PWD $argv[1])'"
-cmd drop &dragon-drop --all --and-exit (string split \n $fx)
-cmd chmod %chmod $argv (string split \n $fx)
+cmd trash &trash-put $fx
+cmd zoxide %lf -remote "send cd '$(zoxide query --exclude "$PWD" "$1")'"
+cmd drop &dragon-drop --all --and-exit $fx
+cmd chmod %chmod "$@" $fx
 
 cmd add %{{
-    for path in $argv
-        if [ -e $path ]
-            echo "already exists: $path"
-            continue
-        end
+	for path in "$@"; do
+		if [ -e "$path" ]; then
+			echo "already exists: $path"
+			continue
+		fi
 
-        if string match --quiet --regex '/$' $path
-            mkdir -p $path
-        else
-            mkdir -p (dirname $path)
-            touch $path
-        end
-        lf -remote "send $id select '$path'"
-    end
+		case "$path" in
+			*/) mkdir -p "$path"                               ;;
+			*)  mkdir -p "$(dirname "$path")" && touch "$path" ;;
+		esac
+
+		lf -remote "send $id select '$path'"
+	done
+}}
+
+cmd open &{{
+	mimetype="$(file --mime-type --brief "$f")"
+	case "$mimetype" in
+		application/zip|application/vnd.rar|application/x-rar-compressed|application/x-7z-compressed|application/x-tar|application/gzip|application/x-bzip2|application/x-lzma|application/x-xz|application/vnd.ms-cab-compressed|application/x-msi|application/x-nsis|application/x-msdownload|application/x-iso9660-image|application/octet-stream|application/x-cpio|application/x-compress|application/x-arj|application/x-arc|application/x-compressed|application/x-ace-compressed|application/x-zoo|application/x-lzh-compressed|application/x-lha|application/x-adf|application/x-dms|application/x-lzx|application/x-stuffit|application/x-sit|application/x-diskdoubler|application/x-compactpro|application/x-packit|application/x-powerpacker|application/x-lbr|application/x-squeeze|application/x-crunch|application/x-gtar-compressed|application/x-bzip2-compressed-tar|application/x-xz-compressed-tar|application/x-lzma-compressed-tar)
+			lf -remote "send $id \$unar $fx"
+			;;
+		*)
+			for file in $fx; do
+				xdg-open "$file"
+			done
+			;;
+	esac
 }}
 
 
-map Q $lf -remote "send $id :cd '$OLDPWD'; quit"
+map Q $lf -remote "send $id cd '$OLDPWD'; quit"
 map d trash
 map D delete
 map x cut
