@@ -20,7 +20,7 @@ packages=(
 	fd ripgrep eza curl wget trash-cli libnotify playerctl wl-clipboard xdg-utils
 	git difftastic lazygit
 	lf unar
-	kakoune editorconfig
+	kakoune kak-lsp editorconfig
 	wiremix btop
 	# GUI
 	fuzzel dragon

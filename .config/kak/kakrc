@@ -3,8 +3,56 @@ source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
 bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle
 
 bundle kak-ansi https://github.com/eraserhd/kak-ansi %{
+	remove-hooks global ansi
+
 	hook global BufCreate (\*stdin\*|\*grep\*|\*make\*) %{
 		ansi-enable
+	}
+}
+
+bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp %{
+	set-option global modelinefmt "%opt{lsp_modeline} %opt{modelinefmt}"
+
+	lsp-auto-signature-help-enable
+
+	map global user l ':enter-user-mode lsp<ret>' -docstring 'LSP mode'
+	map global user a :lsp-code-actions<ret>      -docstring 'Code actions'
+	map global user r :lsp-rename-prompt<ret>     -docstring 'Rename symbol'
+	map global user s :lsp-hover<ret>             -docstring 'Hover'
+
+	map global goto d <esc>:lsp-definition<ret> -docstring 'LSP definition'
+	map global goto r <esc>:lsp-references<ret> -docstring 'LSP references'
+	map global goto y <esc>:lsp-type-definition<ret> -docstring 'LSP type definition'
+
+	map global object a     '<a-semicolon>lsp-object<ret>'                                         -docstring 'LSP any symbol'
+	map global object <a-a> '<a-semicolon>lsp-object<ret>'                                         -docstring 'LSP any symbol'
+	map global object f     '<a-semicolon>lsp-object Function Method<ret>'                         -docstring 'LSP function or method'
+	map global object t     '<a-semicolon>lsp-object Class Interface Module Namespace Struct<ret>' -docstring 'LSP class or module'
+	map global object d     '<a-semicolon>lsp-diagnostic-object error warning<ret>'                -docstring 'LSP errors and warnings'
+	map global object D     '<a-semicolon>lsp-diagnostic-object error<ret>'                        -docstring 'LSP errors'
+
+	hook global BufSetOption filetype=odin %{
+		set-option buffer lsp_servers %{
+			[ols]
+			root_globs       = ["ols.json", ".git"]
+			settings_section = "ols"
+		}
+	}
+
+	hook global BufSetOption filetype=go %{
+		set-option buffer lsp_servers %{
+			[gopls]
+			root_globs       = ["go.mod", ".git"]
+			settings_section = "gopls"
+
+			[gopls.settings.gopls]
+			completeFunctionCalls = false
+			usePlaceholders       = false
+		}
+	}
+
+	hook global WinSetOption filetype=(odin|go) %{
+		lsp-enable-window
 	}
 }
 
@@ -46,7 +94,7 @@ define-command prompt-make -docstring 'run prompt as make command' %{
 }
 
 # Surround
-define-command surround-select -params 1 -docstring 'select surrounding pair' %{
+define-command surround-select -params 1 -hidden %{
 	on-key -mode-name pair %{
 		execute-keys "<a-a>%val{key}<a-S>"
 		evaluate-commands %arg{1}
@@ -54,39 +102,43 @@ define-command surround-select -params 1 -docstring 'select surrounding pair' %{
 }
 define-command surround -docstring 'surround selection' %{
 	on-key -mode-name pair %{
-		evaluate-commands -draft %sh{
-			case "$kak_key" in
-			'('|')') open='('; close=')' ;;
-			'['|']') open='['; close=']' ;;
-			'{'|'}') open='{'; close='}' ;;
-			'<lt>'|'<gt>') open='<lt>'; close='<gt>' ;;
-			*) open="$kak_key"; close="$kak_key"
+		evaluate-commands %sh{
+			case "${kak_key}" in
+			'('|')')       open='(';          close=')'          ;;
+			'['|']')       open='[';          close=']'          ;;
+			'{'|'}')       open='{';          close='}'          ;;
+			'<lt>'|'<gt>') open='<lt>';       close='<gt>'       ;;
+			*)             open="${kak_key}"; close="${kak_key}" ;;
 			esac
-			echo "execute-keys a$close<esc>i$open"
+			echo "execute-keys i${open}<esc>Ha${close}<esc>"
 		}
 	}
 }
-define-command surround-replace -docstring 'replace surrounding pair' %{
-	execute-keys '"xZ'
-	surround-select %{
-		on-key -mode-name new-pair %{
-			evaluate-commands -itersel %sh{
-				case "$kak_key" in
-				'('|')') open='('; close=')' ;;
-				'['|']') open='['; close=']' ;;
-				'{'|'}') open='{'; close='}' ;;
-				'<lt>'|'<gt>') open='<lt>'; close='<gt>' ;;
-				*) open="$kak_key"; close="$kak_key"
-				esac
-				echo "execute-keys r$open,r$close\"xz"
+define-command surround-replace -docstring "replace surrounding pair" %{
+	evaluate-commands %{
+		execute-keys -save-regs '' Z
+		surround-select %{
+			on-key -mode-name new-pair %{
+				evaluate-commands %sh{
+					case "${kak_key}" in
+					'('|')')       open='(';          close=')'          ;;
+					'['|']')       open='[';          close=']'          ;;
+					'{'|'}')       open='{';          close='}'          ;;
+					'<lt>'|'<gt>') open='<lt>';       close='<gt>'       ;;
+					*)             open="${kak_key}"; close="${kak_key}" ;;
+					esac
+					echo "execute-keys -save-regs '' r${open},r${close}z"
+				}
 			}
 		}
 	}
 }
 define-command surround-delete -docstring 'delete surrounding pair' %{
-	execute-keys '"xZ'
-	surround-select %{
-		execute-keys 'd"xz'
+	evaluate-commands -save-regs x %{
+		execute-keys -save-regs '' Z
+		surround-select %{
+			execute-keys -save-regs '' dz
+		}
 	}
 }
 
@@ -113,7 +165,7 @@ define-command smart-grep -params .. -docstring 'grep and set jumplist' %{
 define-command smart-make -docstring 'make and set jumplist' %{
 	evaluate-commands -try-client %opt{toolsclient} %{
 		fifo -scroll -name *make* -script %{
-			pid_file="/tmp/kak-make-pid-$kak_session"
+			pid_file="/run/user/$(id -u)/kak-make-$kak_session.pid"
 			kill "$(cat "$pid_file" 2>/dev/null)" 2>/dev/null
 
 			trap - INT QUIT
@@ -241,6 +293,7 @@ hook global BufCreate \*grep\* %{
 
 # Aliases
 alias global x write-all-quit
+alias global h doc
 
 # Colors
 colorscheme gruvbox-dark
@@ -260,7 +313,7 @@ add-highlighter global/ regex '\b(IMPORTANT)\b' 0:bright-magenta+fb
 # Options
 set-option global startup_info_version 2147483647 # Don't show changelog
 set-option global autoreload false
-set-option global grepcmd 'rg --vimgrep --color=always'
+set-option global grepcmd 'rg --vimgrep --color=always --'
 set-option global make_error_pattern '^([^:\n]+):(\d+):(?:(\d+):)? (\N+)$'
 set-option global scrolloff 3,3
 set-option global autoinfo command
@@ -324,7 +377,6 @@ map global match M M                              -docstring 'extend to next mat
 map global match <a-m> <a-m>                      -docstring 'go to the previous matching pair'
 map global match <a-M> <a-M>                      -docstring 'extend to the previous matching pair'
 map global match s :surround<ret>                 -docstring 'surround selection'
-map global match p :surround-select<ret>          -docstring 'select surrounding pair'
 map global match r :surround-replace<ret>         -docstring 'replace surrounding pair'
 map global match d :surround-delete<ret>          -docstring 'delete surrounding pair'
 map global normal m ':enter-user-mode match<ret>' -docstring 'match mode'
@@ -361,4 +413,3 @@ map global user 5 ':harpoon-open 5<ret>'             -docstring 'go to harpoon 5
 map global insert <tab> <c-n>                       -docstring 'complete next'
 map global insert <s-tab> <c-p>                     -docstring 'complete previous'
 map global insert <c-space> ' <a-;><gt><backspace>' -docstring 'indent forward'
-map global insert <a-space> '<a-;><lt>'             -docstring 'indent backward'
