@@ -77,10 +77,14 @@ map gk top
 map gj bottom
 
 map gr cd /
+map gm cd /media
 map gt cd /tmp
 map gs cd /tmp/dl
 map gd cd ~/dev
 map g<space> push :cd<space>
+
+map <esc> unselect
+map u &udevil unmount $fx
 
 map ,
 map ,a :{{ set sortby atime; set info atime; }}
@@ -99,7 +103,6 @@ map -r set reverse!
 
 nmap v visual
 nmap V invert
-nmap <esc> clear
 
 vmap v visual-accept
 vmap V visual-change
