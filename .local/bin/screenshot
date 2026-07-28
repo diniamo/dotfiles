@@ -1,16 +1,9 @@
 #!/bin/sh
-set -e
+set -ex
 
 case "$1" in
-	all)
-		grim - | wl-copy --type image/png
-		;;
-	selection)
-		still -c 'slurp | grim -g - -' | wl-copy --type image/png
-		;;
-	open-selection)
-		file="$(mktemp --suffix .png)"
-		still -c "slurp | grim -g - '$file'"
-		xdg-open "$file"
-		;;
+	output)         shoot output | wl-copy --type image/png                          ;;
+	toplevel)       shoot toplevel | wl-copy --type image/png                        ;;
+	selection)      still -c 'shoot selection "$(slurp)"' | wl-copy --type image/png ;;
+	open-selection) still -c 'shoot selection "$(slurp)"' | iv -                     ;;
 esac

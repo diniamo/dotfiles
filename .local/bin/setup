@@ -24,7 +24,7 @@ packages=(
 	wiremix btop
 	# GUI
 	fuzzel dragon
-	slurp grim hyprpicker
+	slurp hyprpicker
 	mpv-mpris
 	# Look
 	font-inter noto-fonts-emoji
@@ -36,7 +36,7 @@ devoid_packages=(
 	# GUI
 	alacritty
 	helium mpv
-	still
+	still shoot iv
 	# Look
 	bibata-cursor-modern-classic lyth-mono-term-nerd-font
 )
