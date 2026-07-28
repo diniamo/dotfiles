@@ -7,7 +7,7 @@ options=(
   --print-id
 )
 
-id_path=/tmp/information-notification-id
+id_path="/run/user/$(id -u)/status-notification.id"
 [ -e "$id_path" ] && options+=(--replace-id="$(cat "$id_path")")
 
 [ -e /sys/class/power_supply/BAT0 ] && options+=("$(cat /sys/class/power_supply/BAT0/capacity)% - $(cat /sys/class/power_supply/BAT0/status)")
