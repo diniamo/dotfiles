@@ -1,4 +1,13 @@
-kanshi &
-pipewire &
-gammastep &
-playerctld &
+run() {
+	"$@" &
+	echo "$!" >> "/run/user/$(id -u)/labwc-children-$LABWC_PID"
+}
+
+run devmon
+run kanshi
+run gammastep
+run playerctld
+
+run pipewire
+run wireplumber
+run pipewire -c pipewire-pulse.conf
