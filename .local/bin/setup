@@ -1,0 +1,57 @@
+#!/bin/bash
+set -euo pipefail
+
+# Packages
+packages=(
+	# CLI
+	fish zoxide
+	fd ripgrep eza curl wget trash-cli wl-clipboard xdg-utils
+	openssh git difftastic lazygit
+	lf unarchiver
+	kakoune kakoune-lsp editorconfig-core-c
+	# GUI
+	firefox cachyos-firefox-settings
+	signal-desktop
+	# TODO: switch back to stable package on next release
+	mpv-git mpv-mpris
+	qalculate-qt
+)
+sudo pacman -Sy --needed --noconfirm "${packages[@]}"
+
+if [[ ! -e ~/.ssh/id_ed25519 ]]; then
+	ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -P ""
+
+	echo "Add ~/.ssh/id_ed25519.pub to GitHub ssh keys..."
+	read
+fi
+
+# Dotfiles
+if [[ ! -e ~/.dot ]]; then
+	git clone --bare git@github.com:diniamo/dotfiles.git ~/.dot
+	git --git-dir ~/.dot --work-tree ~ config status.showUntrackedFiles no
+	git --git-dir ~/.dot --work-tree ~ config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+	git --git-dir ~/.dot --work-tree ~ checkout --force
+fi
+
+build="$(mktemp --directory)"
+cd ~/.local/bin/packages
+for package in *; do
+	if ! pacman -Q "$package" &>/dev/null; then
+		cp -r "$package" "$build"
+		cd "$build/$package"
+		makepkg --noconfirm --syncdeps --install --rmdeps
+		cd -
+	fi
+done
+rm -rf "$build"
+
+[[ ! -e ~/.local/share/fisher/functions/fisher.fish ]] && fish -c "
+	curl -L https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+	fisher update
+"
+[[ ! -e ~/.config/fish/conf.d ]] && ln -s ~/.local/share/fisher/conf.d ~/.config/fish/conf.d
+[[ "$SHELL" != /usr/bin/fish ]] && sudo chsh -s /usr/bin/fish "$USER"
+
+[[ ! -e ~/.config/kak/bundle/kak-bundle ]] && git clone https://codeberg.org/jdugan6240/kak-bundle.git ~/.config/kak/bundle/kak-bundle
+
+exit 0

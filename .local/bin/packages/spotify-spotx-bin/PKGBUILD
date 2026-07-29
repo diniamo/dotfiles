@@ -1,0 +1,81 @@
+pkgname=spotify-spotx-bin
+pkgver=1.2.92.147
+epoch=1
+_commit=g5b8f9367
+pkgrel=1
+pkgdesc='A proprietary music streaming service'
+arch=('x86_64')
+license=('custom')
+url='https://www.spotify.com'
+makedepends=('zip')
+depends=('alsa-lib>=1.0.14' 'gtk3' 'libxss' 'desktop-file-utils' 'openssl' 'nss' 'at-spi2-atk' 'libcurl-gnutls' 'libsm' 'libayatana-appindicator')
+optdepends=(
+	'ffmpeg4.4: Adds support for playback of local files'
+	'zenity: Adds support for importing local files'
+	'libnotify: Desktop notifications'
+)
+provides=('spotify')
+conflicts=('spotify')
+options=('!strip')
+
+# NOTE: We switched from stable to testing on 18th march, as the spotify
+# stable repository is always outdated. Testing seems to be in sync with snap:
+# https://snapcraft.io/spotify
+# http://repository.spotify.com/dists/testing/Release
+# http://repository.spotify.com/dists/testing/non-free/binary-amd64/Packages
+# http://repository.spotify.com/dists/testing/Release.gpg
+source=(
+	"${pkgname}-${pkgver}-${_commit}-x86_64.deb::http://repository.spotify.com/pool/non-free/s/spotify-client/spotify-client_${pkgver}.${_commit}_amd64.deb"
+	"spotify.sh"
+	"spotify.protocol"
+	"LICENSE"
+	"https://github.com/SpotX-Official/SpotX-Bash/raw/refs/heads/main/spotx.sh"
+)
+sha512sums=(
+	'e84afeaa3c011c7e06cffa31d0a0113f8851bad57fc26317c2eef74b89985848bdd25b72e4f9a9e55948b8b927f3205a8b9c1047e2f28eec500ac7a2d4913cad'
+	'da48b628a4ea925dd8521133ebf364b261b11aed252d264dde6605d915cdb631919ffe672c58534bcdb60869e5d87a49a60a8198780b99517123f0031e83fdb1'
+	'999abe46766a4101e27477f5c9f69394a4bb5c097e2e048ec2c6cb93dfa1743eb436bde3768af6ba1b90eaac78ea8589d82e621f9cbe7d9ab3f41acee6e8ca20'
+	'2e16f7c7b09e9ecefaa11ab38eb7a792c62ae6f33d95ab1ff46d68995316324d8c5287b0d9ce142d1cf15158e61f594e930260abb8155467af8bc25779960615'
+	'3105752ee8ba286ebdc2ce1d25f83824f5cc703241190b169d0cc0e1e08d51ad26930888fc1279492d924855f1ccb1cae3c7ff7daa7a0f62012a6e7a130f3aef'
+)
+
+prepare() {
+	chmod +x spotx.sh
+}
+
+package() {
+    tar -xzf data.tar.gz --no-same-owner -C "${pkgdir}"
+
+    # Enable spotify to open URLs from the webapp
+    sed -i 's/^Exec=.*/Exec=spotify --uri=%u/' "${pkgdir}/usr/share/spotify/spotify.desktop"
+
+    install -Dm 644 "${pkgdir}/usr/share/spotify/spotify.desktop" "${pkgdir}/usr/share/applications/spotify.desktop"
+    install -Dm 644 "${pkgdir}/usr/share/spotify/icons/spotify-linux-512.png" "${pkgdir}/usr/share/pixmaps/spotify-client.png"
+
+    for size in 22 24 32 48 64 128 256 512; do
+        install -Dm 644 "${pkgdir}/usr/share/spotify/icons/spotify-linux-${size}.png" \
+            "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/spotify.png"
+    done
+
+    # Move spotify binary to its proper location
+    mkdir -p "${pkgdir}/opt/spotify"
+    mv "${pkgdir}/usr/share/spotify" "${pkgdir}/opt/"
+
+    # Copy launch script which allows the use of custom flags
+    install -Dm 755 spotify.sh "${pkgdir}/usr/bin/spotify"
+
+    # Copy protocol file for KDE
+    install -Dm 644 spotify.protocol "${pkgdir}/usr/share/kservices5/spotify.protocol"
+
+    # Install license
+    # https://www.spotify.com/legal/end-user-agreement
+    install -Dm 644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+    # Fix permissions
+    chmod -R go-w "${pkgdir}"
+
+	# Apply SpotX
+	export HOME="$(mktemp -d)"
+	SPOTX_BUILD_MODE=true ./spotx.sh -P "${pkgdir}/opt/spotify"
+	rm -rf "${pkgdir}/opt/spotify/spotify.bak" "${pkgdir}/opt/spotify/Apps/xpui.bak"
+}

@@ -1,0 +1,17 @@
+pkgname=bibata-cursor-theme-bin
+pkgver=2.0.7
+pkgrel=1
+pkgdesc="Open source, compact, and material designed cursor set"
+arch=('any')
+url="https://github.com/ful1e5/Bibata_Cursor"
+license=('GPL-3.0-or-later')
+provides=('bibata-cursor-theme')
+conflicts=('bibata-cursor-theme')
+options=('!strip')
+source=("bibata-cursor-theme-$pkgver.tar.xz::$url/releases/download/v$pkgver/Bibata.tar.xz")
+sha256sums=('172e33c4ae415278384dcecc7d1a9b7a024266bc944bc751fd86532be1cc6251')
+
+package() {
+	install -d "$pkgdir/usr/share/icons"
+	cp -r Bibata* "$pkgdir/usr/share/icons"
+}

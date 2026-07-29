@@ -1,0 +1,415 @@
+# Plugins
+source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
+bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle
+
+bundle kak-ansi https://github.com/eraserhd/kak-ansi %{
+	remove-hooks global ansi
+
+	hook global BufCreate (\*stdin\*|\*grep\*|\*make\*) %{
+		ansi-enable
+	}
+}
+
+bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp %{
+	set-option global modelinefmt "%opt{lsp_modeline} %opt{modelinefmt}"
+
+	lsp-auto-signature-help-enable
+
+	map global user l ':enter-user-mode lsp<ret>' -docstring 'LSP mode'
+	map global user a :lsp-code-actions<ret>      -docstring 'Code actions'
+	map global user r :lsp-rename-prompt<ret>     -docstring 'Rename symbol'
+	map global user s :lsp-hover<ret>             -docstring 'Hover'
+
+	map global goto d <esc>:lsp-definition<ret> -docstring 'LSP definition'
+	map global goto r <esc>:lsp-references<ret> -docstring 'LSP references'
+	map global goto y <esc>:lsp-type-definition<ret> -docstring 'LSP type definition'
+
+	map global object a     '<a-semicolon>lsp-object<ret>'                                         -docstring 'LSP any symbol'
+	map global object <a-a> '<a-semicolon>lsp-object<ret>'                                         -docstring 'LSP any symbol'
+	map global object f     '<a-semicolon>lsp-object Function Method<ret>'                         -docstring 'LSP function or method'
+	map global object t     '<a-semicolon>lsp-object Class Interface Module Namespace Struct<ret>' -docstring 'LSP class or module'
+	map global object d     '<a-semicolon>lsp-diagnostic-object error warning<ret>'                -docstring 'LSP errors and warnings'
+	map global object D     '<a-semicolon>lsp-diagnostic-object error<ret>'                        -docstring 'LSP errors'
+
+	hook global BufSetOption filetype=odin %{
+		set-option buffer lsp_servers %{
+			[ols]
+			root_globs       = ["ols.json", ".git"]
+			settings_section = "ols"
+		}
+	}
+
+	hook global BufSetOption filetype=go %{
+		set-option buffer lsp_servers %{
+			[gopls]
+			root_globs       = ["go.mod", ".git"]
+			settings_section = "gopls"
+
+			[gopls.settings.gopls]
+			completeFunctionCalls = false
+			usePlaceholders       = false
+		}
+	}
+
+	hook global WinSetOption filetype=(odin|go) %{
+		lsp-enable-window
+	}
+}
+
+# Commands
+define-command rc -docstring 'edit kakrc' %{
+	edit ~/.config/kak/kakrc
+}
+define-command file-menu -docstring 'file menu' %{
+	prompt -shell-script-candidates %{ fd --type file } -menu 'file: ' %{
+		edit %val{text}
+	}
+}
+define-command buffer-menu -docstring 'buffer menu' %{
+	prompt -buffer-completion -menu 'buffer: ' %{
+		buffer %val{text}
+	}
+}
+define-command prompt-grep -docstring 'grep for prompt' %{
+	prompt 'grep: ' %{
+		smart-grep %val{text}
+	}
+}
+define-command zoxide -docstring 'cd with zoxide' %{
+	prompt 'zoxide: ' %{
+		evaluate-commands %sh{
+			if directory="$(zoxide query "$kak_text")"; then
+				echo "cd '$directory'; echo '$directory'"
+			else
+				echo "fail 'no match found: $kak_text'"
+			fi
+		}
+	}
+}
+define-command prompt-make -docstring 'run prompt as make command' %{
+	prompt -init %opt{makecmd} -shell-completion 'make: ' %{
+		set-option global makecmd %val{text}
+		smart-make
+	}
+}
+
+# Surround
+define-command surround-select -params 1 -hidden %{
+	on-key -mode-name pair %{
+		execute-keys "<a-a>%val{key}<a-S>"
+		evaluate-commands %arg{1}
+	}
+}
+define-command surround -docstring 'surround selection' %{
+	on-key -mode-name pair %{
+		evaluate-commands %sh{
+			case "${kak_key}" in
+			'('|')')       open='(';          close=')'          ;;
+			'['|']')       open='[';          close=']'          ;;
+			'{'|'}')       open='{';          close='}'          ;;
+			'<lt>'|'<gt>') open='<lt>';       close='<gt>'       ;;
+			*)             open="${kak_key}"; close="${kak_key}" ;;
+			esac
+			echo "execute-keys i${open}<esc>Ha${close}<esc>"
+		}
+	}
+}
+define-command surround-replace -docstring "replace surrounding pair" %{
+	evaluate-commands %{
+		execute-keys -save-regs '' Z
+		surround-select %{
+			on-key -mode-name new-pair %{
+				evaluate-commands %sh{
+					case "${kak_key}" in
+					'('|')')       open='(';          close=')'          ;;
+					'['|']')       open='[';          close=']'          ;;
+					'{'|'}')       open='{';          close='}'          ;;
+					'<lt>'|'<gt>') open='<lt>';       close='<gt>'       ;;
+					*)             open="${kak_key}"; close="${kak_key}" ;;
+					esac
+					echo "execute-keys -save-regs '' r${open},r${close}z"
+				}
+			}
+		}
+	}
+}
+define-command surround-delete -docstring 'delete surrounding pair' %{
+	evaluate-commands -save-regs x %{
+		execute-keys -save-regs '' Z
+		surround-select %{
+			execute-keys -save-regs '' dz
+		}
+	}
+}
+
+# Jumplist
+declare-option -docstring 'the active jumplist buffer' str jumplist
+set-option global jumpclient client0
+set-option global toolsclient tools
+
+define-command tools -docstring 'open a new terminal for tools' %{
+	new rename-client tools
+}
+define-command smart-grep -params .. -docstring 'grep and set jumplist' %{
+	evaluate-commands -try-client %opt{toolsclient} %{
+		fifo -name *grep* -script %{
+			trap - INT QUIT
+			[ "$#" -eq 0 ] && set -- --fixed-strings -- "$kak_selection"
+			eval "$kak_opt_grepcmd \"\$@\"" 2>&1
+		} -- %arg{@}
+		set-option buffer filetype grep
+		set-option buffer jump_current_line 0
+	    set-option global jumplist *grep*
+	}
+}
+define-command smart-make -docstring 'make and set jumplist' %{
+	evaluate-commands -try-client %opt{toolsclient} %{
+		fifo -scroll -name *make* -script %{
+			pid_file="/run/user/$(id -u)/kak-make-$kak_session.pid"
+			kill "$(cat "$pid_file" 2>/dev/null)" 2>/dev/null
+
+			trap - INT QUIT
+			eval "$kak_opt_makecmd \"\$@\" &"
+			printf "%s" "$!" >"$pid_file"
+			wait
+		} -- %arg{@}
+		set-option buffer filetype make
+		set-option buffer jump_current_line 0
+		set-option global jumplist *make*
+	}
+}
+define-command smart-jump-next -docstring 'jump to next in jumplist' %{
+	jump-next %opt{jumplist}
+}
+define-command smart-jump-previous -docstring 'jump to previous in jumplist' %{
+	jump-previous %opt{jumplist}
+}
+
+# Harpoon
+declare-option str-list harpoons
+
+define-command harpoon-add -docstring 'add the current file to the list of harpoons' %{
+	evaluate-commands %sh{
+		eval set -- "$kak_quoted_opt_harpoons"
+		for file in "$@"; do
+			if [ "$file" = "$kak_bufname" ]; then
+				echo "fail 'already saved'"
+				exit
+			fi
+		done
+
+		echo "
+			set-option -add global harpoons '$kak_bufname'
+			harpoon-save
+			echo 'harpoon #$(($# + 1))'
+		"
+	}
+}
+define-command harpoon-open -params 1 -docstring 'go to harpoon' %{
+	evaluate-commands %sh{
+		index="$1"
+
+		eval set -- "$kak_quoted_opt_harpoons"
+		if [ "$#" -ge "$index" ]; then
+			eval "file=\$$index"
+			echo "edit '$file'"
+		else
+			echo "fail 'no file at index $index'"
+		fi
+	}
+}
+define-command harpoon-list -docstring 'list harpoons' %{
+	evaluate-commands -save-regs dquote %{
+		try %{
+			set-register dquote %opt{harpoons}
+			edit -scratch *harpoon*
+			execute-keys -draft '%"_d<a-P>a<ret><esc>I<c-r>#: <esc>,gjd'
+		} catch %{
+			fail "no harpoons"
+		}
+	}
+}
+define-command harpoon-save -hidden %{
+	nop %sh{
+		eval set -- "$kak_quoted_opt_harpoons"
+		sqlite3 "$kak_opt_database" "REPLACE INTO harpoons VALUES ('$PWD', '$(printf "%s\n" "$@")')"
+	}
+}
+define-command harpoon-update -hidden %{
+	evaluate-commands -save-regs dquote %{
+		try %{
+			execute-keys -draft -save-regs '' '%<a-s><a-k>^\d+:\s*\S<ret><a-;>;f:/\S<ret><a-l>y'
+			set-option global harpoons %reg{dquote}
+			harpoon-list
+			harpoon-save
+		} catch %{
+			set-option global harpoons
+		}
+	}
+}
+
+hook global EnterDirectory .* %{
+	evaluate-commands %sh{
+		files="$(sqlite3 "$kak_opt_database" "SELECT files FROM harpoons WHERE pwd = '$PWD'")"
+		if [ -n "$files" ]; then
+			printf "set-option global harpoons "
+			IFS="\n" printf "'%s' " $files
+		fi
+	}
+}
+hook global BufCreate \*harpoon\* %{
+	add-highlighter buffer/harpoon-indices regex ^(\d+): 1:value
+	map buffer normal <ret> ':harpoon-open %val{cursor_line}<ret>'
+	map buffer user w :harpoon-update<ret>
+	alias buffer write harpoon-update
+	alias buffer w harpoon-update
+}
+
+# Grep write
+define-command grep-write -docstring 'write the changes in a grep buffer' %{
+	evaluate-commands -draft %{
+		execute-keys '%<a-s>'
+		evaluate-commands -itersel %{
+			execute-keys 's^([^:]+):(\d+):\d+:(\N*)$<ret>'
+			grep-write-impl %reg{1} %reg{2} %reg{3}
+		}
+	}
+}
+define-command grep-write-impl -params 3 -hidden %{
+	evaluate-commands -no-hooks %{
+		edit -existing %arg{1}
+		set-register '"' %arg{3}
+		execute-keys "%arg{2}gxHR"
+		write
+		delete-buffer
+	}
+}
+
+hook global BufCreate \*grep\* %{
+	map buffer user w :grep-write<ret>
+	alias buffer write grep-write
+	alias buffer w grep-write
+}
+
+# Aliases
+alias global x write-all-quit
+alias global h doc
+
+# Colors
+colorscheme gruvbox-dark
+evaluate-commands %sh{
+	terminal=default
+	[ -n "$ALACRITTY_WINDOW_ID" ] && terminal=alacritty
+	echo "source '~/.config/kak/$terminal.kak'"
+}
+
+add-highlighter global/ number-lines -relative -separator ' ' -min-digits 0
+add-highlighter global/ regex '\b(TODO)\b' 0:bright-cyan+fb
+add-highlighter global/ regex '\b(NOTE)\b' 0:bright-green+fb
+add-highlighter global/ regex '\b(HACK)\b' 0:bright-yellow+fb
+add-highlighter global/ regex '\b(TEMP)\b' 0:bright-red+fb
+add-highlighter global/ regex '\b(IMPORTANT)\b' 0:bright-magenta+fb
+
+# Options
+set-option global startup_info_version 2147483647 # Don't show changelog
+set-option global autoreload false
+set-option global grepcmd 'rg --vimgrep --color=always --'
+set-option global make_error_pattern '^([^:\n]+):(\d+):(?:(\d+):)? (\N+)$'
+set-option global scrolloff 3,3
+set-option global autoinfo command
+set-option -add global ui_options terminal_assistant=none
+set-option -remove global autocomplete insert
+
+declare-option str database
+evaluate-commands %sh{
+	database="$HOME/.local/share/kakoune.db"
+	sqlite3 "$database" "
+		CREATE TABLE IF NOT EXISTS makecmds (
+			pwd TEXT PRIMARY KEY,
+			cmd TEXT
+		);
+		CREATE TABLE IF NOT EXISTS harpoons (
+			pwd   TEXT PRIMARY KEY,
+			files TEXT
+		);
+	"
+	echo "set-option global database '$database'"
+}
+
+# Hooks
+hook global BufNewFile .* editorconfig-load
+hook global BufOpenFile .* %{
+	editorconfig-load
+	modeline-parse
+}
+hook global BufWritePre .* %{
+	nop %sh{
+		directory="$(dirname "$kak_buffile")"
+		mkdir -p "$directory"
+	}
+}
+
+hook global EnterDirectory .* %{
+	evaluate-commands -no-hooks %sh{
+		makecmd="$(sqlite3 "$kak_opt_database" "SELECT cmd FROM makecmds WHERE pwd = '$PWD'")"
+		[ -n "$makecmd" ] && echo "set-option global makecmd '$makecmd'"
+	}
+}
+hook global GlobalSetOption makecmd=(?!make).* %{
+	nop %sh{
+		sqlite3 "$kak_opt_database" "REPLACE INTO makecmds VALUES ('$PWD', '$kak_opt_makecmd')"
+	}
+}
+hook global WinSetOption filetype=man %{
+	map window normal <tab> :man-link-next<ret>
+	map window normal <s-tab> :man-link-prev<ret>
+}
+
+# Maps
+map global normal X x_
+map global normal J Jx
+map global normal K Kx
+unmap global normal <tab>
+
+declare-user-mode match
+map global match m m                              -docstring 'go to next matching pair'
+map global match M M                              -docstring 'extend to next matching pair'
+map global match <a-m> <a-m>                      -docstring 'go to the previous matching pair'
+map global match <a-M> <a-M>                      -docstring 'extend to the previous matching pair'
+map global match s :surround<ret>                 -docstring 'surround selection'
+map global match r :surround-replace<ret>         -docstring 'replace surrounding pair'
+map global match d :surround-delete<ret>          -docstring 'delete surrounding pair'
+map global normal m ':enter-user-mode match<ret>' -docstring 'match mode'
+map global normal M ':enter-user-mode match<ret>' -docstring 'match mode'
+unmap global normal <a-m>
+unmap global normal <a-M>
+
+map global user c :comment-line<ret>                 -docstring 'comment selected lines'
+map global user C :comment-block<ret>                -docstring 'comment block'
+map global user y <a-|>wl-copy<ret>                  -docstring 'copy to system clipboard'
+map global user d <a-|>wl-copy<ret>"_d               -docstring 'cut to system clipboard'
+map global user p '<a-!>wl-paste --no-newline<ret>'  -docstring 'paste from system clipboard'
+map global user P '!wl-paste --no-newline<ret>'      -docstring 'paste before from system clipboard'
+map global user R '<a-d>!wl-paste --no-newline<ret>' -docstring 'replace from system system clipboard'
+map global user f :file-menu<ret>                    -docstring 'find file'
+map global user b :buffer-menu<ret>                  -docstring 'find buffer'
+map global user w :write<ret>                        -docstring 'save file'
+map global user z :zoxide<ret>                       -docstring 'zoxide to directory'
+map global user g :prompt-grep<ret>                  -docstring 'find in files'
+map global user t :tools<ret>                        -docstring 'open a new terminal for tools'
+map global user G :smart-grep<ret>                   -docstring 'find selection in files'
+map global user m :smart-make<ret>                   -docstring 'run make command'
+map global user M :prompt-make<ret>                  -docstring 'run prompt as make command'
+map global user j :smart-jump-next<ret>              -docstring 'go to the next make error'
+map global user k :smart-jump-previous<ret>          -docstring 'go to the previous make error'
+map global user h :harpoon-add<ret>                  -docstring "add harpoon"
+map global user H :harpoon-list<ret>                 -docstring "list harpoons"
+map global user 1 ':harpoon-open 1<ret>'             -docstring 'go to harpoon 1'
+map global user 2 ':harpoon-open 2<ret>'             -docstring 'go to harpoon 2'
+map global user 3 ':harpoon-open 3<ret>'             -docstring 'go to harpoon 3'
+map global user 4 ':harpoon-open 4<ret>'             -docstring 'go to harpoon 4'
+map global user 5 ':harpoon-open 5<ret>'             -docstring 'go to harpoon 5'
+
+map global insert <tab> <c-n>                       -docstring 'complete next'
+map global insert <s-tab> <c-p>                     -docstring 'complete previous'
+map global insert <c-space> ' <a-;><gt><backspace>' -docstring 'indent forward'
