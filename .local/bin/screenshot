@@ -1,9 +1,0 @@
-#!/bin/sh
-set -ex
-
-case "$1" in
-	output)         shoot output | wl-copy --type image/png                          ;;
-	toplevel)       shoot toplevel | wl-copy --type image/png                        ;;
-	selection)      still -c 'shoot selection "$(slurp)"' | wl-copy --type image/png ;;
-	open-selection) still -c 'shoot selection "$(slurp)"' | iv -                     ;;
-esac

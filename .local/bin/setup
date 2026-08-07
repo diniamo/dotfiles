@@ -3,43 +3,50 @@ set -euo pipefail
 
 # Packages
 packages=(
-	# Compiler
-	clang make
-	# Graphics
-	mesa-dri vulkan-loader
-	# Compositor
-	labwc kanshi
-	# Services
-	elogind polkit greetd tuigreet
-	xdg-desktop-portal-wlr xdg-desktop-portal-gtk
-	mako gammastep
-	udevil
-	# Media
-	pipewire alsa-pipewire wireplumber
-	# CLI
-	fish-shell zoxide man-pages-devel
-	fd ripgrep eza curl wget trash-cli libnotify playerctl wl-clipboard xdg-utils
-	git difftastic lazygit
-	lf unar
-	kakoune kak-lsp editorconfig
-	wiremix btop
-	# GUI
-	fuzzel dragon
-	slurp hyprpicker
+	mesa-dri
+	vulkan-loader
+
+	dbus
+	elogind
+	polkit
+	pipewire
+	alsa-pipewire
+	wireplumber
+	kde-plasma
+	dolphin
+	kdegraphics-thumbnailers
+	ffmpegthumbs
+	plasma-browser-integration
+
+	fish-shell
+	zoxide
+	man-pages-devel
+	fd
+	ripgrep
+	eza
+	trash-cli
+	wl-clipboard
+	xdg-utils
+	git
+	difftastic
+	lazygit
+	lf
+	unar
+	kakoune
+	kak-lsp
+	editorconfig
+
+	dragon
 	mpv-mpris
-	# Look
-	font-inter noto-fonts-emoji
-	papirus-icon-theme
-	gsettings-desktop-schemas
-	qt5ct qt6ct qt5-wayland qt6-wayland
 )
 devoid_packages=(
-	# GUI
 	alacritty
-	helium mpv
-	still shoot iv
-	# Look
-	bibata-cursor-modern-classic lyth-mono-term-nerd-font
+	helium
+	mpv
+	iv
+
+	bibata-cursor-modern-classic
+	lyth-mono-term-nerd-font
 )
 
 installed=()
@@ -66,8 +73,8 @@ if [[ ! -e ~/.ssh/id_ed25519 ]]; then
 	read
 fi
 
-[[ ! -e ~/dev/devoid ]] && git clone git@github.com:diniamo/devoid.git ~/dev/devoid
-pushd ~/dev/devoid
+[[ ! -e ~/projects/devoid ]] && git clone git@github.com:diniamo/devoid.git ~/projects/devoid
+pushd ~/projects/devoid
 	to_install=()
 	for package in "${devoid_packages[@]}"; do
 		if ! is_installed "$package"; then
@@ -93,8 +100,6 @@ if [[ ! -e ~/.dot ]]; then
 	git --git-dir ~/.dot --work-tree ~ config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 	git --git-dir ~/.dot --work-tree ~ checkout --force
 fi
-
-gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
 [[ ! -e ~/.local/share/fisher/functions/fisher.fish ]] && fish -c "
 	curl -L https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
@@ -126,11 +131,10 @@ pushd ~/.etc
 popd
 
 sudo mkdir -p /etc/alsa/conf.d
-[[ ! -e /etc/alsa/conf.d/50-pipewire.conf         ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d/
+[[ ! -e /etc/alsa/conf.d/50-pipewire.conf         ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf         /etc/alsa/conf.d/
 [[ ! -e /etc/alsa/conf.d/99-pipewire-default.conf ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d/
 
 # Services
-[[ ! -e /var/service/dbus   ]] && sudo ln -s /etc/sv/dbus /var/service/
-[[ ! -e /var/service/greetd ]] && sudo ln -s /etc/sv/greetd /var/service/
+[[ ! -e /var/service/dbus ]] && sudo ln -s /etc/sv/dbus /var/service/
 
 exit 0
