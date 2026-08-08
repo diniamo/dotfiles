@@ -1,34 +1,30 @@
+# -U is slightly faster than -g
+if not set -Uq fish_configured
+    set -U fish_configured
+    set -U fish_greeting
+    set -U fish_transient_prompt 1
+
+    set -U fish_color_command brgreen
+    set -U fish_color_param brwhite
+    set -U fish_color_end blue
+
+    set -U fish_cursor_insert line
+    set -U fish_cursor_replace_once underscore
+    set -U fish_cursor_replace underscore
+    set -U fish_cursor_external line
+
+	set -U fish_user_paths ~/.local/bin
+    set -U fisher_path ~/.local/share/fisher
+    set -Up fish_function_path ~/.local/share/fisher/functions
+    set -Up fish_complete_path ~/.local/share/fisher/completions
+
+    set -Ux EDITOR kak
+    set -Ux PAGER kak
+    set -Ux GOPATH ~/.local/share/go
+end
+
 if status is-interactive
-    # -U is slightly faster than -g
-    if not set -Uq fish_configured
-        set -U fish_configured
-        set -U fish_greeting
-        set -U fish_transient_prompt 1
-
-        set -U fish_color_command brgreen
-        set -U fish_color_param brwhite
-        set -U fish_color_end blue
-
-        set -U fish_cursor_insert line
-        set -U fish_cursor_replace_once underscore
-        set -U fish_cursor_replace underscore
-        set -U fish_cursor_external line
-
-		set -U fish_user_paths ~/.local/bin
-        set -U fisher_path ~/.local/share/fisher
-        set -Up fish_function_path ~/.local/share/fisher/functions
-        set -Up fish_complete_path ~/.local/share/fisher/completions
-
-        set -Ux EDITOR kak
-        set -Ux PAGER kak
-        set -Ux GOPATH ~/.local/share/go
-    end
-
-
-    bind ctrl-z fg
-    bind --erase ctrl-shift-z
-    bind ctrl-y undo
-    bind ctrl-shift-y redo
+	bind ctrl-backspace backward-kill-word
 
     bind alt-n history-prefix-search-forward
     bind alt-p history-prefix-search-backward

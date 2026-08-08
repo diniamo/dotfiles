@@ -12,6 +12,7 @@ packages=(
 	pipewire
 	alsa-pipewire
 	wireplumber
+	xorg-minimal
 	kde-plasma
 	dolphin
 	kdegraphics-thumbnailers
@@ -35,6 +36,7 @@ packages=(
 	kakoune
 	kak-lsp
 	editorconfig
+	gcc
 
 	dragon
 	mpv-mpris
@@ -49,15 +51,12 @@ devoid_packages=(
 	lyth-mono-term-nerd-font
 )
 
-installed=()
-while read package; do
-	installed+=("${package%-*}")
+declare -A installed
+while read -r package; do
+	installed["${package%-*}"]=1
 done < <(xbps-query --list-manual-pkgs)
 is_installed() {
-	for p in "${installed[@]}"; do
-		[[ "$p" == "$1" ]] && return 0
-	done
-	return 1
+	[[ -v installed["$1"] ]]
 }
 
 to_install=()
@@ -70,28 +69,33 @@ if [[ ! -e ~/.ssh/id_ed25519 ]]; then
 	ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -P ""
 
 	echo "Add ~/.ssh/id_ed25519.pub to GitHub ssh keys..."
-	read
+	exit
 fi
 
 [[ ! -e ~/projects/devoid ]] && git clone git@github.com:diniamo/devoid.git ~/projects/devoid
-pushd ~/projects/devoid
-	to_install=()
-	for package in "${devoid_packages[@]}"; do
-		if ! is_installed "$package"; then
-			fd -qd1 "^$package-" binpkgs || ./build "$package"
-			to_install+=("$package")
-		fi
-	done
-	[[ "${#to_install[@]}" > 0 ]] && sudo xbps-install -yR binpkgs "${to_install[@]}"
+cd ~/projects/devoid
 
-	if ! is_installed spotify; then
-		pushd void-packages
-			[[ ! -e etc/conf ]] && echo "XBPS_ALLOW_RESTRICTED=yes" > etc/conf
-			fd -qd1 "^spotify-" hostdir/binpkgs/nonfree || ./xbps-src pkg spotify
-			sudo xbps-install -yR hostdir/binpkgs/nonfree spotify
-		popd
+to_install=()
+for package in "${devoid_packages[@]}"; do
+	if ! is_installed "$package"; then
+		fd -qd1 "^$package-" binpkgs || ./build "$package"
+		to_install+=("$package")
 	fi
-popd
+done
+[[ "${#to_install[@]}" > 0 ]] && sudo xbps-install -yR binpkgs "${to_install[@]}"
+
+if ! is_installed spotify; then
+	cd ~/projects/devoid/void-packages
+	git reset --hard
+
+	(
+		[[ -e etc/conf ]] && source etc/conf
+		[[ "${XBPS_ALLOW_RESTRICTED-}" != "yes" ]] && echo "XBPS_ALLOW_RESTRICTED=yes" > etc/conf
+	)
+
+	./xbps-src pkg spotify
+	sudo xbps-install -yR hostdir/binpkgs/nonfree spotify
+fi
 
 # Dotfiles
 if [[ ! -e ~/.dot ]]; then
@@ -111,30 +115,32 @@ fi
 [[ ! -e ~/.config/kak/bundle/kak-bundle ]] && git clone https://codeberg.org/jdugan6240/kak-bundle.git ~/.config/kak/bundle/kak-bundle
 
 # /etc
-pushd ~/.etc
-	while read relative; do
-		target=~/.etc/"$relative"
-		link=/etc/"$relative"
+cd ~/.etc
+while read -r relative; do
+	target=~/.etc/"$relative"
+	link=/etc/"$relative"
 
-		if [[ -e "$link" ]]; then
-			if [[ "$(realpath "$link")" = "$target" ]]; then
-				continue
-			else
-				sudo rm "$link"
-			fi
+	if [[ -e "$link" ]]; then
+		if [[ "$(realpath "$link")" = "$target" ]]; then
+			continue
 		else
-			sudo mkdir -p "$(dirname "$link")"
+			sudo rm "$link"
 		fi
+	else
+		sudo mkdir -p "$(dirname "$link")"
+	fi
 
-		sudo ln -s "$target" "$link"
-	done < <(fd --type file .)
-popd
+	sudo ln -s "$target" "$link"
+done < <(fd --type file .)
 
 sudo mkdir -p /etc/alsa/conf.d
 [[ ! -e /etc/alsa/conf.d/50-pipewire.conf         ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/50-pipewire.conf         /etc/alsa/conf.d/
 [[ ! -e /etc/alsa/conf.d/99-pipewire-default.conf ]] && sudo ln -s /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d/
 
 # Services
-[[ ! -e /var/service/dbus ]] && sudo ln -s /etc/sv/dbus /var/service/
-
-exit 0
+enable() {
+	[[ ! -e /var/service/"$1" ]] && sudo ln -s /etc/sv/"$1" /var/service
+	return 0
+}
+enable dbus
+enable sddm
