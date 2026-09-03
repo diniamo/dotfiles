@@ -1,0 +1,24 @@
+pkgname=python-tree-sitter-devicetree
+_reponame="${pkgname#python-}"
+pkgver=0.15.0
+pkgrel=1
+pkgdesc='Visualize keymaps that use advanced features like hold-taps and combos, with automatic parsing'
+arch=(any)
+url="https://github.com/joelspadin/$_reponame"
+license=(MIT)
+makedepends=(python-setuptools python-wheel)
+depends=(python)
+source=("$_reponame-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('c436de34e25ea7cadb0e12135ff11598bc84aace88c4a90e2b9fe11793c92e3c')
+
+build() {
+	cd "$_reponame-$pkgver"
+
+	python -m build -nw
+}
+
+package() {
+	cd "$_reponame-$pkgver"
+
+	python -I -m installer -d "$pkgdir" dist/*.whl
+}
