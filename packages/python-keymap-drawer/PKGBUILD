@@ -1,0 +1,24 @@
+pkgname=python-keymap-drawer
+_reponame="${pkgname#python-}"
+pkgver=0.23.0
+pkgrel=1
+pkgdesc='Visualize keymaps that use advanced features like hold-taps and combos, with automatic parsing'
+arch=(any)
+url="https://github.com/caksoylar/$_reponame"
+license=(MIT)
+makedepends=(python-poetry-core)
+depends=(python python-pydantic python-pcpp python-yaml python-platformdirs python-pydantic-settings python-tree-sitter python-tree-sitter-devicetree python-pyparsing)
+source=("$_reponame-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('3a47ce3c29467b2618168877b0783cc49b030ce0ca600388b8d8f0308fc2c092')
+
+build() {
+	cd "$_reponame-$pkgver"
+
+	python -m build -nw
+}
+
+package() {
+	cd "$_reponame-$pkgver"
+
+	python -m installer -d "$pkgdir" dist/*.whl
+}
